@@ -31,8 +31,31 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
-├── output/                             # All results
+├── output_data.tar.gz                  # Sample output data archive
+└── output/                             # All results
 ```
+
+## Sample Data
+
+This repository includes a sample dataset (`output_data.tar.gz`) containing pre-fetched literature review results on automated ICD coding. The archive includes:
+
+- Multiple search queries (automated ICD coding, clinical coding, computer-assisted coding, etc.)
+- Data from both PubMed and Scopus/ScienceDirect sources
+- Both JSON and CSV formats for each query
+- Approximately 14MB compressed data
+
+### Extracting Sample Data
+
+To extract and explore the sample data:
+
+```bash
+tar -xzf output_data.tar.gz
+```
+
+This will create an `output/` directory with subdirectories:
+- `output/pubmed_output/` - PubMed search results
+- `output/Scopus/` - ScienceDirect/Scopus search results
+- `output/acm_output/` - ACM Digital Library results (if available)
 
 ## Installation
 
