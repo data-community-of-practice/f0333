@@ -35,6 +35,7 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step2_convert_all_to_ris.py         # Master converter for all formats
 ├── Step3_merge_ris_by_keyphrase.py     # Merge and deduplicate RIS files
 ├── Step4_filter_by_journal.py          # Filter by target journals
+├── Step5_filter_by_type.py             # Filter by article type (JOUR/CONF only)
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
@@ -268,6 +269,95 @@ TARGET_JOURNALS = [
     # Add more journals as needed
 ]
 ```
+
+## Filtering by Article Type
+
+As a final filtering step, you can remove books and book chapters, keeping only journal articles and conference papers.
+
+### Filter Script
+
+**Step5_filter_by_type.py** - Filters RIS files by article type
+
+This script:
+- Keeps only journal articles (JOUR) and conference papers (CONF)
+- Removes books (BOOK) and book chapters (CHAP)
+- Shows detailed statistics on types filtered
+
+### Usage
+
+Filter all journal-filtered files:
+```bash
+python Step5_filter_by_type.py filtered_output/ final_output/
+```
+
+Filter a single file:
+```bash
+python Step5_filter_by_type.py input.ris output_type_filtered.ris
+```
+
+### Example Results
+
+Filtering by article type produces focused research outputs:
+
+```
+OVERALL STATISTICS:
+  Files processed:           4
+  Total records BEFORE:      2,324
+  Total records AFTER:       2,321
+  Total records removed:     3 (0.1%)
+  Retention rate:            99.9%
+
+KEPT TYPES DISTRIBUTION:
+----------------------------------------------------------------------
+  Journal Article                                                2,182
+  Conference Paper                                                 139
+----------------------------------------------------------------------
+  TOTAL KEPT                                                     2,321
+
+REMOVED TYPES DISTRIBUTION:
+----------------------------------------------------------------------
+  Book                                                              3
+----------------------------------------------------------------------
+  TOTAL REMOVED                                                     3
+```
+
+**Final filtered files:**
+- `automated_ICD_coding_merged_filtered_type_filtered.ris` - 338 records
+- `automatic_international_classification_of_diseases_merged_filtered_type_filtered.ris` - 1,321 records
+- `clinical_coding_ICD_merged_filtered_type_filtered.ris` - 615 records
+- `computer_assisted_ICD_coding_merged_filtered_type_filtered.ris` - 47 records
+
+### Article Type Distribution
+
+After all filtering steps:
+- **Journal Articles (JOUR)**: 2,182 records (94.0%)
+- **Conference Papers (CONF)**: 139 records (6.0%)
+
+## Complete Pipeline Summary
+
+The complete literature review pipeline consists of 5 steps:
+
+1. **Step 1**: Fetch data from PubMed, Scopus, and ACM Digital Library
+   - Use `Step1_pubmed_fetcher.py` and `Step1_fetchallscopusresults.py`
+   - Result: Raw data in JSON, CSV, and ENW formats
+
+2. **Step 2**: Convert all data to RIS format
+   - Use `Step2_convert_all_to_ris.py`
+   - Result: 51,774 records in RIS format
+
+3. **Step 3**: Merge and deduplicate by key phrase
+   - Use `Step3_merge_ris_by_keyphrase.py`
+   - Result: 49,767 unique records (3.9% duplicates removed)
+
+4. **Step 4**: Filter by target journals
+   - Use `Step4_filter_by_journal.py`
+   - Result: 2,324 high-quality papers from 11 top journals (4.7% retention)
+
+5. **Step 5**: Filter by article type
+   - Use `Step5_filter_by_type.py`
+   - Result: 2,321 journal articles and conference papers (99.9% retention)
+
+**Final Result**: From 51,774 initial records to 2,321 high-quality, peer-reviewed research papers from top journals!
 
 ## Sample Data
 
