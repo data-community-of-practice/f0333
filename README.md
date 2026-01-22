@@ -52,7 +52,7 @@ To extract and explore the sample data:
 tar -xzf output_data.tar.gz
 ```
 
-This will create an `output/` directory with subdirectories:
+This has an `output/` directory with subdirectories:
 - `output/pubmed_output/` - PubMed search results
 - `output/Scopus/` - ScienceDirect/Scopus search results
 - `output/acm_output/` - ACM Digital Library results (if available)
@@ -255,12 +255,6 @@ Use `Step1_fetchallscopusresults.py` with year-based splitting to get all result
 - automatic international classification of diseases coding
 - computer-assisted ICD coding
 - clinical coding ICD
-
-### Year Filters
-In `config.ini`, modify your query:
-```ini
-query = automatic ICD coding AND PUBYEAR > 2005
-```
 
 ## Best Practices
 
