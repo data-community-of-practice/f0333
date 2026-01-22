@@ -31,9 +31,7 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
-├── output/                             # ScienceDirect/Scopus results
-├── pubmed_output/                      # PubMed results
-└── acm_output/                         # ACM Digital Library results
+├── output/                             # All results
 ```
 
 ## Installation
