@@ -1,6 +1,6 @@
-# Literature Review Data Fetcher for Automated ICD Coding
+# Literature Review Data Fetcher for Automated ICD Coding - PART A
 
-A comprehensive toolkit for collecting and organizing academic literature on automated International Classification of Diseases (ICD) coding from multiple sources including PubMed, ScienceDirect, and Scopus.
+A comprehensive toolkit for collecting and organising academic literature on automated International Classification of Diseases (ICD) coding from multiple sources including PubMed, ACM Digital Library and Scopus. This is content material for an upcoming publication. This is a placeholder for future work.
 
 ## Overview
 
@@ -14,7 +14,7 @@ This project provides automated scripts to fetch research articles from major ac
 
 ## Features
 
-- **Multi-source fetching**: PubMed, ScienceDirect, and Scopus APIs
+- **Multi-source fetching**: PubMed, ACM Digital Library, and Scopus APIs
 - **Bypass API limits**: Year-by-year splitting for large result sets (>5000)
 - **Flexible authentication**: API key and OAuth2 support
 - **Rich metadata extraction**: Authors, abstracts, citations, MeSH terms, DOIs, etc.
@@ -168,12 +168,15 @@ If you know your query returns fewer than 5000 results, you can use the helper d
 python Helper_sciencedirect_fetcher_v2.py
 ```
 
+### 4. ACM Digital Library Fetching
+ACM Digital Library does not have an API. The key terms were searched and the results were downloaded in EndNote format. The filter was set beetn 2005 to 2026. There is a limit of 1000 for the number of records that can be downloaded in one attempt. So for search results>1000, the exporting was done in parts. The first 1000 in one download and the rest in the next. 
+
 ## Output Format
 
 ### CSV Output
 Comma-separated values with columns:
 - PubMed: `pmid`, `title`, `abstract`, `authors`, `journal`, `publication_date`, `doi`, `mesh_terms`, `keywords`, etc.
-- ScienceDirect: `title`, `authors`, `publication_name`, `cover_date`, `doi`, `scopus_id`, `abstract`, `cited_by_count`, etc.
+- Scopus: `title`, `authors`, `publication_name`, `cover_date`, `doi`, `scopus_id`, `abstract`, `cited_by_count`, etc.
 
 ### JSON Output
 Structured JSON array with article objects containing the same fields as CSV.
@@ -226,29 +229,16 @@ Use `Step1_fetchallscopusresults.py` with year-based splitting to get all result
 - Check if your API key has the necessary permissions
 - Ensure your institutional access is active (for ScienceDirect)
 
-## Search Query Tips
-
-### Boolean Operators
-- AND: `"machine learning" AND "ICD coding"`
-- OR: `"automated coding" OR "automatic coding"`
-- NOT: `"ICD coding" NOT "manual"`
-
-### Field-Specific Searches (Scopus)
-- Title: `TITLE("ICD coding")`
-- Abstract: `ABS("deep learning")`
-- Keywords: `KEY("classification")`
-- Combined: `TITLE-ABS-KEY("automated ICD coding")`
-
-### PubMed Query Syntax
-- Phrase: `"international classification of diseases"`
-- Field: `"machine learning"[Title]`
-- MeSH: `"International Classification of Diseases"[Mesh]`
-- Date range: `2020:2024[pdat]`
+## Search Query Options
+- automated ICD coding
+- automatic international classification of diseases coding
+- computer-assisted ICD coding
+- clinical coding ICD
 
 ### Year Filters
 In `config.ini`, modify your query:
 ```ini
-query = automatic ICD coding AND PUBYEAR > 2018
+query = automatic ICD coding AND PUBYEAR > 2005
 ```
 
 ## Best Practices
@@ -320,3 +310,5 @@ This project uses:
 - NCBI E-utilities API for PubMed access
 - Elsevier ScienceDirect/Scopus Search API
 - Python requests library for HTTP operations
+
+
