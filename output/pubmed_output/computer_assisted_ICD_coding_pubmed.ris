@@ -1,0 +1,2466 @@
+TY  - JOUR
+TI  - Creating a computer assisted ICD coding system: Performance metric choice and use of the ICD hierarchy.
+AU  - Quentin Marcou
+AU  - Laure Berti-Equille
+AU  - Noël Novelli
+PY  - 2024
+DA  - 2024-Apr
+JO  - Journal of biomedical informatics
+JF  - Journal of biomedical informatics
+SN  - 1532-0480
+AB  - OBJECTIVE: Machine learning methods hold the promise of leveraging available data and generating higher-quality data while alleviating the data collection burden on healthcare professionals. International Classification of Diseases (ICD) diagnoses data, collected globally for billing and epidemiological purposes, represents a valuable source of structured information. However, ICD coding is a challenging task. While numerous previous studies reported promising results in automatic ICD classification, they often describe input data specific model architectures, that are heterogeneously evaluated with different performance metrics and ICD code subsets. This study aims to explore the evaluation and construction of more effective Computer Assisted Coding (CAC) systems using generic approaches, focusing on the use of ICD hierarchy, medication data and a feed forward neural network architecture. METHODS: We conduct comprehensive experiments using the MIMIC-III clinical database, mapped to the OMOP data model. Our evaluations encompass various performance metrics, alongside investigations into multitask, hierarchical, and imbalanced learning for neural networks. RESULTS: We introduce a novel metric, , tailored to the ICD coding task, which offers interpretable insights for healthcare informatics practitioners, aiding them in assessing the quality of assisted coding systems. Our findings highlight that selectively cherry-picking ICD codes diminish retrieval performance without performance improvement over the selected subset. We show that optimizing for metrics such as NDCG and AUPRC outperforms traditional F1-based metrics in ranking performance. We observe that Neural Network training on different ICD levels simultaneously offers minor benefits for ranking and significant runtime gains. However, our models do not derive benefits from hierarchical or class imbalance correction techniques for ICD code retrieval. CONCLUSION: This study offers valuable insights for researchers and healthcare practitioners interested in developing and evaluating CAC systems. Using a straightforward sequential neural network model, we confirm that medical prescriptions are a rich data source for CAC systems, providing competitive retrieval capabilities for a fraction of the computational load compared to text-based models. Our study underscores the importance of metric selection and challenges existing practices related to ICD code sub-setting for model training and evaluation.
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Electronic Health Records
+KW  - Neural Networks
+KW  - Computer
+KW  - Machine Learning
+KW  - Computers
+KW  - Clinical Coding
+DO  - 10.1016/j.jbi.2024.104617
+AN  - PMID:38432534
+UR  - https://pubmed.ncbi.nlm.nih.gov/38432534/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Leveraging Semantics in WordNet to Facilitate the Computer-Assisted Coding of ICD-11.
+AU  - Donghua Chen
+AU  - Runtong Zhang
+AU  - Robin G Qiu
+PY  - 2020
+DA  - 2020-May
+JO  - IEEE journal of biomedical and health informatics
+JF  - IEEE journal of biomedical and health informatics
+SN  - 2168-2208
+AB  - The International Classification of Diseases (ICD) not only serves as the bedrock for health statistics but also provides a holistic overview of every health aspect of life. This study aims to facilitate the computer-assisted coding of the 11th revision of the ICD (ICD-11) by leveraging the data structures of ICD-11 and semantics in WordNet. First, a computer-assisted coding framework using WordNet and ICD-11 application programming interface (API) is proposed. Secondly, a network based on entity relations in ICD-11 and synonym sets in WordNet, called CodeNet, is developed. Thirdly, an algorithm for generating ICD-11 code candidates from CodeNet with two tuning parameters on the basis of the input of disease-related text is illustrated. Finally, the discharge summaries in the Medical Information Mart for Intensive Care III database and textual information from ICD-11 entities are used to evaluate the proposed method. Experimental results indicate that the proposed coding method achieves a precision of 84% and a recall of 89% relative to a precision of 65% and a recall of 81% achieved with the existing ICD-11 API. The proposed method also outperforms other methods in the literature by reducing a failure rate of up to 8% in ICD-11 coding. The proposed thresholds of similarity and percentage can be applied to tuning the performance of our method to meet different coding needs. In sum, improving the new structures of ICD-11 with the use of semantics in WordNet can help develop more reliable computer-aided coding systems for ICD-11 coders.
+KW  - Algorithms
+KW  - Clinical Coding
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Medical Informatics
+KW  - Natural Language Processing
+KW  - Semantics
+DO  - 10.1109/JBHI.2019.2949567
+AN  - PMID:31670684
+UR  - https://pubmed.ncbi.nlm.nih.gov/31670684/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Computer-Assisted Diagnostic Coding: Effectiveness of an NLP-based approach using SNOMED CT to ICD-10 mappings.
+AU  - Anthony N Nguyen
+AU  - Donna Truran
+AU  - Madonna Kemp
+AU  - Bevan Koopman
+AU  - David Conlan
+AU  - John O'Dwyer
+AU  - Ming Zhang
+AU  - Sarvnaz Karimi
+AU  - Hamed Hassanzadeh
+AU  - Michael J Lawley
+AU  - Damian Green
+PY  - 2018
+DA  - 2018
+JO  - AMIA ... Annual Symposium proceedings. AMIA Symposium
+JF  - AMIA ... Annual Symposium proceedings. AMIA Symposium
+SN  - 1942-597X
+AB  - Computer-assisted (diagnostic) coding (CAC) aims to improve the operational productivity and accuracy of clinical coders. The level of accuracy, especially for a wide range of complex and less prevalent clinical cases, remains an open research problem. This study investigates this problem on a broad spectrum of diagnostic codes and, in particular, investigates the effectiveness of utilising SNOMED CT for ICD-10 diagnosis coding. Hospital progress notes were used to provide the narrative rich electronic patient records for the investigation. A natural language processing (NLP) approach using mappings between SNOMED CT and ICD-10-AM (Australian Modification) was used to guide the coding. The proposed approach achieved 54.1% sensitivity and 70.2% positive predictive value. Given the complexity of the task, this was encouraging given the simplicity of the approach and what was projected as possible from a manual diagnosis code validation study (76.3% sensitivity). The results show the potential for advanced NLP-based approaches that leverage SNOMED CT to ICD-10 mapping for hospital in-patient coding.
+KW  - Australia
+KW  - Clinical Coding
+KW  - Electronic Health Records
+KW  - Hospitals
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Natural Language Processing
+KW  - Systematized Nomenclature of Medicine
+KW  - Unified Medical Language System
+AN  - PMID:30815123
+UR  - https://pubmed.ncbi.nlm.nih.gov/30815123/
+N1  - PMC:PMC6371260
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Development of structured ICD-10 and its application to computer-assisted ICD coding.
+AU  - Takeshi Imai
+AU  - Masayuki Kajino
+AU  - Megumi Sato
+AU  - Kazuhiko Ohe
+PY  - 2010
+DA  - 2010
+JO  - Studies in health technology and informatics
+JF  - Studies in health technology and informatics
+SN  - 0926-9630
+AB  - This paper presents: (1) a framework of formal representation of ICD10, which functions as a bridge between ontological information and natural language expressions; and (2) a methodology to use formally described ICD10 for computer-assisted ICD coding. First, we analyzed and structurized the meanings of categories in 15 chapters of ICD10. Then we expanded the structured ICD10 (S-ICD10) by adding subordinate concepts and labels derived from Japanese Standard Disease Names. The information model to describe formal representation was refined repeatedly. The resultant model includes 74 types of semantic links. We also developed an ICD coding module based on S-ICD10 and a 'Coding Principle,' which achieved high accuracy (>70%) for four chapters. These results not only demonstrate the basic feasibility of our coding framework but might also inform the development of the information model for formal description framework in the ICD11 revision.
+KW  - Clinical Coding
+KW  - Disease
+KW  - International Classification of Diseases
+KW  - Japan
+KW  - Semantics
+KW  - Terminology as Topic
+KW  - Vocabulary
+KW  - Controlled
+AN  - PMID:20841850
+UR  - https://pubmed.ncbi.nlm.nih.gov/20841850/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Automated ICD coding for primary diagnosis via clinically interpretable machine learning.
+AU  - Xiaolin Diao
+AU  - Yanni Huo
+AU  - Shuai Zhao
+AU  - Jing Yuan
+AU  - Meng Cui
+AU  - Yuxin Wang
+AU  - Xiaodan Lian
+AU  - Wei Zhao
+PY  - 2021
+DA  - 2021-Sep
+JO  - International journal of medical informatics
+JF  - International journal of medical informatics
+SN  - 1872-8243
+AB  - BACKGROUND: Computer-assisted clinical coding (CAC) based on automated coding algorithms has been expected to improve the International Classification of Disease, tenth version (ICD-10) coding quality and productivity, whereas studies oriented to primary diagnosis auto-coding are limited in the Chinese context. OBJECTIVE: This study aims at developing a machine learning (ML) model for automated primary diagnosis ICD-10 coding. METHODS: A total of 71,709 admissions in Fuwai hospital were included to carry out this study, corresponding to 168 primary diagnosis ICD-10 codes. Based on clinical implications, two feature engineering methods were used to process discharge diagnosis and procedure texts into sequential features and sequential grouping features respectively by which two kinds of models were built and compared. One baseline model using one-hot encoding features was considered. Light Gradient Boosting Machine (LightGBM) was adopted as the classifier, and grid search and cross-validation were used to select the optimal hyperparameters. SHapley Additive exPlanations (SHAP) values were applied to give the interpretability of models. RESULTS: Our best prediction model was developed based on sequential grouping features. It showed good performance in the test phase with accuracy and macro-averaged F1 (Macro-F1) of 95.2% and 88.3% respectively. The comparison of the models demonstrated the effectiveness of the sequential information and the grouping strategy in boosting model performance (P-value < 0.01). Subgroup analysis of the best model on each individual code manifested that 91.1% of the codes achieved the F1 over 70.0%. CONCLUSIONS: Our model has been demonstrated its effectiveness for automated primary diagnosis coding in the Chinese context and its results are interpretable. Hence, it has the potential to assist clinical coders to improve coding efficiency and quality in Chinese inpatient settings.
+KW  - Algorithms
+KW  - Clinical Coding
+KW  - Hospitalization
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Machine Learning
+DO  - 10.1016/j.ijmedinf.2021.104543
+AN  - PMID:34391016
+UR  - https://pubmed.ncbi.nlm.nih.gov/34391016/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - The Impact of Computer-Assisted Navigation on Charges and Readmission in Lumbar Spinal Fusion.
+AU  - Calista L Dominy
+AU  - Justin E Tang
+AU  - Varun Arvind
+AU  - Brian H Cho
+AU  - Christopher White
+AU  - Sara D Pasik
+AU  - Kush C Shah
+AU  - Samuel K Cho
+AU  - Jun S Kim
+PY  - 2022
+DA  - 2022-Jul-01
+JO  - Clinical spine surgery
+JF  - Clinical spine surgery
+SN  - 2380-0194
+AB  - STUDY DESIGN: Retrospective National Database Study. OBJECTIVES: The purpose of this study is to evaluate the cost and patient outcomes associated with the utilization of computer-assisted navigation (CAN) utilization on patients undergoing lumbar spinal fusion. BACKGROUND: CAN systems have demonstrated comparable outcomes with instrumentation and procedural speed when compared with traditional techniques. In recent years, CAN systems have seen increased adoption in spinal surgery as they allow for better contextualization of anatomical structures with the goal of improving surgical accuracy and reproducibility. METHODS: The 2016 National Readmission Database was queried for patients with lumbar spinal fusion ICD-10 codes, with 2 subgroups created based on computer-aided navigation ICD-10 codes. Nonelective cases and patients below 18 years of age were excluded. Univariate analysis on demographics, surgical data, and total charges was performed. Postoperative complication rates were calculated based on diagnosis. Lastly, multivariate analysis was performed to assess navigation's impact on cost and postoperative outcomes. RESULTS: A total of 88,445 lumbar fusion surgery patients were identified. Of the total, 2478 (2.8%) patients underwent lumbar fusion with navigation utilization, while 85,967 (97.2%) patients underwent surgery without navigation. The average total charges were $150,947 ($150,058, $151,836) and $161,018 ($155,747, $166,289) for the non-CAN and CAN groups, respectively ( P <0.001). The 30-day readmission rates were 5.3% for the non-CAN cohort and 3.1% for the CAN cohort ( P <0.05). The 90-day readmission rates were 8.8% for the non-CAN cohort and 5.2% for the CAN cohort ( P <0.001). CONCLUSIONS: CAN use was found to be significantly associated with increased cost and decreased 30-day and 90-day readmissions. Although patients operated on with CAN had increased routine discharge and decreased readmission risk, future studies must continue to evaluate the cost-benefit of CAN. Limitations include ICD-10 codes for CAN utilization being specific to region of surgery, not to exact type. LEVEL OF EVIDENCE: Level III.
+KW  - Humans
+KW  - Lumbar Vertebrae
+KW  - Patient Readmission
+KW  - Postoperative Complications
+KW  - Reproducibility of Results
+KW  - Retrospective Studies
+KW  - Risk Factors
+KW  - Spinal Fusion
+DO  - 10.1097/BSD.0000000000001304
+AN  - PMID:35276719
+UR  - https://pubmed.ncbi.nlm.nih.gov/35276719/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Computer-assisted coding at the Cleveland Clinic: a strategic solution. Addressing clinical documentation improvement, ICD-10-CM/PCS implementation, and more.
+AU  - Kathy Hartman
+AU  - Shannon Connor Phillips
+AU  - Lyman Sornberger
+PY  - 2012
+DA  - 2012-Jul
+JO  - Journal of AHIMA
+JF  - Journal of AHIMA
+SN  - 1060-5487
+KW  - Automation
+KW  - Clinical Coding
+KW  - Diffusion of Innovation
+KW  - International Classification of Diseases
+KW  - Ohio
+KW  - Organizational Case Studies
+AN  - PMID:22896948
+UR  - https://pubmed.ncbi.nlm.nih.gov/22896948/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Improving Quality of ICD-10 (International Statistical Classification of Diseases, Tenth Revision) Coding Using AI: Protocol for a Crossover Randomized Controlled Trial.
+AU  - Taridzo Chomutare
+AU  - Anastasios Lamproudis
+AU  - Andrius Budrionis
+AU  - Therese Olsen Svenning
+AU  - Lill Irene Hind
+AU  - Phuong Dinh Ngo
+AU  - Karl Øyvind Mikalsen
+AU  - Hercules Dalianis
+PY  - 2024
+DA  - 2024-Mar-12
+JO  - JMIR research protocols
+JF  - JMIR research protocols
+SN  - 1929-0748
+AB  - BACKGROUND: Computer-assisted clinical coding (CAC) tools are designed to help clinical coders assign standardized codes, such as the ICD-10 (International Statistical Classification of Diseases, Tenth Revision), to clinical texts, such as discharge summaries. Maintaining the integrity of these standardized codes is important both for the functioning of health systems and for ensuring data used for secondary purposes are of high quality. Clinical coding is an error-prone cumbersome task, and the complexity of modern classification systems such as the ICD-11 (International Classification of Diseases, Eleventh Revision) presents significant barriers to implementation. To date, there have only been a few user studies; therefore, our understanding is still limited regarding the role CAC systems can play in reducing the burden of coding and improving the overall quality of coding. OBJECTIVE: The objective of the user study is to generate both qualitative and quantitative data for measuring the usefulness of a CAC system, Easy-ICD, that was developed for recommending ICD-10 codes. Specifically, our goal is to assess whether our tool can reduce the burden on clinical coders and also improve coding quality. METHODS: The user study is based on a crossover randomized controlled trial study design, where we measure the performance of clinical coders when they use our CAC tool versus when they do not. Performance is measured by the time it takes them to assign codes to both simple and complex clinical texts as well as the coding quality, that is, the accuracy of code assignment. RESULTS: We expect the study to provide us with a measurement of the effectiveness of the CAC system compared to manual coding processes, both in terms of time use and coding quality. Positive outcomes from this study will imply that CAC tools hold the potential to reduce the burden on health care staff and will have major implications for the adoption of artificial intelligence-based CAC innovations to improve coding practice. Expected results to be published summer 2024. CONCLUSIONS: The planned user study promises a greater understanding of the impact CAC systems might have on clinical coding in real-life settings, especially with regard to coding time and quality. Further, the study may add new insights on how to meaningfully exploit current clinical text mining capabilities, with a view to reducing the burden on clinical coders, thus lowering the barriers and paving a more sustainable path to the adoption of modern coding systems, such as the new ICD-11. TRIAL REGISTRATION: clinicaltrials.gov NCT06286865; https://clinicaltrials.gov/study/NCT06286865. INTERNATIONAL REGISTERED REPORT IDENTIFIER (IRRID): DERR1-10.2196/54593.
+DO  - 10.2196/54593
+AN  - PMID:38470476
+UR  - https://pubmed.ncbi.nlm.nih.gov/38470476/
+N1  - PMC:PMC10966438
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Developing an ICD-10 Coding Assistant: Pilot Study Using RoBERTa and GPT-4 for Term Extraction and Description-Based Code Selection.
+AU  - Sander Puts
+AU  - Catharina M L Zegers
+AU  - Andre Dekker
+AU  - Iñigo Bermejo
+PY  - 2025
+DA  - 2025-Feb-11
+JO  - JMIR formative research
+JF  - JMIR formative research
+SN  - 2561-326X
+AB  - BACKGROUND: The International Classification of Diseases (ICD), developed by the World Health Organization, standardizes health condition coding to support health care policy, research, and billing, but artificial intelligence automation, while promising, still underperforms compared with human accuracy and lacks the explainability needed for adoption in medical settings. OBJECTIVE: The potential of large language models for assisting medical coders in the ICD-10 coding was explored through the development of a computer-assisted coding system. This study aimed to augment human coding by initially identifying lead terms and using retrieval-augmented generation (RAG)-based methods for computer-assisted coding enhancement. METHODS: The explainability dataset from the CodiEsp challenge (CodiEsp-X) was used, featuring 1000 Spanish clinical cases annotated with ICD-10 codes. A new dataset, CodiEsp-X-lead, was generated using GPT-4 to replace full-textual evidence annotations with lead term annotations. A Robustly Optimized BERT (Bidirectional Encoder Representations from Transformers) Pretraining Approach transformer model was fine-tuned for named entity recognition to extract lead terms. GPT-4 was subsequently employed to generate code descriptions from the extracted textual evidence. Using a RAG approach, ICD codes were assigned to the lead terms by querying a vector database of ICD code descriptions with OpenAI's text-embedding-ada-002 model. RESULTS: The fine-tuned Robustly Optimized BERT Pretraining Approach achieved an overall F1-score of 0.80 for ICD lead term extraction on the new CodiEsp-X-lead dataset. GPT-4-generated code descriptions reduced retrieval failures in the RAG approach by approximately 5% for both diagnoses and procedures. However, the overall explainability F1-score for the CodiEsp-X task was limited to 0.305, significantly lower than the state-of-the-art F1-score of 0.633. The diminished performance was partly due to the reliance on code descriptions, as some ICD codes lacked descriptions, and the approach did not fully align with the medical coder's workflow. CONCLUSIONS: While lead term extraction showed promising results, the subsequent RAG-based code assignment using GPT-4 and code descriptions was less effective. Future research should focus on refining the approach to more closely mimic the medical coder's workflow, potentially integrating the alphabetic index and official coding guidelines, rather than relying solely on code descriptions. This alignment may enhance system accuracy and better support medical coders in practice.
+KW  - International Classification of Diseases
+KW  - Humans
+KW  - Pilot Projects
+KW  - Clinical Coding
+KW  - Artificial Intelligence
+KW  - Spain
+KW  - Natural Language Processing
+DO  - 10.2196/60095
+AN  - PMID:39935026
+UR  - https://pubmed.ncbi.nlm.nih.gov/39935026/
+N1  - PMC:PMC11835781
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - The Impact of Computer-Assisted Navigation on Charges and Readmission in Patients Undergoing Posterior Cervical Fusion Surgery.
+AU  - Justin E Tang
+AU  - Calista L Dominy
+AU  - Varun Arvind
+AU  - Brian H Cho
+AU  - Christopher White
+AU  - Sara D Pasik
+AU  - Kush C Shah
+AU  - Jun S Kim
+AU  - Samuel K Cho
+PY  - 2022
+DA  - 2022-Jul-01
+JO  - Clinical spine surgery
+JF  - Clinical spine surgery
+SN  - 2380-0194
+AB  - STUDY DESIGN: Retrospective cohort study of 2016 Healthcare Cost and Utilization Project Nationwide Readmissions Database (NRD). OBJECTIVE: The aim was to evaluate cost and outcomes associated with navigation use on posterior cervical fusion (PCF) surgery patients. SUMMARY OF BACKGROUND DATA: Computer-assisted navigation systems demonstrate comparable outcomes with hardware placement and procedural speed compared with traditional techniques. Innovations in technology continue to improve surgeons' performance in complicated procedures, causing need to analyze the impact on patient care. METHODS: The 2016 NRD was queried for patients with PCF surgery ICD-10 codes. Cost and readmission rates were compared with and without navigation. Nonelective cases and patients below 18 years of age were excluded. Univariate analysis on demographics, surgical data, and total charges was performed. Lastly, multivariate analysis was performed to assess navigation's impact on cost and postoperative outcomes. RESULTS: A total of 11,834 patients were identified, with 137 (1.2%) patients undergoing surgery with navigation and 11,697 (98.8%) patients without. Average total charge was $131,939.47 and $141,270.1 for the non-navigation and navigation cohorts, respectively ( P =0.349). Thirty-day and 90-day readmission rates were not significantly lower in patients who received navigation versus those that did not ( P =0.087). This remained insignificant after adjusting for several variables, age above 65, sex, medicare status, mental health history, and comorbidities. The model adjusting for demographic and comorbidities maintained insignificant results of navigation being associated with decreased 30-day and 90-day readmissions ( P =0.079). CONCLUSIONS: Navigation use in PCF surgery was not associated with increased cost, and patients operated on with navigation did not significantly have increased routine discharge or decreased 90-day readmission. As a result, future studies must continue to evaluate the cost-benefit of navigation use for cervical fusion surgery. LEVEL OF EVIDENCE: Level III.
+KW  - Aged
+KW  - Humans
+KW  - Medicare
+KW  - Patient Readmission
+KW  - Postoperative Complications
+KW  - Retrospective Studies
+KW  - Risk Factors
+KW  - Spinal Diseases
+KW  - Spinal Fusion
+KW  - United States
+DO  - 10.1097/BSD.0000000000001298
+AN  - PMID:35221327
+UR  - https://pubmed.ncbi.nlm.nih.gov/35221327/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Test-retest reliability of the computer-assisted DIA-X-5 interview for mental disorders.
+AU  - Jana Hoyer
+AU  - Catharina Voss
+AU  - Jens Strehle
+AU  - John Venz
+AU  - Lars Pieper
+AU  - Hans-Ulrich Wittchen
+AU  - Stefan Ehrlich
+AU  - Katja Beesdo-Baum
+PY  - 2020
+DA  - 2020-Jun-05
+JO  - BMC psychiatry
+JF  - BMC psychiatry
+SN  - 1471-244X
+AB  - BACKGROUND: There is a need of comprehensive standardized diagnostic assessment tools of psychopathology that match recent changes in diagnostic classification systems, such as the 5th edition of the Diagnostic and Statistical Manual of Mental Disorders (DSM-5). Therefore, the computer-assisted DIA-X-5 was developed and its test-retest reliability was explored. The DIA-X-5 is based on the DIA-X/M-CIDI (Diagnostisches Expertensystem für psychische Störungen/Munich-Composite International Diagnostic Interview) which referred to the 4th edition of the Diagnostic and Statistical Manual of Mental Disorders (DSM-IV). METHODS: A convenience sample (N = 60, age: 15-67) was interviewed twice with the computer-assisted DIA-X-5 interview, on average nine days apart, by trained and blinded interviewers. The DIA-X-5 is a standardized instrument for research purposes covering symptoms, syndromes and diagnoses from eleven classes of mental disorders according to the DSM-5 with matching F codes of the 10th edition of the International Classification of Diseases (ICD-10). RESULTS: Kappa values ranged from 0.90 for post-traumatic stress disorder to 0.30 for social anxiety disorder. For age of onset and age of recency, test-retest reliability as measured by intra-class correlation was satisfying with values above 0.90 for most disorders. CONCLUSIONS: Test-retest reliability of the DIA-X-5 syndromes and diagnoses were comparable to those of previous DSM-IV/DIA-X diagnoses for most disorders. Due to low case numbers for some diagnoses, further research in larger samples is required.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Diagnostic and Statistical Manual of Mental Disorders
+KW  - Female
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Interview
+KW  - Psychological
+KW  - Male
+KW  - Mental Disorders
+KW  - Middle Aged
+KW  - Reproducibility of Results
+KW  - Young Adult
+DO  - 10.1186/s12888-020-02653-6
+AN  - PMID:32503463
+UR  - https://pubmed.ncbi.nlm.nih.gov/32503463/
+N1  - PMC:PMC7275419
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Robotic-Assisted Versus Navigation-Assisted Posterior Lumbar Fusion : A National Database Study.
+AU  - Michael J Gouzoulis
+AU  - Anthony E Seddio
+AU  - Adam D Winter
+AU  - Sahir S Jabbouri
+AU  - Justin R Zhu
+AU  - Daniel R Rubio
+AU  - Arya G Varthi
+AU  - Jonathan N Grauer
+PY  - 2024
+DA  - 2024-Nov-01
+JO  - Spine
+JF  - Spine
+SN  - 1528-1159
+AB  - STUDY DESIGN: Retrospective cohort study. OBJECTIVE: The aim of this study was to compare perioperative adverse events and reoperations between navigation-assisted and robotic-assisted posterior lumbar fusion. SUMMARY OF BACKGROUND DATA: Navigation has become increasingly utilized for posterior lumbar fusion (PLF). More recently, robotic-assisted systems have been gaining traction. However, the incremental advantage of these systems has been unclear in the literature. METHODS: Patients undergoing one-level to three-level PLF (with or without anterior or posterior interbody fusion) were identified from the 2015 to 2022 M161Ortho PearlDiver Database using CPT codes. Navigation assistance was identified based on CPT coding and robotic assistance was based on ICD-10 procedural coding. Navigation-assisted cases were matched 4:1 to robotic-assisted patients based on age, sex, Elixhauser Comorbidity Index, number of levels fuse, and concomitant anterior fusion. Incidence of 90-day adverse outcomes were assessed and compared with multivariable logistical regression. Bonferroni correction was applied for multiple testing. Rate of reoperation was assessed using the Kaplan-Meier survival analysis. RESULTS: From 2015 to 2022, there has been a significant increase in both navigation-assisted and robotic-assisted lumbar fusions, with navigation-assisted surgery being significantly more common. After matching, there were 2401 navigation-assisted cases and 651 robotic-assisted cases. On multivariate analysis, there were no significant differences in 90-day any, severe, or minor adverse events. There was a significant increase odd of readmissions in the robotic cohort (OR: 1.77, P <0.001). There were no differences in 3-year reoperation rates between the navigation-assisted and robotic-assisted cohorts (95.8% vs. 94.0%, P =0.30). CONCLUSIONS: As spinal navigation has been gaining popularity and robotic assistance is starting to be further utilized, the incremental advantage of different techniques may be questioned. While further study and technique evolution are ongoing, the current study was not able to demonstrate 90-day or 3-year incremental advantages for robotics relative to navigation based on the metrics evaluated. LEVEL OF EVIDENCE: Level III.
+KW  - Humans
+KW  - Spinal Fusion
+KW  - Male
+KW  - Female
+KW  - Robotic Surgical Procedures
+KW  - Middle Aged
+KW  - Retrospective Studies
+KW  - Lumbar Vertebrae
+KW  - Aged
+KW  - Reoperation
+KW  - Databases
+KW  - Factual
+KW  - Postoperative Complications
+KW  - Adult
+KW  - Treatment Outcome
+KW  - Surgery
+KW  - Computer-Assisted
+DO  - 10.1097/BRS.0000000000005032
+AN  - PMID:38717329
+UR  - https://pubmed.ncbi.nlm.nih.gov/38717329/
+N1  - Publication Types: Journal Article, Comparative Study
+ER  - 
+
+TY  - JOUR
+TI  - Large-scale long-tailed disease diagnosis on radiology images.
+AU  - Qiaoyu Zheng
+AU  - Weike Zhao
+AU  - Chaoyi Wu
+AU  - Xiaoman Zhang
+AU  - Lisong Dai
+AU  - Hengyu Guan
+AU  - Yuehua Li
+AU  - Ya Zhang
+AU  - Yanfeng Wang
+AU  - Weidi Xie
+PY  - 2024
+DA  - 2024-Nov-22
+JO  - Nature communications
+JF  - Nature communications
+SN  - 2041-1723
+AB  - Developing a generalist radiology diagnosis system can greatly enhance clinical diagnostics. In this paper, we introduce RadDiag, a foundational model supporting 2D and 3D inputs across various modalities and anatomies, using a transformer-based fusion module for comprehensive disease diagnosis. Due to patient privacy concerns and the lack of large-scale radiology diagnosis datasets, we utilize high-quality, clinician-reviewed radiological images available online with diagnosis labels. Our dataset, RP3D-DiagDS, contains 40,936 cases with 195,010 scans covering 5568 disorders (930 unique ICD-10-CM codes). Experimentally, our RadDiag achieves 95.14% AUC on internal evaluation with the knowledge-enhancement strategy. Additionally, RadDiag can be zero-shot applied or fine-tuned to external diagnosis datasets sourced from various medical centers, demonstrating state-of-the-art results. In conclusion, we show that publicly shared medical data on the Internet is a tremendous and valuable resource that can potentially support building strong models for image understanding in healthcare.
+KW  - Humans
+KW  - Databases
+KW  - Factual
+KW  - Algorithms
+KW  - Imaging
+KW  - Three-Dimensional
+KW  - Image Processing
+KW  - Computer-Assisted
+DO  - 10.1038/s41467-024-54424-6
+AN  - PMID:39578456
+UR  - https://pubmed.ncbi.nlm.nih.gov/39578456/
+N1  - PMC:PMC11584732
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Computer Assisted Navigation Does Not Improve Outcomes in Posterior Fusion for Adolescent Idiopathic Scoliosis.
+AU  - Aaron Singh
+AU  - Travis Kotzur
+AU  - Blaire Peterson
+AU  - Ezekial Koslosky
+AU  - Chimobi Emukah
+AU  - Christopher Chaput
+PY  - 2025
+DA  - 2025-May
+JO  - Global spine journal
+JF  - Global spine journal
+SN  - 2192-5682
+AB  - Study DesignRetrospective Cohort Study.ObjectiveThe aim of this study was to compare the efficacy of CT-based computer assisted navigation (CAN) to conventional pedicle screw placement for patients with Adolescent Idiopathic Scoliosis (AIS).MethodsThis retrospective cohort study drew data from the National Readmissions Database, years 2016-2019. Patients undergoing posterior fusion for AIS, either via CAN or fluoroscopic-guided procedures, were identified via ICD-10 codes. Multivariate regression was performed to compare outcomes between operative techniques. Negative binomial regression was used to asses discharge disposition, while Gamma regression was performed to assess length of stay (LOS) and total charges. Patient demographics and comorbidities, measured via the Elixhauser comorbidity index, were both controlled for in our regression analysis.Results28,868 patients, 2095 (7.3%) undergoing a CAN procedure, were included in our analysis. Patients undergoing CAN procedures had increased surgical complications (Odds Ratio (OR) 2.23; 
+DO  - 10.1177/21925682241274373
+AN  - PMID:39116341
+UR  - https://pubmed.ncbi.nlm.nih.gov/39116341/
+N1  - PMC:PMC11571645
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - [Computer-assisted classification of ICD-9/10 and IKPM in compliance with the new federal health care regulation--practice-oriented solution for trauma surgery and orthopedics].
+AU  - D Deimel
+AU  - H J Hesselschwerdt
+AU  - A Lusznat
+PY  - 1995
+DA  - 1995-Oct
+JO  - Der Unfallchirurg
+JF  - Der Unfallchirurg
+SN  - 0177-5537
+AB  - From the beginning of 1995, the German law on the health system structure prescribes that in all clinics the four-digit ICD code be supplied for each diagnosis and the ICPM code for each operation. This makes on-line access to diagnosis and therapy codes embedded in a clinic documentation system advisable. Since 1 February 1995, in one department of traumatologic surgery the ICD diagnosis and ICPM therapy coding is managed on-line by the doctors in the outpatient clinic and operation theatre, using the "do it" coding system in combination with the KAUZ system for clinic documentation. The user guidance supplied by a frequency-oriented menu and specialist traumatological terms makes it possible to determine the ICD and ICPM codes without any great expenditure of effort. Furthermore, the appropriate flat rates per case and special charges are displayed. Comparison of manual and computer-assisted coding of operations during 1 month (160 patients, 173 operations) showed that manual coding could be corrected or improved by the computerized system in 35% of cases. The ICD-10 system has already been integrated: it improves the recording of diagnoses and will simplify the change over to the coming new revision.
+KW  - Electronic Data Processing
+KW  - Germany
+KW  - Humans
+KW  - Medical Records Systems
+KW  - Computerized
+KW  - Online Systems
+KW  - Orthopedics
+KW  - Software
+KW  - Wounds and Injuries
+AN  - PMID:7502092
+UR  - https://pubmed.ncbi.nlm.nih.gov/7502092/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Rheumatic manifestations in HIV-1 infected in-patients and literature review.
+AU  - Q Yao
+AU  - M Frank
+AU  - M Glynn
+AU  - R D Altman
+PY  - 2008
+DA  - 2008
+JO  - Clinical and experimental rheumatology
+JF  - Clinical and experimental rheumatology
+SN  - 0392-856X
+AB  - OBJECTIVE: To report the rate and spectrum of the rheumatic manifestations of human immunodeficiency virus (HIV) since the advent of highly active anti-retroviral therapy (HAART). METHODS: A retrospective record review of 888 inpatients with HIV for rheumatic manifestations was performed from January 1995 to March 2006. We then searched the 888 records for rheumatic diseases using International Classification Diagnostic (ICD) Codes. The medical records of the cases of HIV with the rheumatic conditions were then reviewed. A computer-assisted search of Medline/Pubmed for the medical literature from January 1981 to August 2007 using the keywords HIV, acquired immune-deficiency syndrome, rheumatic manifestations, combining with text words like systemic lupus erythematosus (SLE). Only English language literature was included. RESULTS: The demographic data of 888 cases of HIV included men (64%) and women (36%) with a mean age of 41.5+/-10.2 years. Race consisted of Black (70%), White (22.8%), Hispanic (6.5%), and others (1.1%). Rheumatic manifestations were present in 80 (9%) with arthritis/arthralgia 49 (5.5%), septic arthritis 9 (1%), and osteomyelitis 8 (0.9%), connective tissue diseases (CTDs) 6 (0.7%) (SLE 3, rheumatoid arthritis 1, polymyositis 1, and systemic sclerosis 1), avascular necrosis 6 (0.7%) (hips 3, knees 2, and shoulder 1). There were no cases of seronegative spondyloarthritis or Sjögren's syndrome. CONCLUSIONS: There was an association of HIV with rheumatic conditions in 9%, including CTDs and avascular necrosis. In addition, there were no cases of the seronegative spondyloarthritis subsets. This change in spectrum from prior reports suggests the rheumatic manifestations of HIV have changed, perhaps related to HAART.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Antiretroviral Therapy
+KW  - Highly Active
+KW  - Cohort Studies
+KW  - Female
+KW  - HIV Infections
+KW  - HIV-1
+KW  - Humans
+KW  - Male
+KW  - Middle Aged
+KW  - New Jersey
+KW  - Prevalence
+KW  - Retrospective Studies
+KW  - Rheumatic Diseases
+KW  - Young Adult
+AN  - PMID:19032811
+UR  - https://pubmed.ncbi.nlm.nih.gov/19032811/
+N1  - Publication Types: Journal Article, Review
+ER  - 
+
+TY  - JOUR
+TI  - Automated diagnosis of chronic obstructive pulmonary disease using deep learning applied to electrocardiograms.
+AU  - Akhil Vaid
+AU  - Jiya Sharma
+AU  - Joy Jiang
+AU  - Joshua Lampert
+AU  - Ashwin Sawant
+AU  - Edgar Argulian
+AU  - Stamatios Lerakis
+AU  - Pranai Tandon
+AU  - Patricia Kovatch
+AU  - Charles Powell
+AU  - Charles B Cairns
+AU  - Girish N Nadkarni
+AU  - Monica Kraft
+PY  - 2026
+DA  - 2026-Jan
+JO  - EBioMedicine
+JF  - EBioMedicine
+SN  - 2352-3964
+AB  - BACKGROUND: Chronic Obstructive Pulmonary Disease (COPD) is a leading cause of morbidity and mortality globally. Effective management hinges on early diagnosis, which is often impeded by non-specific symptoms and resource-intensive diagnostic methods. This study assesses the effectiveness of electrocardiograms (ECGs) analysed via deep learning as a tool for early COPD detection. METHODS: We utilised a Convolutional Neural Network model to analyse ECGs for detecting COPD. The primary outcome was the accuracy of a new clinical COPD diagnosis as determined by ICD codes. Performance was evaluated using Area-Under-the-Curve (AUC) metrics derived by testing against ECGs from a set of holdout patients, ECGs from patients from another hospital, and ECGs of patients with COPD within the UK BioBank (UKBB). FINDINGS: We analysed a total of 208,231 ECGs from 18,225 COPD cases, matched to 49,356 controls by age, sex, and race. The model exhibited robust performance across diverse populations with an AUC of 0⋅80 (0⋅80-0⋅80) in internal testing, 0⋅82 (0⋅81-0⋅82) in external validation and 0⋅75 (0⋅71-0⋅78) in the UKBB cohort. Subsequent analyses linked ECG-derived model predictions with spirometry data, and model explainability highlighted P-wave changes as indicative of COPD. INTERPRETATION: AI-powered ECG analysis offers a promising path for early COPD detection, potentially facilitating earlier and more effective management. Implementing such tools in clinical settings could significantly enhance COPD screening and diagnostic accuracy, thereby improving patient outcomes and addressing the global health burden of the disease. FUNDING: This work was supported in part through the computational and data resources and staff expertise provided by Scientific Computing and Data at the Icahn School of Medicine at Mount Sinai and supported by the Clinical and Translational Science Awards (CTSA) grant UL1TR004419 from the National Center for Advancing Translational Sciences; and R01HL167050-02 from the National Heart, Lung, and Blood Institute.
+KW  - Humans
+KW  - Pulmonary Disease
+KW  - Chronic Obstructive
+KW  - Electrocardiography
+KW  - Deep Learning
+KW  - Female
+KW  - Male
+KW  - Middle Aged
+KW  - Aged
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Neural Networks
+KW  - Computer
+DO  - 10.1016/j.ebiom.2025.106066
+AN  - PMID:41485457
+UR  - https://pubmed.ncbi.nlm.nih.gov/41485457/
+N1  - PMC:PMC12805298
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence to Improve Clinical Coding Practice in Scandinavia: Crossover Randomized Controlled Trial.
+AU  - Taridzo Chomutare
+AU  - Therese Olsen Svenning
+AU  - Miguel Ángel Tejedor Hernández
+AU  - Phuong Dinh Ngo
+AU  - Andrius Budrionis
+AU  - Kaisa Markljung
+AU  - Lill Irene Hind
+AU  - Torbjørn Torsvik
+AU  - Karl Øyvind Mikalsen
+AU  - Aleksandar Babic
+AU  - Hercules Dalianis
+PY  - 2025
+DA  - 2025-Jul-03
+JO  - Journal of medical Internet research
+JF  - Journal of medical Internet research
+SN  - 1438-8871
+AB  - BACKGROUND: Clinical coding is critical for hospital reimbursement, quality assessment, and health care planning. In Scandinavia, however, coding is often done by junior doctors or medical secretaries, leading to high rates of coding errors. Artificial intelligence (AI) tools, particularly semiautomatic computer-assisted coding tools, have the potential to reduce the excessive burden of administrative and clinical documentation. To date, much of what we know regarding these tools comes from lab-based evaluations, which often fail to account for real-world complexity and variability in clinical text. OBJECTIVE: This study aims to investigate whether an AI tool developed by by Norwegian Centre for E-health Research at the University Hospital of North Norway, Easy-ICD (International Classification of Diseases), can enhance clinical coding practices by reducing coding time and improving data quality in a realistic setting. We specifically examined whether improvements differ between long and short clinical notes, defined by word count. METHODS: An AI tool, Easy-ICD, was developed to assist clinical coders and was tested for improving both accuracy and time in a 1:1 crossover randomized controlled trial conducted in Sweden and Norway. Participants were randomly assigned to 2 groups (Sequence AB or BA), and crossed over between coding longer texts (Period 1; mean 307, SD 90; words) versus shorter texts (Period 2; mean 166, SD 55; words), while using our tool versus not using our tool. This was a purely web-based trial, where participants were recruited through email. Coding time and accuracy were logged and analyzed using Mann-Whitney U tests for each of the 2 periods independently, due to differing text lengths in each period. UNLABELLED: The trial had 17 participants enrolled, but only data from 15 participants (300 coded notes) were analyzed, excluding 2 incomplete records. Based on the Mann-Whitney U test, the median coding time difference for longer clinical text sequences was 123 seconds (P<.001, 95% CI 81-164), representing a 46% reduction in median coding time when our tool was used. For shorter clinical notes, the median time difference of 11 seconds was not significant (P=.25, 95% CI -34 to 8). Coding accuracy improved with Easy-ICD for both longer (62% vs 67%) and shorter clinical notes (60% vs 70%), but these differences were not statistically significant (P=.50and P=.17, respectively). User satisfaction ratings (submitted for 37% of cases) showed slightly higher approval for the tool's suggestions on longer clinical notes. CONCLUSIONS: This study demonstrates the potential of AI to transform common tasks in clinical workflows, with ostensible positive impacts on work efficiencies for clinical coding tasks with more demanding longer text sequences. Further studies within hospital workflows are required before these presumed impacts can be more clearly understood.
+KW  - Artificial Intelligence
+KW  - Humans
+KW  - Clinical Coding
+KW  - Cross-Over Studies
+KW  - Norway
+KW  - International Classification of Diseases
+KW  - Sweden
+DO  - 10.2196/71904
+AN  - PMID:40608484
+UR  - https://pubmed.ncbi.nlm.nih.gov/40608484/
+N1  - PMC:PMC12244276
+N1  - Publication Types: Journal Article, Randomized Controlled Trial
+ER  - 
+
+TY  - JOUR
+TI  - Development of an automated phenotyping algorithm for hepatorenal syndrome.
+AU  - Jejo D Koola
+AU  - Sharon E Davis
+AU  - Omar Al-Nimri
+AU  - Sharidan K Parr
+AU  - Daniel Fabbri
+AU  - Bradley A Malin
+AU  - Samuel B Ho
+AU  - Michael E Matheny
+PY  - 2018
+DA  - 2018-Apr
+JO  - Journal of biomedical informatics
+JF  - Journal of biomedical informatics
+SN  - 1532-0480
+AB  - OBJECTIVE: Hepatorenal Syndrome (HRS) is a devastating form of acute kidney injury (AKI) in advanced liver disease patients with high morbidity and mortality, but phenotyping algorithms have not yet been developed using large electronic health record (EHR) databases. We evaluated and compared multiple phenotyping methods to achieve an accurate algorithm for HRS identification. MATERIALS AND METHODS: A national retrospective cohort of patients with cirrhosis and AKI admitted to 124 Veterans Affairs hospitals was assembled from electronic health record data collected from 2005 to 2013. AKI was defined by the Kidney Disease: Improving Global Outcomes criteria. Five hundred and four hospitalizations were selected for manual chart review and served as the gold standard. Electronic Health Record based predictors were identified using structured and free text clinical data, subjected through NLP from the clinical Text Analysis Knowledge Extraction System. We explored several dimension reduction techniques for the NLP data, including newer high-throughput phenotyping and word embedding methods, and ascertained their effectiveness in identifying the phenotype without structured predictor variables. With the combined structured and NLP variables, we analyzed five phenotyping algorithms: penalized logistic regression, naïve Bayes, support vector machines, random forest, and gradient boosting. Calibration and discrimination metrics were calculated using 100 bootstrap iterations. In the final model, we report odds ratios and 95% confidence intervals. RESULTS: The area under the receiver operating characteristic curve (AUC) for the different models ranged from 0.73 to 0.93; with penalized logistic regression having the best discriminatory performance. Calibration for logistic regression was modest, but gradient boosting and support vector machines were superior. NLP identified 6985 variables; a priori variable selection performed similarly to dimensionality reduction using high-throughput phenotyping and semantic similarity informed clustering (AUC of 0.81 - 0.82). CONCLUSION: This study demonstrated improved phenotyping of a challenging AKI etiology, HRS, over ICD-9 coding. We also compared performance among multiple approaches to EHR-derived phenotyping, and found similar results between methods. Lastly, we showed that automated NLP dimension reduction is viable for acute illness.
+KW  - Acute Kidney Injury
+KW  - Aged
+KW  - Algorithms
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Electronic Health Records
+KW  - Female
+KW  - Hepatorenal Syndrome
+KW  - Humans
+KW  - Liver Cirrhosis
+KW  - Male
+KW  - Middle Aged
+KW  - Natural Language Processing
+KW  - Odds Ratio
+KW  - Phenotype
+KW  - ROC Curve
+KW  - Retrospective Studies
+KW  - Support Vector Machine
+DO  - 10.1016/j.jbi.2018.03.001
+AN  - PMID:29530803
+UR  - https://pubmed.ncbi.nlm.nih.gov/29530803/
+N1  - PMC:PMC5920557
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural, Research Support, Non-U.S. Gov't, Research Support, U.S. Gov't, Non-P.H.S.
+ER  - 
+
+TY  - JOUR
+TI  - Positive efficiency findings using computer assisted ICD-encoding: 3.5 years of experience with the computerized patient record system PADS (Patient Archiving & Documentation System).
+AU  - J H Hohnloser
+AU  - H Soltanian
+PY  - 1994
+DA  - 1994
+JO  - Proceedings. Symposium on Computer Applications in Medical Care
+JF  - Proceedings. Symposium on Computer Applications in Medical Care
+SN  - 0195-4210
+AB  - In daily routine there is a major discrepancy between what physicians do and what they document. From a medical information processing point of view amongst the more important functions physicians perform in their daily routine is the encoding of diagnoses using a standard vocabulary such as ICD-9. This paper presents evidence that through the use of the ICD-encoding module of a computerized patient record system (PADS, Patient Archiving and Documentation System) user compliance can be improved. "Bypassing" mechanisms can be partly reversed (up to 43%), more coded diagnoses are documented (by 51%) and those diagnoses documented are more complete (increase by 57%).
+KW  - Germany
+KW  - Hospitals
+KW  - University
+KW  - Medical Records Systems
+KW  - Computerized
+KW  - Subject Headings
+AN  - PMID:7950070
+UR  - https://pubmed.ncbi.nlm.nih.gov/7950070/
+N1  - PMC:PMC2247896
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Development of machine learning model for diagnostic disease prediction based on laboratory tests.
+AU  - Dong Jin Park
+AU  - Min Woo Park
+AU  - Homin Lee
+AU  - Young-Jin Kim
+AU  - Yeongsic Kim
+AU  - Young Hoon Park
+PY  - 2021
+DA  - 2021-Apr-07
+JO  - Scientific reports
+JF  - Scientific reports
+SN  - 2045-2322
+AB  - The use of deep learning and machine learning (ML) in medical science is increasing, particularly in the visual, audio, and language data fields. We aimed to build a new optimized ensemble model by blending a DNN (deep neural network) model with two ML models for disease prediction using laboratory test results. 86 attributes (laboratory tests) were selected from datasets based on value counts, clinical importance-related features, and missing values. We collected sample datasets on 5145 cases, including 326,686 laboratory test results. We investigated a total of 39 specific diseases based on the International Classification of Diseases, 10th revision (ICD-10) codes. These datasets were used to construct light gradient boosting machine (LightGBM) and extreme gradient boosting (XGBoost) ML models and a DNN model using TensorFlow. The optimized ensemble model achieved an F1-score of 81% and prediction accuracy of 92% for the five most common diseases. The deep learning and ML models showed differences in predictive power and disease classification patterns. We used a confusion matrix and analyzed feature importance using the SHAP value method. Our new ML model achieved high efficiency of disease prediction through classification of diseases. This study will be useful in the prediction and diagnosis of diseases.
+KW  - Clinical Laboratory Techniques
+KW  - Databases
+KW  - Factual
+KW  - Deep Learning
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Disease
+KW  - Humans
+KW  - Machine Learning
+KW  - Neural Networks
+KW  - Computer
+KW  - ROC Curve
+DO  - 10.1038/s41598-021-87171-5
+AN  - PMID:33828178
+UR  - https://pubmed.ncbi.nlm.nih.gov/33828178/
+N1  - PMC:PMC8026627
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Automated Classification of Pathology Reports.
+AU  - Michel Oleynik
+AU  - Marcelo Finger
+AU  - Diogo F C Patrão
+PY  - 2015
+DA  - 2015
+JO  - Studies in health technology and informatics
+JF  - Studies in health technology and informatics
+SN  - 1879-8365
+AB  - This work develops an automated classifier of pathology reports which infers the topography and the morphology classes of a tumor using codes from the International Classification of Diseases for Oncology (ICD-O). Data from 94,980 patients of the A.C. Camargo Cancer Center was used for training and validation of Naive Bayes classifiers, evaluated by the F1-score. Measures greater than 74% in the topographic group and 61% in the morphologic group are reported. Our work provides a successful baseline for future research for the classification of medical documents written in Portuguese and in other domains.
+KW  - Brazil
+KW  - Data Mining
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - International Classification of Diseases
+KW  - Natural Language Processing
+KW  - Neoplasms
+KW  - Pathology
+KW  - Pattern Recognition
+KW  - Automated
+KW  - Prevalence
+KW  - Reproducibility of Results
+KW  - Sensitivity and Specificity
+AN  - PMID:26262339
+UR  - https://pubmed.ncbi.nlm.nih.gov/26262339/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Trends in usage of navigation and robotic assistance in elective spine surgeries: a study of 105,212 cases from 2007 to 2015.
+AU  - Sara Naessig
+AU  - Ashok Para
+AU  - Nicholas Kummer
+AU  - Oscar Krol
+AU  - Lara Passfall
+AU  - Waleed Ahmad
+AU  - Katherine Pierce
+AU  - Shaleen Vira
+AU  - Bassel Diebo
+AU  - Brian Neuman
+AU  - Amit Jain
+AU  - Daniel Sciubba
+AU  - Peter Passias
+PY  - 2023
+DA  - 2023-Dec
+JO  - Journal of robotic surgery
+JF  - Journal of robotic surgery
+SN  - 1863-2491
+AB  - OBJECTIVE: Identify trends of navigation and robotic-assisted elective spine surgeries. METHODS: Elective spine surgery patients between 2007 and 2015 in the Nationwide Inpatient Sample (NIS) were isolated by ICD-9 codes for Navigation [Nav] or Robotic [Rob]-Assisted surgery. Basic demographics and surgical variables were identified via chi-squared and t tests. Each system was analyzed from 2007 to 2015 for trends in usage. RESULTS: Included 3,759,751 patients: 100,488 Nav; 4724 Rob. Nav were younger (56.7 vs 62.7 years), had lower comorbidity index (1.8 vs 6.2, all p < 0.05), more decompressions (79.5 vs 42.6%) and more fusions (60.3 vs 52.6%) than Rob. From 2007 to 2015, incidence of complication increased for Nav (from 5.8 to 21.7%) and Rob (from 3.3 to 18.4%) as well as 2-3 level fusions (from 50.4 to 52.5%) and (from 1.3 to 3.2%); respectively. Invasiveness increased for both (Rob: from 1.7 to 2.2; Nav: from 3.7 to 4.6). Posterior approaches (from 27.4 to 41.3%), osteotomies (from 4 to 7%), and fusions (from 40.9 to 54.2%) increased in Rob. Anterior approach for Rob decreased from 14.9 to 14.4%. Nav increased posterior (from 51.5% to 63.9%) and anterior approaches (from 16.4 to 19.2%) with an increase in osteotomies (from 2.1 to 2.7%) and decreased decompressions (from 73.6 to 63.2%). CONCLUSIONS: From 2007 to 2015, robotic and navigation systems have been performed on increasingly invasive spine procedures. Robotic systems have shifted from anterior to posterior approaches, whereas navigation computer-assisted procedures have decreased in rates of usage for decompression procedures.
+KW  - Humans
+KW  - Robotic Surgical Procedures
+KW  - Spinal Fusion
+KW  - Spine
+KW  - Surgery
+KW  - Computer-Assisted
+KW  - Elective Surgical Procedures
+DO  - 10.1007/s11701-023-01682-z
+AN  - PMID:37801230
+UR  - https://pubmed.ncbi.nlm.nih.gov/37801230/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - A study of entity-linking methods for normalizing Chinese diagnosis and procedure terms to ICD codes.
+AU  - Qiong Wang
+AU  - Zongcheng Ji
+AU  - Jingqi Wang
+AU  - Stephen Wu
+AU  - Weiyan Lin
+AU  - Wenzhen Li
+AU  - Li Ke
+AU  - Guohong Xiao
+AU  - Qing Jiang
+AU  - Hua Xu
+AU  - Yi Zhou
+PY  - 2020
+DA  - 2020-May
+JO  - Journal of biomedical informatics
+JF  - Journal of biomedical informatics
+SN  - 1532-0480
+AB  - OBJECTIVE: This study aims to develop and evaluate effective methods that can normalize diagnosis and procedure terms written by physicians to standard concepts in International Classification of Diseases(ICD) in Chinese, with the goal to facilitate automated medical coding in China. METHODS: We applied the entity-linking framework to normalize Chinese diagnosis and procedure terms, which consists of two steps - candidate concept generation and candidate concept ranking. For candidate concept generation, we implemented both the traditional BM25 algorithm and an extended version that integrates a synonym knowledgebase. For candidate concept ranking, we investigated a number of different algorithms: (1) the BM25 algorithm, (2) ranking support vector machines (RankSVM), (3) a previously reported Convolutional Neural Network (CNN) approach, (4) 11 deep ranking-based methods from the MatchZoo toolkit, and (5) a new BERT (Bidirectional Encoder Representations from Transformers) based ranking method. Using two manually annotated datasets (8,547 diagnoses and 8,282 procedures) collected from a Tier 3A hospital in China, we evaluated above methods and reported their performance (i.e., accuracy) at different cutoffs. RESULTS: The coverage of candidate concept generation was greatly improved after integrating the synonym knowledgebase, achieving 97.9% for diagnoses and 93.4% for procedures respectively. Overall the new BERT-based ranking method achieved the best performance on both diagnosis and procedure normalization, with the best accuracy of 92.1% for diagnosis and 80.1% for procedure, when the top one concept and exact match criteria were used. CONCLUSIONS: This study developed and compared diverse entity-linking methods to normalize clinical terms in Chinese and our evaluation shows good performance on mapping disease terms to ICD codes, demonstrating the feasibility of automated encoding of clinical terms in Chinese.
+KW  - China
+KW  - Clinical Coding
+KW  - International Classification of Diseases
+KW  - Neural Networks
+KW  - Computer
+KW  - Support Vector Machine
+DO  - 10.1016/j.jbi.2020.103418
+AN  - PMID:32298846
+UR  - https://pubmed.ncbi.nlm.nih.gov/32298846/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Coding ICD-10-PCS medical and surgical-related sections. Understanding osteopathic, other procedures, and chiropractic.
+AU  - Ann Barta
+PY  - 2014
+DA  - 2014-Jun
+JO  - Journal of AHIMA
+JF  - Journal of AHIMA
+SN  - 1060-5487
+KW  - Arthroplasty
+KW  - Replacement
+KW  - Knee
+KW  - Chiropractic
+KW  - Clinical Coding
+KW  - Complementary Therapies
+KW  - Female
+KW  - Humans
+KW  - Hysterectomy
+KW  - Vaginal
+KW  - International Classification of Diseases
+KW  - Manipulation
+KW  - Osteopathic
+KW  - Surgery
+KW  - Computer-Assisted
+AN  - PMID:25022059
+UR  - https://pubmed.ncbi.nlm.nih.gov/25022059/
+N1  - Publication Types: Case Reports, Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Evaluating GPT-V4 (GPT-4 with Vision) on Detection of Radiologic Findings on Chest Radiographs.
+AU  - Yiliang Zhou
+AU  - Hanley Ong
+AU  - Patrick Kennedy
+AU  - Carol C Wu
+AU  - Jacob Kazam
+AU  - Keith Hentel
+AU  - Adam Flanders
+AU  - George Shih
+AU  - Yifan Peng
+PY  - 2024
+DA  - 2024-May
+JO  - Radiology
+JF  - Radiology
+SN  - 1527-1315
+AB  - Background Generating radiologic findings from chest radiographs is pivotal in medical image analysis. The emergence of OpenAI's generative pretrained transformer, GPT-4 with vision (GPT-4V), has opened new perspectives on the potential for automated image-text pair generation. However, the application of GPT-4V to real-world chest radiography is yet to be thoroughly examined. Purpose To investigate the capability of GPT-4V to generate radiologic findings from real-world chest radiographs. Materials and Methods In this retrospective study, 100 chest radiographs with free-text radiology reports were annotated by a cohort of radiologists, two attending physicians and three residents, to establish a reference standard. Of 100 chest radiographs, 50 were randomly selected from the National Institutes of Health (NIH) chest radiographic data set, and 50 were randomly selected from the Medical Imaging and Data Resource Center (MIDRC). The performance of GPT-4V at detecting imaging findings from each chest radiograph was assessed in the zero-shot setting (where it operates without prior examples) and few-shot setting (where it operates with two examples). Its outcomes were compared with the reference standard with regards to clinical conditions and their corresponding codes in the 
+KW  - Humans
+KW  - Radiography
+KW  - Thoracic
+KW  - Retrospective Studies
+KW  - Female
+KW  - Male
+KW  - Middle Aged
+KW  - Radiographic Image Interpretation
+KW  - Computer-Assisted
+KW  - Aged
+KW  - Adult
+DO  - 10.1148/radiol.233270
+AN  - PMID:38713028
+UR  - https://pubmed.ncbi.nlm.nih.gov/38713028/
+N1  - PMC:PMC12167652
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Comparison of handheld computer-assisted and conventional paper chart documentation of medical records. A randomized, controlled trial.
+AU  - Dirk Stengel
+AU  - Kai Bauwens
+AU  - Martin Walter
+AU  - Thilo Köpfer
+AU  - Axel Ekkernkamp
+PY  - 2004
+DA  - 2004-Mar
+JO  - The Journal of bone and joint surgery. American volume
+JF  - The Journal of bone and joint surgery. American volume
+SN  - 0021-9355
+AB  - BACKGROUND: Daily documentation and maintenance of medical record quality is a crucial issue in orthopaedic surgery. The purpose of the present study was to determine whether the introduction of a handheld computer could improve both the quantitative and qualitative aspects of medical records. METHODS: A series of consecutive patients who were admitted for the first time to a thirty-six-bed orthopaedic ward of an academic teaching hospital for a planned operation or any other treatment of an acute injury or chronic condition were randomized to daily documentation of their clinical charts on a handheld computer or on conventional paper forms. The electronic documentation consisted of a specially designed software package on a handheld computer for bedside use with structured decision trees for examination, obtaining a history, and coding. In the control arm, chart notes were compiled on standard paper forms and were subsequently entered into the hospital's information system. The number of documented ICD (International Classification of Diseases) diagnoses was the primary end point for sample size calculations. All patient charts were reread by an expert panel consisting of two surgeons and the surgical quality assurance manager. These experts assigned quality ratings to the different documentation systems by scrutinizing the extent and accuracy of the patient histories and the physical findings as assessed by daily chart notes. RESULTS: Eighty patients were randomized to one of the two documentation arms, and seventy-eight (forty-seven men and thirty-one women) of them were eligible for final analysis. Documentation with the handheld computer increased the median number of diagnoses per patients from four to nine (p < 0.0001), but it produced some overcoding for false or redundant items. Documentation quality ratings improved significantly with the introduction of the handheld device (p < 0.01) with respect to the correct assessment of a patient's progress and translation into ICD diagnoses. Various learning curve effects were observed with different operators. Study physicians assigned slightly better practicability ratings to the handheld device. CONCLUSIONS: The preliminary data from this study suggest that handheld computers may improve the quality of hospital charts in orthopaedic surgery. LEVEL OF EVIDENCE: Therapeutic study, Level I-1a (randomized controlled trial [significant difference]). See Instructions to Authors for a complete description of levels of evidence.
+KW  - Adult
+KW  - Aged
+KW  - Attitude of Health Personnel
+KW  - Attitude to Computers
+KW  - Computers
+KW  - Handheld
+KW  - Documentation
+KW  - Female
+KW  - Hospitals
+KW  - Teaching
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Male
+KW  - Medical Records
+KW  - Medical Records Systems
+KW  - Computerized
+KW  - Medical Staff
+KW  - Hospital
+KW  - Middle Aged
+KW  - Orthopedic Procedures
+KW  - Paper
+KW  - Point-of-Care Systems
+KW  - Qualitative Research
+KW  - Quality Assurance
+KW  - Health Care
+KW  - Regression Analysis
+DO  - 10.2106/00004623-200403000-00014
+AN  - PMID:14996882
+UR  - https://pubmed.ncbi.nlm.nih.gov/14996882/
+N1  - Publication Types: Clinical Trial, Comparative Study, Journal Article, Randomized Controlled Trial, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Computerized Adjudication of Coronary Heart Disease Events Using the Electronic Medical Record in HIV Clinical Research: Possibilities and Challenges Ahead.
+AU  - Michelle Floris-Moore
+AU  - Andrew Edmonds
+AU  - Sonia Napravnik
+AU  - Adaora A Adimora
+PY  - 2020
+DA  - 2020-Apr
+JO  - AIDS research and human retroviruses
+JF  - AIDS research and human retroviruses
+SN  - 1931-8405
+AB  - This pilot study assessed feasibility of computer-assisted electronic medical record (EMR) abstraction to ascertain coronary heart disease (CHD) event hospitalizations. We included a sample of 87 hospitalization records from participants the University of North Carolina (UNC) site of the Women's Interagency HIV Study (WIHS) and UNC Center for AIDS Research (CFAR) HIV Clinical Cohort who were hospitalized within UNC Healthcare System from July 2004 to July 2015. We compared a computer algorithm utilizing diagnosis/procedure codes, medications, and cardiac enzyme levels to adjudicate CHD events [myocardial infarction (MI)/coronary revascularization] from the EMR to standardized manual chart adjudication. Of 87 hospitalizations, 42 were classified as definite, 25 probable, and 20 non-CHD events by manual chart adjudication. A computer algorithm requiring presence of ≥1 CHD-related International Classification of Diseases, 9th Revision (ICD-9)/Current Procedural Terminology (CPT) code correctly identified 24 of 42 definite (57%), 29 of 67 probable/definite CHD (43%), and 95% of non-CHD events; additionally requiring clinically defined cardiac enzyme levels or administration of MI-related medications correctly identified 55%, 42%, and 95% of such events, respectively. Requiring any one of the ICD-9/CPT or cardiac enzyme criteria correctly identified 98% of definite, 97% of probable/definite CHD, and 85% of non-CHD events. Challenges included difficulty matching hospitalization dates, incomplete diagnosis code data, and multiple field names/locations of laboratory/medication data. Computer algorithms comprising only ICD-9/CPT codes failed to identify a sizable proportion of CHD events. Using a less restrictive algorithm yielded fewer missed events but increased the false-positive rate. Despite potential benefits of EMR-based research, there remain several challenges to fully computerized adjudication of CHD events.
+KW  - Adult
+KW  - Algorithms
+KW  - Coronary Disease
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Electrocardiography
+KW  - Electronic Health Records
+KW  - HIV Infections
+KW  - Hospitalization
+KW  - Humans
+KW  - Middle Aged
+KW  - Pilot Projects
+KW  - Retrospective Studies
+DO  - 10.1089/AID.2019.0036
+AN  - PMID:31407587
+UR  - https://pubmed.ncbi.nlm.nih.gov/31407587/
+N1  - PMC:PMC7185364
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural
+ER  - 
+
+TY  - JOUR
+TI  - Accelerating iterative coordinate descent using a stored system matrix.
+AU  - Scott S Hsieh
+AU  - John M Hoffman
+AU  - Frederic Noo
+PY  - 2019
+DA  - 2019-Dec
+JO  - Medical physics
+JF  - Medical physics
+SN  - 2473-4209
+AB  - PURPOSE: The computational burden associated with model-based iterative reconstruction (MBIR) is still a practical limitation. Iterative coordinate descent (ICD) is an optimization approach for MBIR that has sometimes been thought to be incompatible with modern computing architectures, especially graphics processing units (GPUs). The purpose of this work is to accelerate the previously released open-source FreeCT_ICD to include GPU acceleration and to demonstrate computational performance with ICD that is comparable with simultaneous update approaches. METHODS: FreeCT_ICD uses a stored system matrix (SSM), which precalculates the forward projector in the form of a sparse matrix and then reconstructs on a rotating coordinate grid to exploit helical symmetry. In our GPU ICD implementation, we shuffle the sinogram memory ordering such that data access in the sinogram coalesce into fewer transactions. We also update N RESULTS: On a pediatric dataset with sinogram size of 736 × 16 × 13860 reconstructed to a matrix size of 512 × 512 × 128, our code requires about 20 s per iteration on a single GPU compared to 2300 s per iteration for a 6-core CPU using FreeCT_ICD. After 400 iterations, the proposed and reference codes converge within 2 HU RMS difference (RMSD). Using a wFBP initialization, convergence within 10 HU RMSD is achieved within 4 min. Convergence is similar with N CONCLUSIONS: With appropriate modifications, ICD may be able to achieve computational performance competitive with simultaneous update algorithms currently used for MBIR.
+KW  - Algorithms
+KW  - Child
+KW  - Computers
+KW  - Databases
+KW  - Factual
+KW  - Humans
+KW  - Image Processing
+KW  - Computer-Assisted
+KW  - Time Factors
+KW  - Tomography
+KW  - X-Ray Computed
+DO  - 10.1002/mp.13543
+AN  - PMID:31811796
+UR  - https://pubmed.ncbi.nlm.nih.gov/31811796/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Using natural language processing to identify problem usage of prescription opioids.
+AU  - David S Carrell
+AU  - David Cronkite
+AU  - Roy E Palmer
+AU  - Kathleen Saunders
+AU  - David E Gross
+AU  - Elizabeth T Masters
+AU  - Timothy R Hylan
+AU  - Michael Von Korff
+PY  - 2015
+DA  - 2015-Dec
+JO  - International journal of medical informatics
+JF  - International journal of medical informatics
+SN  - 1872-8243
+AB  - BACKGROUND: Accurate and scalable surveillance methods are critical to understand widespread problems associated with misuse and abuse of prescription opioids and for implementing effective prevention and control measures. Traditional diagnostic coding incompletely documents problem use. Relevant information for each patient is often obscured in vast amounts of clinical text. OBJECTIVES: We developed and evaluated a method that combines natural language processing (NLP) and computer-assisted manual review of clinical notes to identify evidence of problem opioid use in electronic health records (EHRs). METHODS: We used the EHR data and text of 22,142 patients receiving chronic opioid therapy (≥70 days' supply of opioids per calendar quarter) during 2006-2012 to develop and evaluate an NLP-based surveillance method and compare it to traditional methods based on International Classification of Disease, Ninth Edition (ICD-9) codes. We developed a 1288-term dictionary for clinician mentions of opioid addiction, abuse, misuse or overuse, and an NLP system to identify these mentions in unstructured text. The system distinguished affirmative mentions from those that were negated or otherwise qualified. We applied this system to 7336,445 electronic chart notes of the 22,142 patients. Trained abstractors using a custom computer-assisted software interface manually reviewed 7751 chart notes (from 3156 patients) selected by the NLP system and classified each note as to whether or not it contained textual evidence of problem opioid use. RESULTS: Traditional diagnostic codes for problem opioid use were found for 2240 (10.1%) patients. NLP-assisted manual review identified an additional 728 (3.1%) patients with evidence of clinically diagnosed problem opioid use in clinical notes. Inter-rater reliability among pairs of abstractors reviewing notes was high, with kappa=0.86 and 97% agreement for one pair, and kappa=0.71 and 88% agreement for another pair. CONCLUSIONS: Scalable, semi-automated NLP methods can efficiently and accurately identify evidence of problem opioid use in vast amounts of EHR text. Incorporating such methods into surveillance efforts may increase prevalence estimates by as much as one-third relative to traditional methods.
+KW  - Data Mining
+KW  - Drug Prescriptions
+KW  - Electronic Health Records
+KW  - Humans
+KW  - Inappropriate Prescribing
+KW  - Narcotic Antagonists
+KW  - Natural Language Processing
+KW  - Opioid-Related Disorders
+KW  - Pain
+KW  - Pattern Recognition
+KW  - Automated
+KW  - Prevalence
+KW  - Risk Factors
+KW  - Vocabulary
+KW  - Controlled
+KW  - Washington
+DO  - 10.1016/j.ijmedinf.2015.09.002
+AN  - PMID:26456569
+UR  - https://pubmed.ncbi.nlm.nih.gov/26456569/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Computer-Navigated Total Knee Arthroplasty Utilization.
+AU  - Abiram Bala
+AU  - Colin Thomas Penrose
+AU  - Thorsten Markus Seyler
+AU  - Richard Chad Mather
+AU  - Samuel Secord Wellman
+AU  - Michael Paul Bolognesi
+PY  - 2016
+DA  - 2016-Jul
+JO  - The journal of knee surgery
+JF  - The journal of knee surgery
+SN  - 1938-2480
+AB  - Computer-navigated total knee arthroplasty (CN-TKA) has been used to improve component alignment, though the evidence is currently mixed on whether there are clinically significant differences in long-term outcomes. Given the established increased costs and operative time, we hypothesized that the utilization rate of CN-TKA would be decreasing relative to standard TKA in the Medicare population given the current health care economic environment. We queried 1,914,514 primary TKAs performed in the entire Medicare database from 2005 to 2012. Current Procedural Terminology (CPT) and International Classification of Diseases, Ninth Revision, Clinical Modification (ICD-9-CM) codes were used to identify and separate CN-TKAs. Utilization of TKA was compared by year, gender, and region. Average change in cases per year and compound annual growth rate (CAGR) were used to evaluate trends in utilization of the procedure. We identified 30,773 CN-TKAs performed over this time period. There was an increase in utilization of CN-TKA per year from 984 to 5,352 (average = 572/year, R (2) = 0.85, CAGR = 23.58%) from 2005 to 2012. In contrast, there was a slight decrease in overall TKA utilization from 264,345 to 230,654 (average = 4297/year, R (2) = 0.74, CAGR = - 1.69%). When comparing proportion of CN-TKA to all TKAs, there was an increase from 0.37 to 2.32% (average 0.26%/year, R (2) = 0.88, CAGR = 25.70%). CN-TKA growth in males and females was comparable at 24.42 and 23.11%, respectively. The South region had the highest growth rate at 28.76%, whereas the Midwest had the lowest growth rate at 15.51%. The Midwest was the only region that peaked (2008) with a slow decline in utilization until 2012. Despite increased costs with unclear clinical benefit, CN-TKA is increasing in utilization among Medicare patients. Reasons could include patient preference, advertising, proper of coding the procedure, and increased publicly available information about arthroplasty options.
+KW  - Aged
+KW  - Arthroplasty
+KW  - Replacement
+KW  - Knee
+KW  - Databases
+KW  - Factual
+KW  - Female
+KW  - Humans
+KW  - Male
+KW  - Medicare
+KW  - Middle Aged
+KW  - Surgery
+KW  - Computer-Assisted
+KW  - United States
+DO  - 10.1055/s-0035-1564724
+AN  - PMID:26480343
+UR  - https://pubmed.ncbi.nlm.nih.gov/26480343/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Deep Learning for Automated Extraction of Primary Sites From Cancer Pathology Reports.
+AU  - John X Qiu
+AU  - Hong-Jun Yoon
+AU  - Paul A Fearn
+AU  - Georgia D Tourassi
+PY  - 2018
+DA  - 2018-Jan
+JO  - IEEE journal of biomedical and health informatics
+JF  - IEEE journal of biomedical and health informatics
+SN  - 2168-2208
+AB  - Pathology reports are a primary source of information for cancer registries which process high volumes of free-text reports annually. Information extraction and coding is a manual, labor-intensive process. In this study, we investigated deep learning and a convolutional neural network (CNN), for extracting ICD-O-3 topographic codes from a corpus of breast and lung cancer pathology reports. We performed two experiments, using a CNN and a more conventional term frequency vector approach, to assess the effects of class prevalence and inter-class transfer learning. The experiments were based on a set of 942 pathology reports with human expert annotations as the gold standard. CNN performance was compared against a more conventional term frequency vector space approach. We observed that the deep learning models consistently outperformed the conventional approaches in the class prevalence experiment, resulting in micro- and macro-F score increases of up to 0.132 and 0.226, respectively, when class labels were well populated. Specifically, the best performing CNN achieved a micro-F score of 0.722 over 12 ICD-O-3 topography codes. Transfer learning provided a consistent but modest performance boost for the deep learning methods but trends were contingent on the CNN method and cancer site. These encouraging results demonstrate the potential of deep learning for automated abstraction of pathology reports.
+KW  - Artificial Intelligence
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Electronic Health Records
+KW  - Humans
+KW  - Neoplasms
+KW  - Support Vector Machine
+DO  - 10.1109/JBHI.2017.2700722
+AN  - PMID:28475069
+UR  - https://pubmed.ncbi.nlm.nih.gov/28475069/
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural, Research Support, U.S. Gov't, Non-P.H.S.
+ER  - 
+
+TY  - JOUR
+TI  - Assessment of algorithms to identify patients with thrombophilia following venous thromboembolism.
+AU  - Thomas Delate
+AU  - Wendy Hsiao
+AU  - Benjamin Kim
+AU  - Daniel M Witt
+AU  - Melissa R Meyer
+AU  - Alan S Go
+AU  - Margaret C Fang
+PY  - 2016
+DA  - 2016-Jan
+JO  - Thrombosis research
+JF  - Thrombosis research
+SN  - 1879-2472
+AB  - INTRODUCTION: Routine testing for thrombophilia following venous thromboembolism (VTE) is controversial. The use of large datasets to study the clinical impact of thrombophilia testing on patterns of care and patient outcomes may enable more efficient analysis of this practice in a wide range of settings. We set out to examine how accurately algorithms using International Classification of Diseases 9th Revision (ICD-9) codes and/or pharmacy data reflect laboratory-confirmed thrombophilia diagnoses. MATERIALS AND METHODS: A random sample of adult Kaiser Permanente Colorado patients diagnosed with unprovoked VTE between 1/2004 and 12/2010 underwent medical record abstraction of thrombophilia test results. Algorithms using "ICD-9" (positive if a thrombophilia ICD-9 code was present), "Extended anticoagulation (AC)" (positive if AC therapy duration was >6 months), and "ICD-9 & Extended AC" (positive for both) criteria to identify possible thrombophilia cases were tested. Using positive thrombophilia laboratory results as the gold standard, the sensitivity, specificity, positive predictive value (PPV), and negative predictive value of each algorithm were calculated, along with 95% confidence intervals (CIs). RESULTS: In our cohort of 636 patients, sensitivities were low (<50%) for each algorithm. "ICD-9" yielded the highest PPV (41.5%, 95% CI 26.3-57.9%) and a high specificity (95.9%, 95% CI 94.0-97.4%). "Extended AC" had the highest sensitivity but lowest specificity, and "ICD-9 & Extended AC" had the highest specificity but lowest sensitivity. CONCLUSIONS: ICD-9 codes for thrombophilia are highly specific for laboratory-confirmed cases, but all algorithms had low sensitivities. Further development of methods to identify thrombophilia patients in large datasets is warranted.
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Algorithms
+KW  - Anticoagulants
+KW  - Blood Coagulation Tests
+KW  - Colorado
+KW  - Comorbidity
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Female
+KW  - Humans
+KW  - Incidence
+KW  - International Classification of Diseases
+KW  - Male
+KW  - Middle Aged
+KW  - Prevalence
+KW  - Reproducibility of Results
+KW  - Risk Assessment
+KW  - Sensitivity and Specificity
+KW  - Thrombophilia
+KW  - Venous Thromboembolism
+DO  - 10.1016/j.thromres.2015.11.009
+AN  - PMID:26585762
+UR  - https://pubmed.ncbi.nlm.nih.gov/26585762/
+N1  - PMC:PMC5123887
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural
+ER  - 
+
+TY  - JOUR
+TI  - The prevalence of problem opioid use in patients receiving chronic opioid therapy: computer-assisted review of electronic health record clinical notes.
+AU  - Roy E Palmer
+AU  - David S Carrell
+AU  - David Cronkite
+AU  - Kathleen Saunders
+AU  - David E Gross
+AU  - Elizabeth Masters
+AU  - Sean Donevan
+AU  - Timothy R Hylan
+AU  - Michael Von Kroff
+PY  - 2015
+DA  - 2015-Jul
+JO  - Pain
+JF  - Pain
+SN  - 1872-6623
+AB  - To estimate the prevalence of problem opioid use, we used natural language processing (NLP) techniques to identify clinical notes containing text indicating problem opioid use from over 8 million electronic health records (EHRs) of 22,142 adult patients receiving chronic opioid therapy (COT) within Group Health clinics from 2006 to 2012. Computer-assisted manual review of NLP-identified clinical notes was then used to identify patients with problem opioid use (overuse, misuse, or abuse) according to the study criteria. These methods identified 9.4% of patients receiving COT as having problem opioid use documented during the study period. An additional 4.1% of COT patients had an International Classification of Disease, version 9 (ICD-9) diagnosis without NLP-identified problem opioid use. Agreement between the NLP methods and ICD-9 coding was moderate (kappa = 0.61). Over one-third of the NLP-positive patients did not have an ICD-9 diagnostic code for opioid abuse or dependence. We used structured EHR data to identify 14 risk indicators for problem opioid use. Forty-seven percent of the COT patients had 3 or more risk indicators. The prevalence of problem opioid use was 9.6% among patients with 3 to 4 risk indicators, 26.6% among those with 5 to 6 risk indicators, and 55.04% among those with 7 or more risk indicators. Higher rates of problem opioid use were observed among young COT patients, patients who sustained opioid use for more than 4 quarters, and patients who received higher opioid doses. Methods used in this study provide a promising approach to efficiently identify clinically recognized problem opioid use documented in EHRs of large patient populations. Computer-assisted manual review of EHR clinical notes found a rate of problem opioid use of 9.4% among 22,142 COT patients over 7 years.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Analgesics
+KW  - Opioid
+KW  - Electronic Health Records
+KW  - Female
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Male
+KW  - Middle Aged
+KW  - Natural Language Processing
+KW  - Opioid-Related Disorders
+KW  - Prevalence
+KW  - Young Adult
+DO  - 10.1097/j.pain.0000000000000145
+AN  - PMID:25760471
+UR  - https://pubmed.ncbi.nlm.nih.gov/25760471/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - [Computer-assisted performance documentation. Effects in orthopedics and trauma surgery on budgets and reimbursement].
+AU  - J Fritz
+AU  - C Gaissmaier
+AU  - R Volkmann
+AU  - D Höntzsch
+AU  - H Greschner
+PY  - 1999
+DA  - 1999-Feb
+JO  - Der Unfallchirurg
+JF  - Der Unfallchirurg
+SN  - 0177-5537
+AB  - Since 1995 German health maintenance laws require hospitals to document and code all referrals, admissions and discharges using the 4-digit ICD. Operative procedures are documented and coded using the ICPM. Beginning in January 1996, reimbursement for health services requires a diagnosis-related billing and payment for special procedures. The decision for billing is based on documented diagnosis and therapy. This extended request for documentation makes an online access to diagnosis and therapy with a computer-assisted coding system advisable. In 1996 in our hospital each diagnosis and operation was manually documented and coded on a form. Since the beginning of 1997, documentation and coding has been exclusively computer-assisted. On the basis of documented diagnosis and therapy the computer provides the route of reimbursement. Retrospectively we evaluated the number of charged diagnosis-related billings and payments for special procedures from January to April of 1996 and 1997. It became evident that with computer-assisted documentation and coding the number of detected and charged diagnosis-related billings and payments for special procedures was significantly increased in comparison with the previous year.
+KW  - Budgets
+KW  - Data Collection
+KW  - Documentation
+KW  - Germany
+KW  - Humans
+KW  - Mathematical Computing
+KW  - Multiple Trauma
+KW  - National Health Programs
+KW  - Orthopedic Procedures
+KW  - Quality Assurance
+KW  - Health Care
+KW  - Reimbursement Mechanisms
+DO  - 10.1007/s001130050379
+AN  - PMID:10098415
+UR  - https://pubmed.ncbi.nlm.nih.gov/10098415/
+N1  - Publication Types: English Abstract, Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Relational data model for the American College of Radiology Appropriateness Criteria.
+AU  - Chris L Sistrom
+AU  - Janice C Honeyman
+PY  - 2002
+DA  - 2002-Dec
+JO  - Journal of digital imaging
+JF  - Journal of digital imaging
+SN  - 0897-1889
+AB  - This article describes a data model for encoding the American College of Radiology Appropriateness Criteria (ACRAC) for selection of diagnostic imaging procedures. These guidelines are recognized widely as an authoritative repository of "best evidence" concerning appropriate radiology tests for a large number of clinical conditions. In its current text document format, the ACRAC is of limited utility for electronic use. The data model the authors propose completely encodes all attributes and domains of the published guidelines and is suitable for translation into any industry standard relational database system. Additionally, the authors have added mappings onto commonly used procedure (CPT) and clinical problem (ICD) coding systems. When populated with the current ACRAC content, such a database could serve as the "master" repository of the guidelines with changes and additions made via an interface built with standard database application development tools. The database also could be made available for incorporation into existing information systems used for order entry, decision support, compliance tracking, and health services research at regional and national levels.
+KW  - Databases
+KW  - Factual
+KW  - Decision Making
+KW  - Computer-Assisted
+KW  - Diagnostic Imaging
+KW  - Humans
+KW  - Practice Guidelines as Topic
+KW  - Societies
+KW  - Medical
+KW  - United States
+DO  - 10.1007/s10278-002-0018-3
+AN  - PMID:12415465
+UR  - https://pubmed.ncbi.nlm.nih.gov/12415465/
+N1  - PMC:PMC3611619
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Artificial Intelligence Learning Semantics via External Resources for Classifying Diagnosis Codes in Discharge Notes.
+AU  - Chin Lin
+AU  - Chia-Jung Hsu
+AU  - Yu-Sheng Lou
+AU  - Shih-Jen Yeh
+AU  - Chia-Cheng Lee
+AU  - Sui-Lung Su
+AU  - Hsiang-Cheng Chen
+PY  - 2017
+DA  - 2017-Nov-06
+JO  - Journal of medical Internet research
+JF  - Journal of medical Internet research
+SN  - 1438-8871
+AB  - BACKGROUND: Automated disease code classification using free-text medical information is important for public health surveillance. However, traditional natural language processing (NLP) pipelines are limited, so we propose a method combining word embedding with a convolutional neural network (CNN). OBJECTIVE: Our objective was to compare the performance of traditional pipelines (NLP plus supervised machine learning models) with that of word embedding combined with a CNN in conducting a classification task identifying International Classification of Diseases, Tenth Revision, Clinical Modification (ICD-10-CM) diagnosis codes in discharge notes. METHODS: We used 2 classification methods: (1) extracting from discharge notes some features (terms, n-gram phrases, and SNOMED CT categories) that we used to train a set of supervised machine learning models (support vector machine, random forests, and gradient boosting machine), and (2) building a feature matrix, by a pretrained word embedding model, that we used to train a CNN. We used these methods to identify the chapter-level ICD-10-CM diagnosis codes in a set of discharge notes. We conducted the evaluation using 103,390 discharge notes covering patients hospitalized from June 1, 2015 to January 31, 2017 in the Tri-Service General Hospital in Taipei, Taiwan. We used the receiver operating characteristic curve as an evaluation measure, and calculated the area under the curve (AUC) and F-measure as the global measure of effectiveness. RESULTS: In 5-fold cross-validation tests, our method had a higher testing accuracy (mean AUC 0.9696; mean F-measure 0.9086) than traditional NLP-based approaches (mean AUC range 0.8183-0.9571; mean F-measure range 0.5050-0.8739). A real-world simulation that split the training sample and the testing sample by date verified this result (mean AUC 0.9645; mean F-measure 0.9003 using the proposed method). Further analysis showed that the convolutional layers of the CNN effectively identified a large number of keywords and automatically extracted enough concepts to predict the diagnosis codes. CONCLUSIONS: Word embedding combined with a CNN showed outstanding performance compared with traditional methods, needing very little data preprocessing. This shows that future studies will not be limited by incomplete dictionaries. A large amount of unstructured information from free-text medical writing will be extracted by automated approaches in the future, and we believe that the health care field is about to enter the age of big data.
+KW  - Artificial Intelligence
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Electronic Health Records
+KW  - Humans
+KW  - Machine Learning
+KW  - Natural Language Processing
+KW  - Semantics
+DO  - 10.2196/jmir.8344
+AN  - PMID:29109070
+UR  - https://pubmed.ncbi.nlm.nih.gov/29109070/
+N1  - PMC:PMC5696581
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Validating the Use of ICD-9 Code Mapping to Generate Injury Severity Scores.
+AU  - Ross J Fleischman
+AU  - N Clay Mann
+AU  - Mengtao Dai
+AU  - James F Holmes
+AU  - N Ewen Wang
+AU  - Jason Haukoos
+AU  - Renee Y Hsia
+AU  - Thomas Rea
+AU  - Craig D Newgard
+PY  - 2017
+DA  - 2017
+JO  - Journal of trauma nursing : the official journal of the Society of Trauma Nurses
+JF  - Journal of trauma nursing : the official journal of the Society of Trauma Nurses
+SN  - 1078-7496
+AB  - The Injury Severity Score (ISS) is a measure of injury severity widely used for research and quality assurance in trauma. Calculation of ISS requires chart abstraction, so it is often unavailable for patients cared for in nontrauma centers. Whether ISS can be accurately calculated from International Classification of Diseases, Ninth Revision (ICD-9) codes remains unclear. Our objective was to compare ISS derived from ICD-9 codes with those coded by trauma registrars. This was a retrospective study of patients entered into 9 U.S. trauma registries from January 2006 through December 2008. Two computer programs, ICDPIC and ICDMAP, were used to derive ISS from the ICD-9 codes in the registries. We compared derived ISS with ISS hand-coded by trained coders. There were 24,804 cases with a mortality rate of 3.9%. The median ISS derived by both ICDPIC (ISS-ICDPIC) and ICDMAP (ISS-ICDMAP) was 8 (interquartile range [IQR] = 4-13). The median ISS in the registry (ISS-registry) was 9 (IQR = 4-14). The median difference between either of the derived scores and ISS-registry was zero. However, the mean ISS derived by ICD-9 code mapping was lower than the hand-coded ISS in the registries (1.7 lower for ICDPIC, 95% CI [1.7, 1.8], Bland-Altman limits of agreement = -10.5 to 13.9; 1.8 lower for ICDMAP, 95% CI [1.7, 1.9], limits of agreement = -9.6 to 13.3). ICD-9-derived ISS slightly underestimated ISS compared with hand-coded scores. The 2 methods showed moderate to substantial agreement. Although hand-coded scores should be used when possible, ICD-9-derived scores may be useful in quality assurance and research when hand-coded scores are unavailable.
+KW  - Adult
+KW  - Cohort Studies
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Emergency Medical Services
+KW  - Female
+KW  - Humans
+KW  - Injury Severity Score
+KW  - International Classification of Diseases
+KW  - Male
+KW  - Registries
+KW  - Retrospective Studies
+KW  - Sensitivity and Specificity
+KW  - Wounds and Injuries
+DO  - 10.1097/JTN.0000000000000255
+AN  - PMID:28033134
+UR  - https://pubmed.ncbi.nlm.nih.gov/28033134/
+N1  - PMC:PMC5323458
+N1  - Publication Types: Comparative Study, Journal Article, Multicenter Study, Validation Study
+ER  - 
+
+TY  - JOUR
+TI  - Patients with "benign" Chiari I malformations require surgical decompression at a low rate.
+AU  - Tofey J Leon
+AU  - Elizabeth N Kuhn
+AU  - Anastasia A Arynchyna
+AU  - Burkely P Smith
+AU  - R Shane Tubbs
+AU  - James M Johnston
+AU  - Jeffrey P Blount
+AU  - Curtis J Rozzelle
+AU  - W Jerry Oakes
+AU  - Brandon G Rocque
+PY  - 2019
+DA  - 2019-Apr-01
+JO  - Journal of neurosurgery. Pediatrics
+JF  - Journal of neurosurgery. Pediatrics
+SN  - 1933-0715
+AB  - OBJECTIVE: There are sparse published data on the natural history of "benign" Chiari I malformation (CM-I)-i.e., Chiari with minimal or no symptoms at presentation and no imaging evidence of syrinx, hydrocephalus, or spinal cord signal abnormality. The purpose of this study was to review a large cohort of children with benign CM-I and to determine whether these children become symptomatic and require surgical treatment. METHODS: Patients were identified from institutional outpatient records using International Classification of Diseases, 9th Revision, diagnosis codes for CM-I from 1996 to 2016. After review of the medical records, patients were excluded if they 1) did not have a diagnosis of CM-I, 2) were not evaluated by a neurosurgeon, 3) had previously undergone posterior fossa decompression, or 4) had imaging evidence of syringomyelia at their first appointment. To include only patients with benign Chiari (without syrinx or classic Chiari symptoms that could prompt immediate intervention), any patient who underwent decompression within 9 months of initial evaluation was excluded. After a detailed chart review, patients were excluded if they had classical Chiari malformation symptoms at presentation. The authors then determined what changes in the clinical picture prompted surgical treatment. Patients were excluded from the multivariate logistic regression analysis if they had missing data such as race and insurance; however, these patients were included in the overall survival analysis. RESULTS: A total of 427 patients were included for analysis with a median follow-up duration of 25.5 months (range 0.17-179.1 months) after initial evaluation. Fifteen patients had surgery at a median time of 21.0 months (range 11.3-139.3 months) after initial evaluation. The most common indications for surgery were tussive headache in 5 (33.3%), syringomyelia in 5 (33.3%), and nontussive headache in 5 (33.3%). Using the Kaplan-Meier method, rate of freedom from posterior fossa decompression was 95.8%, 94.1%, and 93.1% at 3, 5, and 10 years, respectively. CONCLUSIONS: Among a large cohort of patients with benign CM-I, progression of imaging abnormalities or symptoms that warrant surgical treatment is infrequent. Therefore, these patients should be managed conservatively. However, clinical follow-up of such individuals is justified, as there is a low, but nonzero, rate of new symptom or syringomyelia development. Future analyses will determine whether imaging or clinical features present at initial evaluation are associated with progression and future need for treatment.
+KW  - Adolescent
+KW  - Arnold-Chiari Malformation
+KW  - Child
+KW  - Child
+KW  - Preschool
+KW  - Cohort Studies
+KW  - Decompression
+KW  - Surgical
+KW  - Disease Progression
+KW  - Female
+KW  - Humans
+KW  - Image Processing
+KW  - Computer-Assisted
+KW  - Magnetic Resonance Imaging
+KW  - Male
+KW  - Neurosurgical Procedures
+KW  - Time Factors
+KW  - Treatment Outcome
+DO  - 10.3171/2018.10.PEDS18407
+AN  - PMID:30611156
+UR  - https://pubmed.ncbi.nlm.nih.gov/30611156/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - The role of standardized data and terminological systems in computerized clinical decision support systems: literature review and survey.
+AU  - Leila Ahmadian
+AU  - Mariette van Engen-Verheul
+AU  - Ferishta Bakhshi-Raiez
+AU  - Niels Peek
+AU  - Ronald Cornet
+AU  - Nicolette F de Keizer
+PY  - 2011
+DA  - 2011-Feb
+JO  - International journal of medical informatics
+JF  - International journal of medical informatics
+SN  - 1872-8243
+AB  - INTRODUCTION: Clinical decision support systems (CDSSs) should be seamlessly integrated with existing clinical information systems to enable automatic provision of advice at the time and place where decisions are made. It has been suggested that a lack of agreed data standards frequently hampers this integration. We performed a literature review to investigate whether CDSSs used standardized (i.e. coded or numerical) data and which terminological systems have been used to code data. We also investigated whether a lack of standardized data was considered an impediment for CDSS implementation. METHODS: Articles reporting an evaluation of a CDSS that provided a computerized advice based on patient-specific data items were identified based on a former literature review on CDSS and on CDSS studies identified in AMIA's 'Year in Review'. Authors of these articles were contacted to check and complete the extracted data. A questionnaire among the authors of included studies was used to determine the obstacles in CDSS implementation. RESULTS: We identified 77 articles published between 1995 and 2008. Twenty-two percent of the evaluated CDSSs used only numerical data. Fifty one percent of the CDSSs that used coded data applied an international terminology. The most frequently used international terminology were the ICD (International Classification of Diseases), used in 68% of the cases and LOINC (Logical Observation Identifiers Names and Codes) in 12% of the cases. More than half of the authors experienced barriers in CDSS implementation. In most cases these barriers were related to the lack of electronically available standardized data required to invoke or activate the CDSS. CONCLUSION: Many CDSSs applied different terminological systems to code data. This diversity hampers the possibility of sharing and reasoning with data within different systems. The results of the survey confirm the hypothesis that data standardization is a critical success factor for CDSS development.
+KW  - Clinical Trials as Topic
+KW  - Decision Making
+KW  - Computer-Assisted
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Humans
+KW  - Review Literature as Topic
+KW  - Terminology as Topic
+DO  - 10.1016/j.ijmedinf.2010.11.006
+AN  - PMID:21168360
+UR  - https://pubmed.ncbi.nlm.nih.gov/21168360/
+N1  - Publication Types: Journal Article, Review
+ER  - 
+
+TY  - JOUR
+TI  - A computer case definition for sudden cardiac death.
+AU  - Cecilia P Chung
+AU  - Katherine T Murray
+AU  - C Michael Stein
+AU  - Kathi Hall
+AU  - Wayne A Ray
+PY  - 2010
+DA  - 2010-Jun
+JO  - Pharmacoepidemiology and drug safety
+JF  - Pharmacoepidemiology and drug safety
+SN  - 1099-1557
+AB  - PURPOSE: To facilitate studies of medications and sudden cardiac death, we developed and validated a computer case definition for these deaths. The study of community dwelling Tennessee Medicaid enrollees 30-74 years of age utilized a linked database with Medicaid inpatient/outpatient files, state death certificate files, and a state 'all-payers' hospital discharge file. METHODS: The computerized case definition was developed from a retrospective cohort study of sudden cardiac deaths occurring between 1990 and 1993. Medical records for 926 potential cases had been adjudicated for this study to determine if they met the clinical definition for sudden cardiac death occurring in the community and were likely to be due to ventricular tachyarrhythmias. The computerized case definition included deaths with (1) no evidence of a terminal hospital admission/nursing home stay in any of the data sources; (2) an underlying cause of death code consistent with sudden cardiac death; and (3) no terminal procedures inconsistent with unresuscitated cardiac arrest. This definition was validated in an independent sample of 174 adjudicated deaths occurring between 1994 and 2005. RESULTS: The positive predictive value of the computer case definition was 86.0% in the development sample and 86.8% in the validation sample. The positive predictive value did not vary materially for deaths coded according to the ICO-9 (1994-1998, positive predictive value = 85.1%) or ICD-10 (1999-2005, 87.4%) systems. CONCLUSION: A computerized Medicaid database, linked with death certificate files and a state hospital discharge database, can be used for a computer case definition of sudden cardiac death.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Cohort Studies
+KW  - Databases
+KW  - Factual
+KW  - Death
+KW  - Sudden
+KW  - Cardiac
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Hospitals
+KW  - State
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Medicaid
+KW  - Medical Record Linkage
+KW  - Middle Aged
+KW  - Predictive Value of Tests
+KW  - Retrospective Studies
+KW  - Tachycardia
+KW  - Ventricular
+KW  - Tennessee
+KW  - United States
+KW  - Young Adult
+DO  - 10.1002/pds.1888
+AN  - PMID:20029823
+UR  - https://pubmed.ncbi.nlm.nih.gov/20029823/
+N1  - PMC:PMC3181496
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural, Research Support, Non-U.S. Gov't, Validation Study
+ER  - 
+
+TY  - JOUR
+TI  - Validity of computerized diagnoses, procedures, and drugs for inflammatory bowel disease in a northern California managed care organization.
+AU  - Liyan Liu
+AU  - James E Allison
+AU  - Lisa J Herrinton
+PY  - 2009
+DA  - 2009-Nov
+JO  - Pharmacoepidemiology and drug safety
+JF  - Pharmacoepidemiology and drug safety
+SN  - 1099-1557
+AB  - PURPOSE: Resources for studying inflammatory bowel disease (IBD) are needed in evaluations of drug safety including traditional drugs and new biologics agents. We developed an IBD registry, with ascertainment from computerized visit information. OBJECTIVE: We sought to characterize the positive predictive value (PPV) of IBD case-finding using computerized data compared with chart review. METHODS: We identified 2906 persons aged 89 years or younger with one or more IBD diagnoses in computerized visit data during the period of 1996-2002. The diagnosis of IBD was confirmed through chart review. Adopting chart review as the gold standard, the validity of computerized encounter data to determine IBD was estimated. RESULTS: Among the 2906 study subjects with one or more ICD-9 diagnosis codes of 555 or 556 in computerized data, 81% were confirmed as having IBD by chart review. Defining cases as those who underwent two or more visits without regard to diagnostic procedures or drug utilization maximized the correct classification of cases (PPV, 95%). CONCLUSIONS: The quality of IBD diagnoses in computerized data is adequate to meet the aims of a wide range of research studies.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - California
+KW  - Child
+KW  - Child
+KW  - Preschool
+KW  - Databases
+KW  - Factual
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Drug Utilization
+KW  - Female
+KW  - Humans
+KW  - Infant
+KW  - Inflammatory Bowel Diseases
+KW  - International Classification of Diseases
+KW  - Male
+KW  - Managed Care Programs
+KW  - Medical Record Linkage
+KW  - Middle Aged
+KW  - Reproducibility of Results
+KW  - Young Adult
+DO  - 10.1002/pds.1824
+AN  - PMID:19672855
+UR  - https://pubmed.ncbi.nlm.nih.gov/19672855/
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - A Novel Screening Method to Identify Late-Stage Dementia Patients for Palliative Care Research and Practice.
+AU  - Natalie C Ernecoff
+AU  - Kathryn L Wessell
+AU  - Stacey Gabriel
+AU  - Timothy S Carey
+AU  - Laura C Hanson
+PY  - 2018
+DA  - 2018-Apr
+JO  - Journal of pain and symptom management
+JF  - Journal of pain and symptom management
+SN  - 1873-6513
+AB  - CONTEXT: Investigators need novel methods for timely identification of patients with serious illness to test or implement new palliative care models. OBJECTIVES: The study's aim was to develop an electronic health record (EHR) phenotype to identify patients with late-stage dementia for a clinical trial of palliative care consultation. METHODS: We developed a computerized method to identify patients with dementia on hospital admission. Within a data warehouse derived from the hospital's EHR, we used search terms of age, admission date, and ICD-9 and ICD-10 diagnosis codes to create an EHR dementia phenotype, followed by brief medical record review to confirm late-stage dementia. We calculated positive predictive value, false discovery rate, and false negative rate of this novel screening method. RESULTS: The EHR phenotype screening method had a positive predictive value of 76.3% for dementia patients and 24.5% for late-stage dementia patients; a false discovery rate of 23.7% for dementia patients and 75.5% for late-stage dementia patients compared to physician assessment. The sensitivity of this screening method was 59.7% to identify hospitalized patients with dementia. Daily screening-including confirmatory chart reviews-averaged 20 minutes and was more feasible, efficient, and more complete than manual screening. CONCLUSION: A novel method using an EHR phenotype plus brief medical record review is effective to identify hospitalized patients with late-stage dementia. In health care systems with similar clinical data warehouses, this method may be applied to serious illness populations to improve enrollment in clinical trials of palliative care or to facilitate access to palliative care services.
+KW  - Age Factors
+KW  - Aged
+KW  - Algorithms
+KW  - Dementia
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Diagnostic Errors
+KW  - Electronic Health Records
+KW  - Humans
+KW  - Palliative Care
+KW  - Patient Admission
+KW  - Sensitivity and Specificity
+KW  - Severity of Illness Index
+DO  - 10.1016/j.jpainsymman.2017.12.480
+AN  - PMID:29288881
+UR  - https://pubmed.ncbi.nlm.nih.gov/29288881/
+N1  - PMC:PMC6036617
+N1  - Publication Types: Journal Article, Randomized Controlled Trial, Research Support, N.I.H., Extramural
+ER  - 
+
+TY  - JOUR
+TI  - Lyme disease-related intracranial hypertension in children: clinical and imaging findings.
+AU  - Sriram Ramgopal
+AU  - Rawad Obeid
+AU  - Giulio Zuccoli
+AU  - Catalina Cleves-Bayon
+AU  - Andrew Nowalk
+PY  - 2016
+DA  - 2016-Mar
+JO  - Journal of neurology
+JF  - Journal of neurology
+SN  - 1432-1459
+AB  - Lyme disease (LD) is a tick-borne infection that is endemic to multiple areas of the United States. Patients with LD may present with sign and symptoms of intracranial hypertension (IH). The objective of this study is to evaluate the history, clinical findings, CSF analysis, and brain imaging results in pediatric patients with increased intracranial pressure secondary to LD. A retrospective database search was performed using the International Classification of Diseases (ICD) 9/10 codes to identify patients diagnosed with LD and IH between 2004 and 2014 at a tertiary referral pediatric hospital. Clinical, laboratory and neuroimaging data for each patient were reviewed. Seven patients met inclusion criteria; mean age was 9.6 years (standard deviation 4.0 years); 4/7 patients were male. Average body mass index was 18.8 kg/m(2) (standard deviation 3.0 kg/m(2)). Fever was present in four patients. Four had a history of LD related erythema migrans. All had elevated CSF opening pressure with leukocytosis and lymphocytic predominance. MRI obtained in six patients showed contrast enhancement of various cranial nerves. Tentorial enhancement was noted in all patients. In addition, patients had widening of the optic nerve sheath (ONS), optic nerve protrusion, and flattening of the posterior globe consistent with increased intracranial pressure. All patients had resolution of their symptoms after initiation of antibiotic therapy. In endemic areas, LD should be included in the differential of IH. MRI can help distinguish IH due to LD from its idiopathic form due to the presence of tentorial and cranial nerve enhancement in the former in addition to abnormal CSF showing leukocytosis with lymphocyte predominance.
+KW  - Adolescent
+KW  - Anti-Bacterial Agents
+KW  - Ceftriaxone
+KW  - Child
+KW  - Child
+KW  - Preschool
+KW  - Cohort Studies
+KW  - Doxycycline
+KW  - Female
+KW  - Humans
+KW  - Image Processing
+KW  - Computer-Assisted
+KW  - Intracranial Hypertension
+KW  - Lyme Disease
+KW  - Magnetic Resonance Imaging
+KW  - Male
+KW  - Optic Nerve
+KW  - Severity of Illness Index
+DO  - 10.1007/s00415-015-8007-x
+AN  - PMID:26739381
+UR  - https://pubmed.ncbi.nlm.nih.gov/26739381/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - A Comprehensive Approach to Convert a Radiology Department From Coding Based on International Classification of Diseases, Ninth Revision, to Coding Based on International Classification of Diseases, Tenth Revision.
+AU  - Morgan P McBee
+AU  - Tal Laor
+AU  - Rebecca M Pryor
+AU  - Rachel Smith
+AU  - Judy Hardin
+AU  - Lisa Ulland
+AU  - Sally May
+AU  - Bin Zhang
+AU  - Alexander J Towbin
+PY  - 2018
+DA  - 2018-Feb
+JO  - Journal of the American College of Radiology : JACR
+JF  - Journal of the American College of Radiology : JACR
+SN  - 1558-349X
+AB  - PURPOSE: The purpose of this study was to adapt our radiology reports to provide the documentation required for specific International Classification of Diseases, tenth rev (ICD-10) diagnosis coding. MATERIALS AND METHODS: Baseline data were analyzed to identify the reports with the greatest number of unspecified ICD-10 codes assigned by computer-assisted coding software. A two-part quality improvement initiative was subsequently implemented. The first component involved improving clinical histories by utilizing technologists to obtain information directly from the patients or caregivers, which was then imported into the radiologist's report within the speech recognition software. The second component involved standardization of report terminology and creation of four different structured report templates to determine which yielded the fewest reports with an unspecified ICD-10 code assigned by an automated coding engine. RESULTS: In all, 12,077 reports were included in the baseline analysis. Of these, 5,151 (43%) had an unspecified ICD-10 code. The majority of deficient reports were for radiographs (n = 3,197; 62%). Inadequacies included insufficient clinical history provided and lack of detailed fracture descriptions. Therefore, the focus was standardizing terminology and testing different structured reports for radiographs obtained for fractures. At baseline, 58% of radiography reports contained a complete clinical history with improvement to >95% 8 months later. The total number of reports that contained an unspecified ICD-10 code improved from 43% at baseline to 27% at completion of this study (P < .0001). CONCLUSION: The number of radiology studies with a specific ICD-10 code can be improved through quality improvement methodology, specifically through the use of technologist-acquired clinical histories and structured reporting.
+KW  - Clinical Coding
+KW  - Electronic Health Records
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Ohio
+KW  - Quality Improvement
+KW  - Radiology Department
+KW  - Hospital
+KW  - Speech Recognition Software
+DO  - 10.1016/j.jacr.2017.09.046
+AN  - PMID:29295773
+UR  - https://pubmed.ncbi.nlm.nih.gov/29295773/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - [Expenditure and reliability of ICD/ICPM-coding in routine surgery].
+AU  - B Stinner
+AU  - C Nies
+AU  - I Celik
+AU  - P Berghöfer
+AU  - M Rothmund
+PY  - 1999
+DA  - 1999-Feb
+JO  - Gesundheitswesen (Bundesverband der Arzte des Offentlichen Gesundheitsdienstes (Germany))
+JF  - Gesundheitswesen (Bundesverband der Arzte des Offentlichen Gesundheitsdienstes (Germany))
+SN  - 0941-3790
+AB  - Because of the changing legal basis for hospital reimbursement German hospitals have to classify their cases by ICD-9- and an adapted ICPM code (OPS-301) and have to give an advance calculation of the Diagnosis Related Groups (DRG) starting from January 1996. From January 1st 1996 to the 31st of December 1996 all diagnoses and therapies in a general surgery hospital were classified according to ICD-9- and ICPM (OPS-301). This coding was not computer-assisted but was controlled in a multiple step process. As a consequence 4.6% incorrect codes were found which were irrelevant for reimbursement. 7.2% misclassifications relevant for funding were detected with an obvious learning curve within the first 6 months. The calculation of the distribution of diagnoses and therapies reveals that 80 to 85% of the total spectrum in a general surgery hospital (including vascular and thoracic surgery) were covered by 200 diagnostic and therapeutic codes, respectively. This investigation confirms the need for a physician-based control system of diagnostic and therapeutic coding to minimise economic risks.
+KW  - Diagnosis-Related Groups
+KW  - Germany
+KW  - Hospitals
+KW  - Humans
+KW  - Reimbursement Mechanisms
+KW  - Surgical Procedures
+KW  - Operative
+AN  - PMID:10226394
+UR  - https://pubmed.ncbi.nlm.nih.gov/10226394/
+N1  - Publication Types: English Abstract, Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - An intelligent model for liver disease diagnosis.
+AU  - Rong-Ho Lin
+PY  - 2009
+DA  - 2009-Sep
+JO  - Artificial intelligence in medicine
+JF  - Artificial intelligence in medicine
+SN  - 1873-2860
+AB  - OBJECTIVES: Liver disease, the most common disease in Taiwan, is not easily discovered in its initial stage; early diagnosis of this leading cause of mortality is therefore highly important. The design of an effective diagnosis model is therefore an important issue in liver disease treatment. This study accordingly employs classification and regression tree (CART) and case-based reasoning (CBR) techniques to structure an intelligent diagnosis model aiming to provide a comprehensive analytic framework to raise the accuracy of liver disease diagnosis. METHODS: Based on the advice and assistance of doctors and medical specialists of liver conditions, 510 outpatient visitors using ICD-9 (International Classification of Diseases, 9th Revision) codes at a medical center in Taiwan from 2005 to 2006 were selected as the cases in the data set for liver disease diagnosis. Data on 340 patients was utilized for the development of the model and on 170 patients utilized to perform comparative analysis of the models. This paper accordingly suggests an intelligent model for the diagnosis of liver diseases which integrates CART and CBR. The major steps in applying the model include: (1) adopting CART to diagnose whether a patient suffers from liver disease; (2) for patients diagnosed with liver disease in the first step, employing CBR to diagnose the types of liver diseases. RESULTS: In the first phase, CART is used to extract rules from health examination data to show whether the patient suffers from liver disease. The results indicate that the CART rate of accuracy is 92.94%. In the second phase, CBR is developed to diagnose the type of liver disease, and the new case triggers the CBR system to retrieve the most similar case from the case base in order to support the treatment of liver disease. The new case is supported by a similarity ratio, and the CBR diagnostic accuracy rate is 90.00%. Actual implementation shows that the intelligent diagnosis model is capable of integrating CART and CBR techniques to examine liver diseases with considerable accuracy. The model can be used as a supporting system in making decisions regarding liver disease diagnosis and treatment. The rules extracted from CART are helpful to physicians in diagnosing liver diseases. CBR can retrieve the most similar case from the case base in order to solve a new liver disease problem and can be of great assistance to physicians in identifying the type of liver disease, reducing diagnostic errors and improving the quality and effectiveness of medical treatment.
+KW  - Algorithms
+KW  - Artificial Intelligence
+KW  - Databases
+KW  - Factual
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Liver Diseases
+KW  - Liver Function Tests
+KW  - Models
+KW  - Statistical
+KW  - Regression Analysis
+KW  - Reproducibility of Results
+DO  - 10.1016/j.artmed.2009.05.005
+AN  - PMID:19540738
+UR  - https://pubmed.ncbi.nlm.nih.gov/19540738/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - A search algorithm for identifying likely users and non-users of marijuana from the free text of the electronic medical record.
+AU  - Salomeh Keyhani
+AU  - Marzieh Vali
+AU  - Beth Cohen
+AU  - Alexandra Woodbridge
+AU  - Melanie Arenson
+AU  - Elnaz Eilkhani
+AU  - Christina Aivadyan
+AU  - Deborah Hasin
+PY  - 2018
+DA  - 2018
+JO  - PloS one
+JF  - PloS one
+SN  - 1932-6203
+AB  - BACKGROUND: The harmful effects of marijuana on health and in particular cardiovascular health are understudied. To develop such knowledge, an efficient method of developing an informative cohort of marijuana users and non-users is needed. METHODS: We identified patients with a diagnosis of coronary artery disease using ICD-9 codes who were seen in the San Francisco VA in 2015. We imported these patients' medical record notes into an informatics platform that facilitated text searches. We categorized patients into those with evidence of marijuana use in the past 12 months and patients with no such evidence, using the following text strings: "marijuana", "mjx", and "cannabis". We randomly selected 51 users and 51 non-users based on this preliminary classification, and sent a recruitment letter to 97 of these patients who had contact information available. Patients were interviewed on marijuana use and domains related to cardiovascular health. Data on marijuana use collected from the medical record was compared to data collected as part of the interview. RESULTS: The interview completion rate was 71%. Among the 35 patients identified by text strings as having used marijuana in the previous year, 15 had used marijuana in the past 30 days (positive predictive value = 42.9%). The probability of use in the past month increased from 8.8% to 42.9% in people who have these keywords in their medical record compared to those who did not have these terms in their medical record. CONCLUSION: Methods that combine text search strategies for participant recruitment with health interviews provide an efficient approach to developing prospective cohorts that can be used to study the health effects of marijuana.
+KW  - Aged
+KW  - Algorithms
+KW  - Cohort Studies
+KW  - Coronary Artery Disease
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Electronic Health Records
+KW  - Humans
+KW  - Interviews as Topic
+KW  - Marijuana Abuse
+KW  - Marijuana Smoking
+KW  - Medical Marijuana
+KW  - Patient Selection
+KW  - Search Engine
+KW  - Self Report
+KW  - Veterans
+DO  - 10.1371/journal.pone.0193706
+AN  - PMID:29509775
+UR  - https://pubmed.ncbi.nlm.nih.gov/29509775/
+N1  - PMC:PMC5839555
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Read Codes may prevent UK GPs from using ICD-10.
+AU  - G Agarwal
+PY  - 1998
+DA  - 1998-Jul
+JO  - The British journal of general practice : the journal of the Royal College of General Practitioners
+JF  - The British journal of general practice : the journal of the Royal College of General Practitioners
+SN  - 0960-1643
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Family Practice
+KW  - Humans
+KW  - Software
+AN  - PMID:9800409
+UR  - https://pubmed.ncbi.nlm.nih.gov/9800409/
+N1  - PMC:PMC1313144
+N1  - Publication Types: Letter
+ER  - 
+
+TY  - JOUR
+TI  - Predicting need for advanced illness or palliative care in a primary care population using electronic health record data.
+AU  - Kenneth Jung
+AU  - Sylvia E K Sudat
+AU  - Nicole Kwon
+AU  - Walter F Stewart
+AU  - Nigam H Shah
+PY  - 2019
+DA  - 2019-Apr
+JO  - Journal of biomedical informatics
+JF  - Journal of biomedical informatics
+SN  - 1532-0480
+AB  - Timely outreach to individuals in an advanced stage of illness offers opportunities to exercise decision control over health care. Predictive models built using Electronic health record (EHR) data are being explored as a way to anticipate such need with enough lead time for patient engagement. Prior studies have focused on hospitalized patients, who typically have more data available for predicting care needs. It is unclear if prediction driven outreach is feasible in the primary care setting. In this study, we apply predictive modeling to the primary care population of a large, regional health system and systematically examine the impact of technical choices, such as requiring a minimum number of health care encounters (data density requirements) and aggregating diagnosis codes using Clinical Classifications Software (CCS) groupings to reduce dimensionality, on model performance in terms of discrimination and positive predictive value. We assembled a cohort of 349,667 primary care patients between 65 and 90 years of age who sought care from Sutter Health between July 1, 2011 and June 30, 2014, of whom 2.1% died during the study period. EHR data comprising demographics, encounters, orders, and diagnoses for each patient from a 12 month observation window prior to the point when a prediction is made were extracted. L1 regularized logistic regression and gradient boosted tree models were fit to training data and tuned by cross validation. Model performance in predicting one year mortality was assessed using held-out test patients. Our experiments systematically varied three factors: model type, diagnosis coding, and data density requirements. We found substantial, consistent benefit from using gradient boosting vs logistic regression (mean AUROC over all other technical choices of 84.8% vs 80.7% respectively). There was no benefit from aggregation of ICD codes into CCS code groups (mean AUROC over all other technical choices of 82.9% vs 82.6% respectively). Likewise increasing data density requirements did not affect discrimination (mean AUROC over other technical choices ranged from 82.5% to 83%). We also examine model performance as a function of lead time, which is the interval between death and when a prediction was made. In subgroup analysis by lead time, mean AUROC over all other choices ranged from 87.9% for patients who died within 0 to 3 months to 83.6% for those who died 9 to 12 months after prediction time.
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Electronic Health Records
+KW  - Health Services Needs and Demand
+KW  - Humans
+KW  - Models
+KW  - Statistical
+KW  - Palliative Care
+KW  - Predictive Value of Tests
+KW  - Primary Health Care
+KW  - Software
+DO  - 10.1016/j.jbi.2019.103115
+AN  - PMID:30753951
+UR  - https://pubmed.ncbi.nlm.nih.gov/30753951/
+N1  - PMC:PMC6512802
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural, Research Support, U.S. Gov't, Non-P.H.S.
+ER  - 
+
+TY  - JOUR
+TI  - [Computer-assisted tool (QUAST) for documentation and quality assurance in pain treatment].
+AU  - H H Gockel
+AU  - C Maier
+PY  - 2000
+DA  - 2000-Dec
+JO  - Schmerz (Berlin, Germany)
+JF  - Schmerz (Berlin, Germany)
+SN  - 0932-433X
+AB  - BACKGROUND: In chronic pain patient's diagnostic and therapy planning many complex information must be evaluated and analysed. The variety of data cannot be mastered without assistance of a database tool adapted to these special need. DATABASE ENVIRONMENT: On the base of FileMaker Pro 5.0, a user-friendly and analysis-oriented database environment for documentation and quality assurance in pain therapy (QUAST) has been developed. QUAST has been tested for 2 years by 23 pain clinics in Germany including data of more than 14.000 patients. Among patients'demographic and clinical data all 335 fields of the validated German pain questionnaire are included in QUAST together with psychometric test procedures (CES, SES, PDI, SF-36). We developed a outcome questionnaire for the evaluation of treatment - related changes of outcome variables (103 fields), a daily questionnaire (11 fields) and a protocol to assess the effects of neural and other blockades (144 fields). All data of therapy and outcome can be documented (total number of the fields: 2661). The test results (e. g. in the form of total or compound scores) can be analysed and printed. For pain related diagnoses, procedures, blockades, drugs, expected and unexpected events hierarchical coding systems (altogether 72,157 data records) have been developed. These can be assigned automatically to coding systems like ICD-10 or ICP-M. CONCLUSION: Due to its ability of export into other databases and already enclosed routines QUAST permits an internal assurance of quality of process and outcome in pain management. It also can be an instrument of an external quality assurance. QUAST is at present the only computer system available in Germany, to fulfil the required prerequisites for adequate quality control.
+DO  - 10.1007/s004820000011
+AN  - PMID:12800013
+UR  - https://pubmed.ncbi.nlm.nih.gov/12800013/
+N1  - Publication Types: English Abstract, Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Machine learning and natural language processing methods to identify ischemic stroke, acuity and location from radiology reports.
+AU  - Charlene Jennifer Ong
+AU  - Agni Orfanoudaki
+AU  - Rebecca Zhang
+AU  - Francois Pierre M Caprasse
+AU  - Meghan Hutch
+AU  - Liang Ma
+AU  - Darian Fard
+AU  - Oluwafemi Balogun
+AU  - Matthew I Miller
+AU  - Margaret Minnig
+AU  - Hanife Saglam
+AU  - Brenton Prescott
+AU  - David M Greer
+AU  - Stelios Smirnakis
+AU  - Dimitris Bertsimas
+PY  - 2020
+DA  - 2020
+JO  - PloS one
+JF  - PloS one
+SN  - 1932-6203
+AB  - Accurate, automated extraction of clinical stroke information from unstructured text has several important applications. ICD-9/10 codes can misclassify ischemic stroke events and do not distinguish acuity or location. Expeditious, accurate data extraction could provide considerable improvement in identifying stroke in large datasets, triaging critical clinical reports, and quality improvement efforts. In this study, we developed and report a comprehensive framework studying the performance of simple and complex stroke-specific Natural Language Processing (NLP) and Machine Learning (ML) methods to determine presence, location, and acuity of ischemic stroke from radiographic text. We collected 60,564 Computed Tomography and Magnetic Resonance Imaging Radiology reports from 17,864 patients from two large academic medical centers. We used standard techniques to featurize unstructured text and developed neurovascular specific word GloVe embeddings. We trained various binary classification algorithms to identify stroke presence, location, and acuity using 75% of 1,359 expert-labeled reports. We validated our methods internally on the remaining 25% of reports and externally on 500 radiology reports from an entirely separate academic institution. In our internal population, GloVe word embeddings paired with deep learning (Recurrent Neural Networks) had the best discrimination of all methods for our three tasks (AUCs of 0.96, 0.98, 0.93 respectively). Simpler NLP approaches (Bag of Words) performed best with interpretable algorithms (Logistic Regression) for identifying ischemic stroke (AUC of 0.95), MCA location (AUC 0.96), and acuity (AUC of 0.90). Similarly, GloVe and Recurrent Neural Networks (AUC 0.92, 0.89, 0.93) generalized better in our external test set than BOW and Logistic Regression for stroke presence, location and acuity, respectively (AUC 0.89, 0.86, 0.80). Our study demonstrates a comprehensive assessment of NLP techniques for unstructured radiographic text. Our findings are suggestive that NLP/ML methods can be used to discriminate stroke features from large data cohorts for both clinical and research-related investigations.
+KW  - Brain Ischemia
+KW  - Humans
+KW  - Image Processing
+KW  - Computer-Assisted
+KW  - Machine Learning
+KW  - Patient Acuity
+KW  - Speech Recognition Software
+KW  - Stroke
+DO  - 10.1371/journal.pone.0234908
+AN  - PMID:32559211
+UR  - https://pubmed.ncbi.nlm.nih.gov/32559211/
+N1  - PMC:PMC7304623
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Experiments in coding clinical information: an analysis of clinicians using a computerized coding tool.
+AU  - J H Hohnloser
+AU  - P Kadlec
+AU  - F Puerner
+PY  - 1995
+DA  - 1995-Oct
+JO  - Computers and biomedical research, an international journal
+JF  - Computers and biomedical research, an international journal
+SN  - 0010-4809
+AB  - We present data from a controlled experiment with computerized browsing and encoding tool. Eighteen practicing clinicians were asked to extract medical concepts from narrative exercise cases using two approaches--traditional and computer-assisted use of ICD-9. Our results indicate that completeness of coding can be improved by up to 55% using a computerized coding tool; enforcing mandatory as opposed to optional modifier codes results in lower rates of incomplete coding (0 vs 55%), higher rates of correct coding (41 to 92%), and no change in the number of incorrect codings; and manual coding takes 100% longer than coding with the help of the computerized coding tool. Furthermore, clinicians need 59% more time for processing the whole set of codes than is suggested by the sum of individual codes. We conclude that use of a computerized coding tool can save time and result in higher quality coding However, de facto time spent on coding may be underestimated when looking at individual coding times instead of looking at the whole task of processing a clinical scenario.
+KW  - Computers
+KW  - Database Management Systems
+KW  - Forms and Records Control
+KW  - Humans
+KW  - Information Systems
+KW  - Internship and Residency
+KW  - Medical Records
+KW  - Time Factors
+DO  - 10.1006/cbmr.1995.1026
+AN  - PMID:8612401
+UR  - https://pubmed.ncbi.nlm.nih.gov/8612401/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - A potential causal association mining algorithm for screening adverse drug reactions in postmarketing surveillance.
+AU  - Yanqing Ji
+AU  - Hao Ying
+AU  - Peter Dews
+AU  - Ayman Mansour
+AU  - John Tran
+AU  - Richard E Miller
+AU  - R Michael Massanari
+PY  - 2011
+DA  - 2011-May
+JO  - IEEE transactions on information technology in biomedicine : a publication of the IEEE Engineering in Medicine and Biology Society
+JF  - IEEE transactions on information technology in biomedicine : a publication of the IEEE Engineering in Medicine and Biology Society
+SN  - 1558-0032
+AB  - Early detection of unknown adverse drug reactions (ADRs) in postmarketing surveillance saves lives and prevents harmful consequences. We propose a novel data mining approach to signaling potential ADRs from electronic health databases. More specifically, we introduce potential causal association rules (PCARs) to represent the potential causal relationship between a drug and ICD-9 (CDC. (2010). International Classification of Diseases, Ninth Revision (ICD-9). [Online]. Available: http://www.cdc.gov/nchs/icd/icd9.html) coded signs or symptoms representing potential ADRs. Due to the infrequent nature of ADRs, the existing frequency-based data mining methods cannot effectively discover PCARs. We introduce a new interestingness measure, potential causal leverage, to quantify the degree of association of a PCAR. This measure is based on the computational, experience-based fuzzy recognition-primed decision (RPD) model that we developed previously (Y. Ji, R. M. Massanari, J. Ager, J. Yen, R. E. Miller, and H. Ying, "A fuzzy logic-based computational recognition-primed decision model," Inf. Sci., vol. 177, pp. 4338-4353, 2007) on the basis of the well-known, psychology-originated qualitative RPD model (G. A. Klein, "A recognition-primed decision making model of rapid decision making," in Decision Making in Action: Models and Methods, 1993, pp. 138-147). The potential causal leverage assesses the strength of the association of a drug-symptom pair given a collection of patient cases. To test our data mining approach, we retrieved electronic medical data for 16,206 patients treated by one or more than eight drugs of our interest at the Veterans Affairs Medical Center in Detroit between 2007 and 2009. We selected enalapril as the target drug for this ADR signal generation study. We used our algorithm to preliminarily evaluate the associations between enalapril and all the ICD-9 codes associated with it. The experimental results indicate that our approach has a potential to better signal potential ADRs than risk ratio and leverage, two traditional frequency-based measures. Among the top 50 signal pairs (i.e., enalapril versus symptoms) ranked by the potential causal-leverage measure, the physicians on the project determined that eight of them probably represent true causal associations.
+KW  - Algorithms
+KW  - Data Mining
+KW  - Databases
+KW  - Factual
+KW  - Drug-Related Side Effects and Adverse Reactions
+KW  - Electronic Health Records
+KW  - Enalapril
+KW  - Fuzzy Logic
+KW  - Humans
+KW  - Pattern Recognition
+KW  - Automated
+KW  - Product Surveillance
+KW  - Postmarketing
+KW  - Signal Processing
+KW  - Computer-Assisted
+DO  - 10.1109/TITB.2011.2131669
+AN  - PMID:21435986
+UR  - https://pubmed.ncbi.nlm.nih.gov/21435986/
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural
+ER  - 
+
+TY  - JOUR
+TI  - Evaluation of hospital complications and costs associated with using ultrasound guidance during abdominal paracentesis procedures.
+AU  - Pankaj A Patel
+AU  - Frank R Ernst
+AU  - Candace L Gunnarsson
+PY  - 2012
+DA  - 2012
+JO  - Journal of medical economics
+JF  - Journal of medical economics
+SN  - 1941-837X
+AB  - OBJECTIVE: Abdominal paracentesis is commonly performed for diagnostic, therapeutic, and palliative indications, but the use of ultrasound guidance for these procedures is relatively recent, variable, and not well documented. A retrospective database analysis of abdominal paracentesis procedures was performed to determine whether ultrasound guidance was associated with differences in adverse events (AEs) or hospital costs, compared to procedures without ultrasound guidance. METHODS: The hospital database maintained by Premier was used to identify patients with abdominal paracentesis International Classification of Diseases - 9th Revision - Clinical Modification (ICD-9 code 54.9, Common Procedural Terminology CPT-4 codes 49080, 49081) in 2008. Use of ultrasound guidance was determined via patient billing data. The incidence of selected AEs and patients' hospitalization costs were calculated for two groups: procedures with ultrasound guidance and those without. Univariate and multivariable analyses were performed to evaluate differences between groups. RESULTS: This study identified 1297 abdominal paracentesis procedures, 723 (56%) with ultrasound and 574 (44%) without. The indications for paracentesis were similar between the two groups. The incidence of AEs was lower in ultrasound-guided procedures: all AEs (1.4% vs 4.7%, p = 0.01), post-paracentesis infection (0.41% vs 2.44%, p = 0.01), hematoma (0.0% vs 0.87%, p = 0.01), and seroma (0.14% vs 1.05%, p = 0.03). Analyses adjusted for patient and hospital covariates revealed significant reductions in AEs (OR = 0.349, 95% CI = 0.165, 0.739, p = 0.0059) and hospitalization costs ($8761 ± $5956 vs $9848 ± $6581, p < 0.001) for procedures with ultrasound guidance vs those without. LIMITATIONS: There are several limitations to using claims data for clinical analyses; causality cannot be determined, the possibility of miscoded or missing data, and the inability to control for elements not captured in claims data that may influence clinical outcomes. CONCLUSIONS: The use of ultrasound guidance in abdominal paracentesis procedures is associated with fewer AEs and lower hospitalization costs than procedures where ultrasound is not used.
+KW  - Abdomen
+KW  - Adult
+KW  - Aged
+KW  - Databases
+KW  - Factual
+KW  - Female
+KW  - Hospital Costs
+KW  - Humans
+KW  - Male
+KW  - Middle Aged
+KW  - Outcome Assessment
+KW  - Health Care
+KW  - Paracentesis
+KW  - Retrospective Studies
+KW  - Surgery
+KW  - Computer-Assisted
+KW  - Ultrasonography
+KW  - Young Adult
+DO  - 10.3111/13696998.2011.628723
+AN  - PMID:22011070
+UR  - https://pubmed.ncbi.nlm.nih.gov/22011070/
+N1  - Publication Types: Evaluation Study, Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Managing an emergency department by analysing HIS medical data: a focus on elderly patient clinical pathways.
+AU  - Delphine Rossille
+AU  - Marc Cuggia
+AU  - Aude Arnault
+AU  - Jacques Bouget
+AU  - Pierre Le Beux
+PY  - 2008
+DA  - 2008-Jun
+JO  - Health care management science
+JF  - Health care management science
+SN  - 1386-9620
+AB  - INTRODUCTION: The objective of this paper is to present complementary views of the activity of the emergency department for a specific group of patients. Once validated, these views will be used as decision support tools for better managing the department and providing better care delivery for this population. The views are produced from the data stored in Healthcare Information Systems that correspond potentially to a vast source of information for supporting decisions on management or public health issues. METHOD: The study focuses on two groups of patients: the elderly population (over 75-years-old) and the under 75-year-old patients, at the Rennes hospital. The validation of the views is performed by comparing results for the two distinct groups. Relevant data were extracted from the Emergency Department database. Several analysis (like cusum chart) and representation tools (Graphviz) were used to study the patients' pathways, the dynamics of arrivals and the patients' characteristics. RESULTS: The representations provided a synthetic, global and comprehensive view of the department activities, to the satisfaction of the clinicians. The study showed that ICD-10 coding, assigned at the patient's departure from the emergency department hence from all available known clinical data, is not appropriate for the elderly population as these patients are mainly diagnosed by "symptoms" and several solutions are proposed. Finally, it is stressed out that a proper delivery of care to elderly patients should require some level of scheduling in the emergency department that is by essence characterized by its non scheduled activity.
+KW  - Aged
+KW  - Critical Pathways
+KW  - Decision Making
+KW  - Computer-Assisted
+KW  - Emergency Service
+KW  - Hospital
+KW  - Female
+KW  - Health Services Research
+KW  - Health Services for the Aged
+KW  - Humans
+KW  - Information Systems
+KW  - International Classification of Diseases
+KW  - Male
+DO  - 10.1007/s10729-008-9059-6
+AN  - PMID:18581820
+UR  - https://pubmed.ncbi.nlm.nih.gov/18581820/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Comparison of two computer algorithms to identify surgical site infections.
+AU  - Mandar Apte
+AU  - Timothy Landers
+AU  - Yoko Furuya
+AU  - Sandra Hyman
+AU  - Elaine Larson
+PY  - 2011
+DA  - 2011-Dec
+JO  - Surgical infections
+JF  - Surgical infections
+SN  - 1557-8674
+AB  - BACKGROUND: Surgical site infections (SSIs), the second most common healthcare-associated infections, increase hospital stay and healthcare costs significantly. Traditional surveillance of SSIs is labor-intensive. Mandatory reporting and new non-payment policies for some SSIs increase the need for efficient and standardized surveillance methods. Computer algorithms using administrative, clinical, and laboratory data collected routinely have shown promise for complementing traditional surveillance. METHODS: Two computer algorithms were created to identify SSIs in inpatient admissions to an urban, academic tertiary-care hospital in 2007 using the International Classification of Diseases, Ninth Revision, Clinical Modification (ICD-9-CM) diagnosis codes (Rule A) and laboratory culture data (Rule B). We calculated the number of SSIs identified by each rule and both rules combined and the percent agreement between the rules. In a subset analysis, the results of the rules were compared with those of traditional surveillance in patients who had undergone coronary artery bypass graft surgery (CABG). RESULTS: Of the 28,956 index hospital admissions, 5,918 patients (20.4%) had at least one major surgical procedure. Among those and readmissions within 30 days, the ICD-9-CM-only rule identified 235 SSIs, the culture-only rule identified 287 SSIs; combined, the rules identified 426 SSIs, of which 96 were identified by both rules. Positive and negative agreement between the rules was 36.8% and 97.1%, respectively, with a kappa of 0.34 (95% confidence interval [CI] 0.27-0.41). In the subset analysis of patients who underwent CABG, of the 22 SSIs identified by traditional surveillance, Rule A identified 19 (86.4%) and Rule B identified 13 (59.1%) cases. Positive and negative agreement between Rules A and B within these "positive controls" was 81.3% and 50.0% with a kappa of 0.37 (95% CI 0.04-0.70). CONCLUSION: Differences in the rates of SSI identified by computer algorithms depend on sources and inherent biases in electronic data. Different algorithms may be appropriate, depending on the purpose of case identification. Further research on the reliability and validity of these algorithms and the impact of changes in reimbursement on clinician practices and electronic reporting is suggested.
+KW  - Algorithms
+KW  - Data Collection
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Length of Stay
+KW  - New York City
+KW  - Patient Readmission
+KW  - Reoperation
+KW  - Surgical Wound Infection
+DO  - 10.1089/sur.2010.109
+AN  - PMID:22136489
+UR  - https://pubmed.ncbi.nlm.nih.gov/22136489/
+N1  - PMC:PMC3279712
+N1  - Publication Types: Comparative Study, Journal Article, Research Support, N.I.H., Extramural
+ER  - 
+
+TY  - JOUR
+TI  - A decision support system to facilitate management of patients with acute gastrointestinal bleeding.
+AU  - Adrienne Chu
+AU  - Hongshik Ahn
+AU  - Bhawna Halwan
+AU  - Bruce Kalmin
+AU  - Everson L A Artifon
+AU  - Alan Barkun
+AU  - Michail G Lagoudakis
+AU  - Atul Kumar
+PY  - 2008
+DA  - 2008-Mar
+JO  - Artificial intelligence in medicine
+JF  - Artificial intelligence in medicine
+SN  - 0933-3657
+AB  - OBJECTIVE: To develop a model to predict the bleeding source and identify the cohort amongst patients with acute gastrointestinal bleeding (GIB) who require urgent intervention, including endoscopy. Patients with acute GIB, an unpredictable event, are most commonly evaluated and managed by non-gastroenterologists. Rapid and consistently reliable risk stratification of patients with acute GIB for urgent endoscopy may potentially improve outcomes amongst such patients by targeting scarce healthcare resources to those who need it the most. DESIGN AND METHODS: Using ICD-9 codes for acute GIB, 189 patients with acute GIB and all available data variables required to develop and test models were identified from a hospital medical records database. Data on 122 patients was utilized for development of the model and on 67 patients utilized to perform comparative analysis of the models. Clinical data such as presenting signs and symptoms, demographic data, presence of co-morbidities, laboratory data and corresponding endoscopic diagnosis and outcomes were collected. Clinical data and endoscopic diagnosis collected for each patient was utilized to retrospectively ascertain optimal management for each patient. Clinical presentations and corresponding treatment was utilized as training examples. Eight mathematical models including artificial neural network (ANN), support vector machine (SVM), k-nearest neighbor, linear discriminant analysis (LDA), shrunken centroid (SC), random forest (RF), logistic regression, and boosting were trained and tested. The performance of these models was compared using standard statistical analysis and ROC curves. RESULTS: Overall the random forest model best predicted the source, need for resuscitation, and disposition with accuracies of approximately 80% or higher (accuracy for endoscopy was greater than 75%). The area under ROC curve for RF was greater than 0.85, indicating excellent performance by the random forest model. CONCLUSION: While most mathematical models are effective as a decision support system for evaluation and management of patients with acute GIB, in our testing, the RF model consistently demonstrated the best performance. Amongst patients presenting with acute GIB, mathematical models may facilitate the identification of the source of GIB, need for intervention and allow optimization of care and healthcare resource allocation; these however require further validation.
+KW  - Acute Disease
+KW  - Algorithms
+KW  - Artificial Intelligence
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Decision Support Techniques
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Emergency Treatment
+KW  - Endoscopy
+KW  - Gastrointestinal
+KW  - Gastrointestinal Hemorrhage
+KW  - Health Status Indicators
+KW  - Humans
+KW  - Linear Models
+KW  - Logistic Models
+KW  - Models
+KW  - Biological
+KW  - Neural Networks
+KW  - Computer
+KW  - Patient Selection
+KW  - Predictive Value of Tests
+KW  - ROC Curve
+KW  - Reproducibility of Results
+KW  - Retrospective Studies
+KW  - Risk Assessment
+DO  - 10.1016/j.artmed.2007.10.003
+AN  - PMID:18063351
+UR  - https://pubmed.ncbi.nlm.nih.gov/18063351/
+N1  - Publication Types: Comparative Study, Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Validity of diagnostic codes and prevalence of psoriasis and psoriatic arthritis in a managed care population, 1996-2009.
+AU  - Maryam M Asgari
+AU  - Jashin J Wu
+AU  - Joel M Gelfand
+AU  - Craig Salman
+AU  - Jeffrey R Curtis
+AU  - Leslie R Harrold
+AU  - Lisa J Herrinton
+PY  - 2013
+DA  - 2013-Aug
+JO  - Pharmacoepidemiology and drug safety
+JF  - Pharmacoepidemiology and drug safety
+SN  - 1099-1557
+AB  - BACKGROUND: Few population-based studies have reported the prevalence of psoriatic disease. OBJECTIVE: We validated computerized diagnoses to estimate the prevalence of psoriasis and psoriatic arthritis. METHOD: We identified adults with ≥1 ICD-9 diagnosis codes of 696.0 (psoriatic arthritis) or 696.1 (psoriasis) in clinical encounter data during 1996-2009 and used chart review to confirm the diagnoses in random samples of patients. We then used the best performing case-finding algorithms to estimate the point prevalence of psoriasis and psoriatic arthritis. RESULTS: The number of persons with a diagnosis for psoriasis (ICD-9 code 696.1) was 87 827. Chart review of a random sample of 101 cases with at least one dermatologist-rendered psoriasis code revealed a positive predictive value (PPV) of 90% (95% CI, 83-95) with sensitivity of 88% (95% CI, 80-93). Psoriatic arthritis (code 696.0) was recorded for 5187 patients, with the best performing algorithm requiring ≥2 diagnoses recorded by a rheumatologist or ≥1 diagnosis recorded by a rheumatologist together with ≥1 psoriasis diagnoses recorded by a dermatologist; the PPV was 80% (95% CI, 70-88) with sensitivity 73% (95% CI, 63-82). Among KPNC adults, the point prevalence of psoriasis, with or without psoriatic arthritis, was 939 (95% CI, 765-1142) per 100 000, and the overall prevalence of psoriatic arthritis, with or without psoriasis, was 68 (95% CI, 54-84) per 100 000. CONCLUSION: Within an integrated health care delivery system, the use of computerized diagnoses rendered by relevant disease specialists is a valid method for identifying individuals with psoriatic disease.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Algorithms
+KW  - Arthritis
+KW  - Psoriatic
+KW  - Clinical Coding
+KW  - Delivery of Health Care
+KW  - Integrated
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Female
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Male
+KW  - Managed Care Programs
+KW  - Middle Aged
+KW  - Predictive Value of Tests
+KW  - Prevalence
+KW  - Psoriasis
+KW  - Sensitivity and Specificity
+KW  - Young Adult
+DO  - 10.1002/pds.3447
+AN  - PMID:23637091
+UR  - https://pubmed.ncbi.nlm.nih.gov/23637091/
+N1  - PMC:PMC3720770
+N1  - Publication Types: Journal Article, Research Support, N.I.H., Extramural, Research Support, Non-U.S. Gov't, Validation Study
+ER  - 
+
+TY  - JOUR
+TI  - Healthcare Resource Utilization and Outcomes in Intermediate-Risk Pulmonary Embolism in the United States.
+AU  - Parag J Patel
+AU  - Suhail Y Dohad
+AU  - John M Moriarty
+AU  - Rachel Rosovsky
+AU  - Richard Channick
+AU  - Ido Weinberg
+PY  - 2025
+DA  - 2025-Dec-15
+JO  - The American journal of cardiology
+JF  - The American journal of cardiology
+SN  - 1879-1913
+AB  - Patients with intermediate-risk pulmonary embolism (PE) often experience extended hospitalizations and varied outcomes depending on the treatment modality. This study compares outcomes and healthcare resource utilization among patients treated with anticoagulation (AC), catheter-directed thrombolysis (CDL), other mechanical thrombectomy (MT), or computer-assisted vacuum thrombectomy (CAVT) in the U.S. Adult inpatients with intermediate-risk PE discharged between 07/01/2020 and 09/30/2023 were retrospectively identified from the Vizient Clinical Data Base. ICD-10 codes identified treatment modalities. Propensity score matching (PSM) equated groups 1:1 using demographics, payer and hospital type. Outcomes included length of stay (LOS), postprocedure LOS (PPLOS), postprocedure intensive care unit days (PPICU), in-hospital mortality, composite complications, discharge status, and readmission rates. PSM matched 515 patients across groups. Baseline data were similar. CAVT had shorter LOS (4.6 ± 3.23d) than AC (6.2 ± 3.72d, p < 0.0001), CDL (7.1 ± 4.42d, p < 0.0001), and MT (7.0 ± 4.62d, p < 0.0001). CAVT had shorter PPLOS (3.8 ± 3.16d) than CDL (6.1 ± 4.33d, p < 0.0001) and MT (6.2 ± 4.52d, p < 0.0001). CAVT had fewer and shorter PPICU stays than CDL (44.3% vs 82.7%, p < 0.0001; 0.7 ± 1.3d vs 1.6 ± 1.5d, p < 0.0001). CAVT showed lower composite complications than MT (1.2% vs 4.1%, p = 0.0034), and lower incidence of acute kidney injury development during hospitalization than MT (1.9% vs 4.9%, p = 0.0099) and CDL (1.9% vs 4.5%, p = 0.0214). In-hospital mortality, 30-day all-cause and PE-related readmissions were similar. CAVT had a higher rate of discharge to home (69%) than AC (55.5%, p < 0.0001), CDL (56.3%, p < 0.0001) and MT (52.6%, p < 0.0001). In conclusion, CAVT for intermediate-risk PE may shorten LOS, PPLOS, reduce complications, and improve discharge outcomes without increasing mortality compared to other treatment modalities.
+KW  - Humans
+KW  - Pulmonary Embolism
+KW  - Male
+KW  - Female
+KW  - United States
+KW  - Retrospective Studies
+KW  - Aged
+KW  - Middle Aged
+KW  - Hospital Mortality
+KW  - Length of Stay
+KW  - Thrombolytic Therapy
+KW  - Thrombectomy
+KW  - Anticoagulants
+KW  - Patient Acceptance of Health Care
+KW  - Propensity Score
+KW  - Health Resources
+DO  - 10.1016/j.amjcard.2025.09.050
+AN  - PMID:41052696
+UR  - https://pubmed.ncbi.nlm.nih.gov/41052696/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Comparative analysis of complications, costs, mortality, and length of stay in lumbar fusion surgery: robotic-assisted versus navigation-guided approaches.
+AU  - David Maman
+AU  - Amir Abu Elhija
+AU  - Assil Mahamid
+AU  - Lior Laver
+AU  - Eyal Behrbalk
+PY  - 2025
+DA  - 2025-Sep
+JO  - European spine journal : official publication of the European Spine Society, the European Spinal Deformity Society, and the European Section of the Cervical Spine Research Society
+JF  - European spine journal : official publication of the European Spine Society, the European Spinal Deformity Society, and the European Section of the Cervical Spine Research Society
+SN  - 1432-0932
+AB  - INTRODUCTION: Navigation and robotic technologies emerge as alternatives to conventional freehand techniques for spine fusion. They aim to enhance perioperative and postoperative outcomes, yet their effectiveness remains limited by small cohort sizes in existing literature. Our study compares navigation and robotic technologies in lumbar fusion surgery across complications, costs, and mortality. METHODS: This study employed data from the Nationwide Inpatient Sample. The NIS annually captures approximately 7 million unweighted admissions. The dataset spanned 2016 to 2019, comprising 58,270 patients. Exclusions included non-elective admissions, pre-admission surgeries, and cases reporting $0 hospital costs. Validation of comorbidities and complications was conducted using ICD-10 codes. Analytical techniques, such as trend identification and statistical analyses, were applied with a significance threshold of p  < 0.05. Demographic and clinical characteristics, surgery types, and outcomes were assessed. RESULTS: Navigation-guided surgeries dominated (86.7% in 2016, 77.1% in 2019), while Robotic-assisted surgeries increased steadily. Both showed minimal mortality rates. Navigation-guided surgeries had lower charges, lower risks of blood loss anemia, acute kidney injury, and blood transfusion compared to Robotic-assisted surgeries. Navigation-guided surgeries showed significantly lower risks of complications in one level lumbar fusion of vertebral joint and fusion of lumbosacral joint compared to Robotic-Assisted procedures. Additionally, Robotic-Assisted surgeries present higher risks across blood loss anemia, acute kidney injury, and blood transfusion, with risk ratios ranging from 1.24 to 1.72 times higher. CONCLUSION: This study highlights shifting trends in lumbar fusion surgeries, underscoring the need for tailored approaches and nuanced clinical considerations to improve patient outcomes.
+KW  - Humans
+KW  - Spinal Fusion
+KW  - Female
+KW  - Male
+KW  - Robotic Surgical Procedures
+KW  - Middle Aged
+KW  - Lumbar Vertebrae
+KW  - Postoperative Complications
+KW  - Length of Stay
+KW  - Aged
+KW  - Adult
+KW  - Surgery
+KW  - Computer-Assisted
+DO  - 10.1007/s00586-025-09060-z
+AN  - PMID:40629161
+UR  - https://pubmed.ncbi.nlm.nih.gov/40629161/
+N1  - Publication Types: Journal Article, Comparative Study
+ER  - 
+
+TY  - JOUR
+TI  - The frequency of adverse drug reaction related admissions according to method of detection, admission urgency and medical department specialty.
+AU  - Miran Brvar
+AU  - Nina Fokter
+AU  - Matjaz Bunc
+AU  - Martin Mozina
+PY  - 2009
+DA  - 2009-May-04
+JO  - BMC clinical pharmacology
+JF  - BMC clinical pharmacology
+SN  - 1472-6904
+AB  - BACKGROUND: Adverse Drug Reactions (ADRs) have been regarded as a major public health problem since they represent a sizable percentage of admissions. Unfortunately, there is a wide variation of ADR related admissions among different studies. The aim of this study was to evaluate the frequency of ADR related admissions and its dependency on reporting and method of detection, urgency of admissions and included medical departments reflecting department/hospital type within one study. METHODS: The study team of internal medicine specialists retrospectively reviewed 520 randomly selected medical records (3%) of patients treated in the medical departments of the primary city and tertiary referral governmental hospital for certain ADRs causing admissions regarding WHO causality criteria. All medical records were checked for whether the treating physicians recognised and documented ADRs causing admissions. The hospital information system was checked to ensure ADR related diagnoses were properly coded and the database of a national spontaneous reporting system was searched for patients with ADRs included in this study. RESULTS: The established frequency of admissions due to certain ADRs recognised by the study team and documented in medical records by the treating physicians was the same and represented 5.8% of all patients (30/520). The frequency of ADR causing admissions detected by employing a computer-assisted approach using an ICD-10 coding system was 0.2% (1/520), and no patient admitted due to ADRs was reported to the national reporting system (0/520). The recognized frequency of ADR related admissions also depends on the department's specialty (p = 0.001) and acceptance of urgently admitted patients (p = 0.001). Patients admitted due to ADRs were significantly older compared to patients without ADRs (p = 0.025). Gastrointestinal bleeding due to NSAID, acetylsalicylic acid and warfarin was the most common ADR that resulted in admission and represented 40% of all certain ADRs (12/30) according to WHO causality criteria. CONCLUSION: ADRs cause 5.8% of admissions in medical departments in the primary city and tertiary referral hospital. The physicians recognise certain ADR related admissions according to WHO causality criteria and note them in medical records, but they rarely code and report ADRs. The established frequency of ADR related admissions depends on the detection method, department specialty and frequency of urgently admitted patients.
+KW  - Adult
+KW  - Adverse Drug Reaction Reporting Systems
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Drug-Related Side Effects and Adverse Reactions
+KW  - Female
+KW  - Hospital Departments
+KW  - Hospital Information Systems
+KW  - Humans
+KW  - Male
+KW  - Medical Records
+KW  - Medicine
+KW  - Middle Aged
+KW  - Patient Admission
+KW  - Specialization
+KW  - Young Adult
+DO  - 10.1186/1472-6904-9-8
+AN  - PMID:19409112
+UR  - https://pubmed.ncbi.nlm.nih.gov/19409112/
+N1  - PMC:PMC2680808
+N1  - Publication Types: Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - Management of case fees and special charges with aid of the coding system "do it".
+AU  - P Schütz
+AU  - D Deimel
+AU  - T Dusberger
+PY  - 1999
+DA  - 1999-Mar
+JO  - Der Orthopade
+JF  - Der Orthopade
+SN  - 1433-0431
+AB  - INTRODUCTION: With the German health care restructuring legislation ("Gesundheitsstrukturgesetz") the coding of diagnoses and operations according to ICD-9 and ICPM (OPS-301) was introduced for budget assignment ("Fallpauschalen/Sonderentgelte"). METHODS: Application of the structured coding system "do it" in orthopeadics and traumatology in combination with a surgical documentation system. Results of 8,664 documented operative cases within three years. RESULTS: In total, 11,854 ICD-9 or ICD-10 and 20,178 ICPM (OPS-301) were coded. 2,914 "Fallpauschalen" and/or 3,456 "Sonderentgelte" were found. The System achieved high acceptance due to its userfriendliness and simple functionality. DISCUSSION: In comparison with text- or thesaurus-based coding systems the "do it" coding system does not require any knowledge of the ICD or ICPM (OPS-301). It can be adapted to individual clinical requirements by implementing frequent diagnoses and individual therapy concepts. In combination with a medical information system the coding system can be integrated seamlessly into routine documentation.
+DO  - 10.1007/PL00003607
+AN  - PMID:28246945
+UR  - https://pubmed.ncbi.nlm.nih.gov/28246945/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Development of a standardised computer-based documentation system for diagnoses and medical performance in orthopeadics/traumatology.
+AU  - D Deimel
+AU  - E Messer
+AU  - H-G Thielemann
+AU  - G Picha
+PY  - 1999
+DA  - 1999-Mar
+JO  - Der Orthopade
+JF  - Der Orthopade
+SN  - 1433-0431
+AB  - INTRODUCTION: Increasing demands on quality assurance und medical performance documentation require an immedate and evaluable documentation in the outpatients' department. Presentation of a new computer-based diagnostic system for reporting and medical performance documentation. METHODS: Development and initial application of the system in three big orthopeadical or traumatological hospitals. Judegements about the feasibility of immediate documentation in outpatients' departments. RESULTS: Presentation of an outpatients' departments diagnostic system with textblock-oriented anamnesis or anatomy-related diagnosis through pre-structured examination checklists. Coding of ICD-9/-10 as well as AO-classification and AIS (abbreviated injury scale). Implementation of scorings. Medical performance documentation through forms including pre-defined billing codes. Presentation of the documentation flow and its transfer into other contexts. DISCUSSION: Pure text-based clinical results do not allow sufficient evalutation for quality assurance and medical performance documentation. However, a computer-based and immediate documentation in outpatients' departments should not mean a significantly increased workload for physicians.
+DO  - 10.1007/PL00003609
+AN  - PMID:28246947
+UR  - https://pubmed.ncbi.nlm.nih.gov/28246947/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Coding clinical information: analysis of clinicians using computerized coding.
+AU  - J H Hohnloser
+AU  - P Kadlec
+AU  - F Puerner
+PY  - 1996
+DA  - 1996-Jun
+JO  - Methods of information in medicine
+JF  - Methods of information in medicine
+SN  - 0026-1270
+AB  - Data are presented of a controlled experiment with a computerized browsing and encoding tool. Eighteen practicing clinicians extracted medical concepts from two narrative exercise cases using two approaches, traditional and computer-assisted use of ICD-9. Our results indicate that by using a computerized coding tool the completeness of coding can be improved by up to 55%, that by enforcing mandatory as opposed to optional modifier codes results in lower rates of incomplete coding (0 and 55%, respectively), higher rates of correct coding (41 to 92%) and no change in incorrect code, and that manual coding takes twice as long than coding with the help of the computerized coding tool. Clinicians need 59% more time for processing the whole set of codes than is suggested by the sum of individual codes. We conclude that the use of a computerized coding tool can save time and result in higher quality codes. However, the real time spent on coding may be underestimated when looking at individual coding times, instead of the whole task of processing a clinical scenario.
+KW  - Disease
+KW  - Documentation
+KW  - Electronic Data Processing
+KW  - Germany
+KW  - Humans
+KW  - Internship and Residency
+KW  - Medical Records Systems
+KW  - Computerized
+KW  - Time and Motion Studies
+AN  - PMID:8755382
+UR  - https://pubmed.ncbi.nlm.nih.gov/8755382/
+N1  - Publication Types: Comparative Study, Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Leveraging CAC to prepare for ICD-10-CM/PCS.
+AU  - Karen Scott
+PY  - 2013
+DA  - 2013-Jun
+JO  - Journal of AHIMA
+JF  - Journal of AHIMA
+SN  - 1060-5487
+KW  - Clinical Coding
+KW  - Decision Making
+KW  - Computer-Assisted
+KW  - International Classification of Diseases
+KW  - United States
+AN  - PMID:23844547
+UR  - https://pubmed.ncbi.nlm.nih.gov/23844547/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Conversion problems concerning automated mapping from ICD-10 to ICD-9.
+AU  - S Schulz
+AU  - A Zaiss
+AU  - R Brunner
+AU  - D Spinner
+AU  - R Klar
+PY  - 1998
+DA  - 1998-Sep
+JO  - Methods of information in medicine
+JF  - Methods of information in medicine
+SN  - 0026-1270
+AB  - The increasing parallel use of ICD-9 and ICD-10 complicates the comparability of coded diagnoses. This is the reason why we developed a symmetric table for interactive conversion between ICD-9 and ICD-10, based on a vector space text-retrieval method that resulted in unambiguous mapping from ICD-9 to ICD-10 in 64%, from ICD-10 to ICD-9 in 87% of all three- and four-character classes of the tabular list. Out of the remaining 13% of multi-valued relations, a table for automated mapping from ICD-10 to ICD-9 was created. In 9% of cases, the selection offered no problems. A compromise between preserving information content and maintaining the logical integrity had to be found in 2.4%; in 1.6% automated mapping was impossible because of newly defined concepts and structural differences between ICD-9 and ICD-10 that are not counterbalanced by a consistent system of residual categories. We recommend that in a future revision of the ICD, compatibility with the then existing classification system should be considered.
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Diagnosis
+KW  - Differential
+KW  - Disease
+KW  - Humans
+KW  - Software
+KW  - Terminology as Topic
+AN  - PMID:9787625
+UR  - https://pubmed.ncbi.nlm.nih.gov/9787625/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - From episodes of care to diagnosis codes: automatic text categorization for medico-economic encoding.
+AU  - Patrick Ruch
+AU  - Julien Gobeilla
+AU  - Imad Tbahritia
+AU  - Antoine Geissbühlera
+PY  - 2008
+DA  - 2008-Nov-06
+JO  - AMIA ... Annual Symposium proceedings. AMIA Symposium
+JF  - AMIA ... Annual Symposium proceedings. AMIA Symposium
+SN  - 1942-597X
+AB  - We report on the design and evaluation of an original system to help assignment ICD (International Classification of Disease) codes to clinical narratives. The task is defined as a multi-class multi-document classification task. We combine a set of machine learning and data-poor methods to generate a single automatic text categorizer, which returns a ranked list of ICD codes. The combined ranking system currently obtains a precision of 75% at high ranks and a recall of about 63% for the top twenty returned codes for a theoretical upper bound of about 79% (inter-coder agreement). The performance of the data-poor classifier is weak, whereas the use of tempo-rally-typed contents such as anamnesis and prescription free text sections results in a statistically significant improvement.
+KW  - Algorithms
+KW  - Artificial Intelligence
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Information Storage and Retrieval
+KW  - International Classification of Diseases
+KW  - Medical History Taking
+KW  - Medical Records Systems
+KW  - Computerized
+KW  - Natural Language Processing
+KW  - Pattern Recognition
+KW  - Automated
+KW  - Subject Headings
+KW  - Switzerland
+AN  - PMID:18999206
+UR  - https://pubmed.ncbi.nlm.nih.gov/18999206/
+N1  - PMC:PMC2655971
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Ultrasonography guidance reduces complications and costs associated with thoracentesis procedures.
+AU  - Pankaj A Patel
+AU  - Frank R Ernst
+AU  - Candace L Gunnarsson
+PY  - 2012
+DA  - 2012
+JO  - Journal of clinical ultrasound : JCU
+JF  - Journal of clinical ultrasound : JCU
+SN  - 1097-0096
+AB  - PURPOSE.: We performed an analysis of hospitalizations involving thoracentesis procedures to determine whether the use of ultrasonographic (US) guidance is associated with differences in complications or hospital costs as compared with not using US guidance. METHODS.: We used the Premier hospital database to identify patients with ICD-9 coded thoracentesis in 2008. Use of US guidance was identified using CPT-4 codes. We performed univariate and multivariable analyses of cost data and adjusted for patient demographics, hospital characteristics, patient morbidity severity, and mortality. Logistic regression models were developed for pneumothorax and hemorrhage adverse events, controlling for patient demographics, morbidity severity, mortality, and hospital size. RESULTS.: Of 19,339 thoracentesis procedures, 46% were performed with US guidance. Mean total hospitalization costs were $11,786 (±$10,535) and $12,408 (±$13,157) for patients with and without US guidance, respectively (p < 0.001). Unadjusted risk of pneumothorax or hemorrhage was lower with US guidance (p = 0.019 and 0.078, respectively). Logistic regression analyses demonstrate that US is associated with a 16.3% reduction likelihood of pneumothorax (adjusted odds ratio 0.837, 95% CI: 0.73-0.96; p= 0.014), and 38.7% reduction in likelihood of hemorrhage (adjusted odds ratio 0.613, 95% CI: 0.36-1.04; p = 0.071). CONCLUSIONS.: US-guided thoracentesis is associated with lower total hospital stay costs and lower incidence of pneumothorax and hemorrhage. © 2011 Wiley Periodicals, Inc. J Clin Ultrasound, 2011.
+KW  - Adult
+KW  - Aged
+KW  - Female
+KW  - Hemorrhage
+KW  - Hospital Costs
+KW  - Humans
+KW  - Male
+KW  - Middle Aged
+KW  - Odds Ratio
+KW  - Pleural Effusion
+KW  - Pneumothorax
+KW  - Suction
+KW  - Surgery
+KW  - Computer-Assisted
+KW  - Thoracostomy
+KW  - Ultrasonography
+KW  - Interventional
+KW  - Young Adult
+DO  - 10.1002/jcu.20884
+AN  - PMID:21994047
+UR  - https://pubmed.ncbi.nlm.nih.gov/21994047/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Computer-based screening of veterans for metabolic syndrome.
+AU  - Jessica Keane
+AU  - Joy L Meier
+AU  - Robert H Noth
+AU  - Arthur L M Swislocki
+PY  - 2009
+DA  - 2009-Dec
+JO  - Metabolic syndrome and related disorders
+JF  - Metabolic syndrome and related disorders
+SN  - 1557-8518
+AB  - BACKGROUND: The worldwide obesity epidemic has focused attention on the prevalence of the metabolic syndrome, which is greater than previously believed. However, estimates of its overall prevalence vary widely. We wished to ascertain the prevalence of metabolic syndrome in the Veteran Affairs Northern California Health Care System (VANCHCS). METHODS: We used the VA computerized clinical database and modified Adult Treatment Panel III (ATP III) criteria of fasting blood glucose (FBG) >or=110 mg/dL, blood pressure >or=130/>or=85, triglyceride >or=150 mg/dL, high-density lipoprotein cholesterol (HDL-C) <40 mg/dL (men) or <50 mg/dL (women), but body mass index (BMI) >or=30 in lieu of waist circumference >102 cm (40 inches) for men and 88 cm (35 inches) for women. We also accepted current pharmacotherapy for diabetes as qualifying for elevated fasting blood sugar (FBS); current therapy with niacin, gemfibrozil, or fenofibrate for elevated triglyceride concentrations; and recent use of multiple International Classification of Diseases, 9(th) Revision (ICD-9) codes for hypertension for elevated blood pressure. RESULTS: We examined all clinical records for veterans registered in VANCHCS who filled any prescription between July 1, 2004, and June 30, 2005 (n = 51,026). Their average age was 63 years; 93% were male. In all 25% (n = 13,010) were diagnosed as having metabolic syndrome by meeting at least 3 of the above 5 criteria. Because only 60% (n = 30,727) of the population had data for 3 or more criteria, the actual percent with metabolic syndrome is probably substantially higher. CONCLUSIONS: Over one quarter of veterans in the VANCHCS may have metabolic syndrome based on our modified ATP III criteria. We urge screening more veterans with fasting laboratory testing. Computerized screening of a large clinical database can provide an effective strategy to aid clinicians in identifying more patients at risk for cardiovascular disease.
+KW  - Adult
+KW  - Aged
+KW  - California
+KW  - Cohort Studies
+KW  - Databases
+KW  - Factual
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Female
+KW  - Humans
+KW  - Male
+KW  - Mass Screening
+KW  - Metabolic Syndrome
+KW  - Middle Aged
+KW  - Retrospective Studies
+KW  - Sex Characteristics
+KW  - United States
+KW  - United States Department of Veterans Affairs
+KW  - Veterans
+DO  - 10.1089/met.2009.0021
+AN  - PMID:19558266
+UR  - https://pubmed.ncbi.nlm.nih.gov/19558266/
+N1  - Publication Types: Evaluation Study, Journal Article, Research Support, U.S. Gov't, Non-P.H.S.
+ER  - 
+
+TY  - JOUR
+TI  - Simplified diagnostic coding sheet for computerized data storage and analysis in ophthalmology.
+AU  - J Tauber
+AU  - M Lahav
+PY  - 1987
+DA  - 1987-Nov
+JO  - Ophthalmic surgery
+JF  - Ophthalmic surgery
+SN  - 0022-023X
+AB  - A review of currently-available diagnostic coding systems revealed that most are either too abbreviated or too detailed. We have compiled a simplified diagnostic coding sheet based on the International Coding and Diagnosis (ICD-9), which is both complete and easy to use in a general practice. The information is transferred to a computer, which uses the relevant (ICD-9) diagnoses as database and can be retrieved later for display of patients' problems or analysis of clinical data.
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Eye Diseases
+KW  - Humans
+KW  - Information Systems
+KW  - Ophthalmology
+KW  - Software
+KW  - Software Design
+AN  - PMID:3320838
+UR  - https://pubmed.ncbi.nlm.nih.gov/3320838/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Utility of automated data in identifying femoral shaft and subtrochanteric (diaphyseal) fractures.
+AU  - L Spangler
+AU  - S M Ott
+AU  - D Scholes
+PY  - 2011
+DA  - 2011-Sep
+JO  - Osteoporosis international : a journal established as result of cooperation between the European Foundation for Osteoporosis and the National Osteoporosis Foundation of the USA
+JF  - Osteoporosis international : a journal established as result of cooperation between the European Foundation for Osteoporosis and the National Osteoporosis Foundation of the USA
+SN  - 1433-2965
+AB  - UNLABELLED: In women age 45 years and older, enrolled in an integrated group practice in 2007, use of ICD9 diagnostic codes, including the "not otherwise specified" code (821.00) resulted in a high false-positive rate for identifying femoral diaphyseal fractures. Restriction to more specific site-codes missed 36% of these rare fractures. INTRODUCTION: The aim of this study was to assess the utility of automated data in identifying the occurrence of femoral diaphyseal fractures. METHODS: We identified all women age 45 years and older enrolled in a Pacific Northwest integrated group practice during 2007. Using the computerized database we selected all ICD9 codes that could be related to a femur fracture occurring in the diaphyseal region. We then quantified the percent of codes confirmed by medical record review to have occurred in the correct anatomic location during the year of interest (positive predictive value). RESULTS: Of the 95,765 eligible women, 161 (0.17%) had an ICD9 diagnostic code potentially related to a femoral diaphyseal fracture in 2007; of these 58 (36%) had a fracture of the femoral diaphysis, and 38 (24%) of the fractures occurred in 2007. The most frequent code was 821.00, described as "femur fracture not otherwise specified", applied to 107 women; 21 of the 58 diaphyseal fractures had this code. CONCLUSION: In this study, use of ICD9 codes that included the "not otherwise specified" code (821.00) resulted in a high false-positive rate for identifying diaphyseal fractures. However, restriction to more specific site codes would have missed at least 36% of the diaphyseal fractures. Furthermore, the codes did not provide any information about the characteristics of the fracture. Our findings support validating cases selected using ICD codes before they are used as a surrogate for the occurrence of femoral diaphyseal fractures.
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Diaphyses
+KW  - Female
+KW  - Femoral Fractures
+KW  - Hip Fractures
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Middle Aged
+KW  - Northwestern United States
+KW  - Predictive Value of Tests
+DO  - 10.1007/s00198-010-1476-y
+AN  - PMID:21153405
+UR  - https://pubmed.ncbi.nlm.nih.gov/21153405/
+N1  - Publication Types: Evaluation Study, Journal Article, Research Support, Non-U.S. Gov't
+ER  - 
+
+TY  - JOUR
+TI  - A rough sets approach to patient classification in medical records.
+AU  - G I Paterson
+PY  - 1995
+DA  - 1995
+JO  - Medinfo. MEDINFO
+JF  - Medinfo. MEDINFO
+SN  - 1569-6332
+AB  - This study used the original model of rough sets for data analysis of objective clinical findings from pneumonia patients. Rough sets data analysis was used to draw data dependencies, data reductions, approximate set classifications, and rule inductions from records in a clinical database. This study utilized Pawlak's rough classification algorithm [1] to examine the relationship between a constellation of findings and the ICD-9-CM classification scheme used for disease coding in order to generate a reduct. The reduct is a logical construct of the most information-preserving findings from a decision table. The Iliad expert system, which is based on Bayes Theorem, was used to validate the results we obtained using rough sets analysis to discriminate between the different types of pneumonia in the patient population. From a set of 25 objective clinical findings, chosen because they had a positive or negative predictive value for probability of death for pneumonia patients, the rough sets analysis constructed a logical classifier of six attributes that was as discriminatory as the statistical classifier in Iliad which utilized 11 of those 25 attributes. The rough sets methods are capable of identifying a minimal set of attribute values that are associated with a disease label. These methods could be applied to develop more consistent labeling methods, and, potentially flag activities which do not contribute to diagnostic labeling or health results.
+KW  - Bayes Theorem
+KW  - Data Interpretation
+KW  - Statistical
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Expert Systems
+KW  - Humans
+KW  - Pneumonia
+KW  - Prognosis
+AN  - PMID:8591582
+UR  - https://pubmed.ncbi.nlm.nih.gov/8591582/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - The economic burden of melanoma in France: assessing healthcare use in a hospital setting.
+AU  - Julie Chevalier
+AU  - Julia Bonastre
+AU  - Marie-Françoise Avril
+PY  - 2008
+DA  - 2008-Feb
+JO  - Melanoma research
+JF  - Melanoma research
+SN  - 0960-8931
+AB  - The objective of this experiment was to describe healthcare use for the treatment of melanoma in a hospital setting and to assess the related annual cost using French hospital records for the year 2004. The 2004 French national database was the main source of data. Hospital stays related to melanoma care were extracted from this database, which exhaustively records hospital stays in the country. We selected stays that included at least one diagnosis of melanoma: International Classification of Diseases (ICD)-10 codes C43 'malignant melanoma of skin' or D03 'melanoma in situ'. A second database (the French National Hospital Costs Survey) was used to compute unit costs. For each diagnosis-related group involved in melanoma care, we calculated an average cost per day from this database. Unit costs were then applied to the duration of each hospital stay related to melanoma from the 2004 national database. A total of 42,911 stays related to melanoma were identified for the year 2004. New patients, estimated by the number of surgical stays with a melanoma ICD code as the main diagnosis, amounted to 6897. Annual hospital costs for melanoma care were estimated at 59 million euros. Almost half of these costs (27 million euros) were attributable to stays with a metastasis ICD code. The main cost drivers were surgery (38% of hospital costs), follow-up evaluations (20%) and chemotherapy (17%). It was concluded that the impact of melanoma on hospital expenditures for cancer was modest. Hospital costs for stays related to melanoma represented less than 1% of total annual hospital costs for cancer for the year 2004.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Chemotherapy
+KW  - Adjuvant
+KW  - Child
+KW  - Child
+KW  - Preschool
+KW  - Cost-Benefit Analysis
+KW  - Delivery of Health Care
+KW  - Female
+KW  - Follow-Up Studies
+KW  - France
+KW  - Hospital Costs
+KW  - Humans
+KW  - Infant
+KW  - Infant
+KW  - Newborn
+KW  - Male
+KW  - Melanoma
+KW  - Middle Aged
+KW  - Patient Care
+KW  - Radiotherapy
+KW  - Computer-Assisted
+KW  - Skin Neoplasms
+DO  - 10.1097/CMR.0b013e3282f36203
+AN  - PMID:18227707
+UR  - https://pubmed.ncbi.nlm.nih.gov/18227707/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Towards a decision support system for optimising clinical pathways of elderly patients in an emergency department.
+AU  - Marc Cuggia
+AU  - Delphine Rossille
+AU  - Aude Arnault
+AU  - Jacques Bouget
+AU  - Pierre Le Beux
+PY  - 2007
+DA  - 2007
+JO  - Studies in health technology and informatics
+JF  - Studies in health technology and informatics
+SN  - 0926-9630
+AB  - UNLABELLED: Data stored in Healthcare Information Systems correspond potentially to a vast source of information for supporting decisions in management or public health issues. The presented study illustrates clinical data valuation, through the analysis of clinical pathways of elderly patients at the Emergency Department (ED) of Rennes hospital. METHOD: Relevant data were extracted from the Emergency Department database. Several analysis (e.g., cusum method) and representation tools (e.g., Graphviz) were used to study the patients' pathways, the dynamics of flows and the patients' characteristics. RESULTS: 4951 admissions were analysed and visualized. The representations provided a synthetic, global and comprehensive view of the department activities, to the satisfaction of the clinicians. Limitations of the ICD-10 coding of the diagnoses at the ED were pointed out as well as syntax and semantic interoperability issues. A solution is proposed for automating and scaling the Decision Support System.
+KW  - Aged
+KW  - Critical Pathways
+KW  - Decision Making
+KW  - Computer-Assisted
+KW  - Decision Support Systems
+KW  - Clinical
+KW  - Emergency Service
+KW  - Hospital
+KW  - Humans
+KW  - International Classification of Diseases
+KW  - Length of Stay
+KW  - Practice Guidelines as Topic
+AN  - PMID:17911834
+UR  - https://pubmed.ncbi.nlm.nih.gov/17911834/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - Computer-based organisation and documentation in orthopaedics: 5 year's experience.
+AU  - T Hess
+AU  - D Deimel
+AU  - R Fischer
+AU  - J Duchow
+PY  - 1999
+DA  - 1999-Mar
+JO  - Der Orthopade
+JF  - Der Orthopade
+SN  - 1433-0431
+AB  - In the orthopedic department of the University Hospital Homburg/Saar, we use since 1993 a computer-based system for clinics organisation and documentation of operations. Hardware consists of DOS/Windows PC's in a Novell-network. Our software is a combination of datbase-system for managing patient-data and a special coding program for ICD and IKPM-digits. Our experience shows that computer assisted clinic-management is an effective tool to help the surgeon in planning and documentation. Until now, we used the system for 31 500 patients and 8500 operations. A flexible software can meet the requirements both of the surgeons and administration. Moreover, in the University hospital Homburg/Saar, the different departments are linked by an Intranet with connection to other scientific networks and the Internet.
+DO  - 10.1007/PL00003600
+AN  - PMID:28246938
+UR  - https://pubmed.ncbi.nlm.nih.gov/28246938/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - [Computer-based organization and documentation in orthopedics. A 5-year experience].
+AU  - T Hess
+AU  - D Deimel
+AU  - R Fischer
+AU  - J Duchow
+PY  - 1999
+DA  - 1999-Mar
+JO  - Der Orthopade
+JF  - Der Orthopade
+SN  - 0085-4530
+AB  - In the orthopedic department of the University Hospital Homburg/Saar, we use since 1993 a computer-based system for clinics organisation and documentation of operations. Hardware consists of DOS/Windows PC's in a Novell-network. Our software is a combination of database-system for managing patient-data and a special coding program for ICD and IKPM-digits. Our experience shows that computer assisted clinic-management is an effective tool to help the surgeon in planning and documentation. Until now, we used the system for 31,500 patients and 8500 operations. A flexible software can meet the requirements both of the surgeons and administration. Moreover, in the University hospital Homburg/Saar, the different departments are linked by an Intranet with connection to other scientific networks and the Internet.
+KW  - Documentation
+KW  - Electronic Data Processing
+KW  - Germany
+KW  - Humans
+KW  - Medical Records Systems
+KW  - Computerized
+KW  - Orthopedics
+DO  - 10.1007/s001320050340
+AN  - PMID:10326203
+UR  - https://pubmed.ncbi.nlm.nih.gov/10326203/
+N1  - Publication Types: Journal Article
+ER  - 
+
+TY  - JOUR
+TI  - The application of a computerised diagnostic index for ophthalmic practice.
+AU  - A J Simpson
+PY  - 1993
+DA  - 1993-Nov
+JO  - Australian and New Zealand journal of ophthalmology
+JF  - Australian and New Zealand journal of ophthalmology
+SN  - 0814-9763
+AB  - All 2792 patients seen in my private practice between July 1989 and September 1992 and receiving a diagnosis were coded according to the International Classification of Diseases-9 (Clinical Modification), 1979. Any procedures performed were coded according to the American Medical Association Current Procedural Terminology. Patient details and codes were filed by computer using a customised database in Foxpro 2.0 software. Those with minor refractive error or presbyopia alone and those who had no abnormality were excluded from the database. The set-up and maintenance of this diagnostic index is described and the database structure is specified. A modification of the glaucoma section of ICD-9, which better suited my needs, is presented. Examples of the potential information available from such a database is described, including some analysis of this general ophthalmic practice.
+KW  - Adolescent
+KW  - Adult
+KW  - Aged
+KW  - Aged
+KW  - 80 and over
+KW  - Child
+KW  - Child
+KW  - Preschool
+KW  - Databases
+KW  - Factual
+KW  - Diagnosis
+KW  - Computer-Assisted
+KW  - Female
+KW  - Glaucoma
+KW  - Humans
+KW  - Infant
+KW  - Infant
+KW  - Newborn
+KW  - Male
+KW  - Middle Aged
+KW  - Ophthalmology
+KW  - Professional Practice
+DO  - 10.1111/j.1442-9071.1993.tb00966.x
+AN  - PMID:8148144
+UR  - https://pubmed.ncbi.nlm.nih.gov/8148144/
+N1  - Publication Types: Journal Article
+ER  - 
+

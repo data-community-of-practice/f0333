@@ -29,13 +29,17 @@ ENV/
 env/
 .venv
 
-# Output directories
-output/
-pubmed_output/
-acm_output/
-*.csv
-*.json
-*.ris
+# Output directories - only exclude CSV and JSON, keep RIS files
+output/**/*.csv
+output/**/*.json
+pubmed_output/**/*.csv
+pubmed_output/**/*.json
+acm_output/**/*.csv
+acm_output/**/*.json
+
+# Allow RIS files to be tracked
+!output/**/*.ris
+!output/
 
 # IDE
 .vscode/
