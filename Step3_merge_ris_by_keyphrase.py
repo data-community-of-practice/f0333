@@ -219,63 +219,117 @@ def merge_and_deduplicate(input_dir, output_dir):
     total_unique = 0
     total_duplicates = 0
 
+    # Track stats per keyphrase for summary table
+    keyphrase_stats = {}
+
     for keyphrase, files in sorted(grouped_files.items()):
         print(f"\n{'='*70}")
         print(f"Key Phrase: {keyphrase}")
         print(f"{'='*70}")
-        print(f"Found {len(files)} files to merge:")
-
-        for f in files:
-            print(f"  - {f.relative_to(input_dir)}")
+        print(f"Input: {len(files)} file(s) to merge")
 
         # Parse all files for this key phrase
         all_records = []
-        for ris_file in files:
-            print(f"\nReading: {ris_file.name}")
-            records = parse_ris_file(ris_file)
-            print(f"  Records: {len(records)}")
-            all_records.extend(records)
+        file_details = []
 
-        print(f"\nTotal records before deduplication: {len(all_records)}")
-        total_original += len(all_records)
+        for ris_file in files:
+            records = parse_ris_file(ris_file)
+            all_records.extend(records)
+            file_details.append({
+                'name': ris_file.name,
+                'count': len(records)
+            })
+
+        # Show file breakdown
+        print("\nSource files:")
+        for detail in file_details:
+            print(f"  - {detail['name']:<60} {detail['count']:>6} records")
+
+        records_before = len(all_records)
+        print(f"\n{'-'*70}")
+        print(f"BEFORE MERGING:  {records_before:>6} total records")
 
         # Deduplicate
         unique_records, duplicates, no_doi_count = deduplicate_records(all_records)
 
-        print(f"Unique records after deduplication: {len(unique_records)}")
-        print(f"Duplicates removed: {len(duplicates)}")
-        print(f"Records without DOI (kept all): {no_doi_count}")
+        records_after = len(unique_records)
+        records_removed = len(duplicates)
+        records_with_doi = records_after - no_doi_count
 
-        total_unique += len(unique_records)
-        total_duplicates += len(duplicates)
+        print(f"AFTER MERGING:   {records_after:>6} unique records")
+        print(f"{'-'*70}")
+        print(f"Change:          {records_removed:>6} duplicates removed ({(records_removed/records_before*100):.1f}%)")
+        print(f"\nBreakdown:")
+        print(f"  - Records with DOI:    {records_with_doi:>6}")
+        print(f"  - Records without DOI: {no_doi_count:>6} (all kept)")
+
+        # Store stats for summary
+        keyphrase_stats[keyphrase] = {
+            'files': len(files),
+            'before': records_before,
+            'after': records_after,
+            'removed': records_removed,
+            'with_doi': records_with_doi,
+            'no_doi': no_doi_count
+        }
+
+        total_original += records_before
+        total_unique += records_after
+        total_duplicates += records_removed
 
         # Write merged file
         output_file = output_path / f"{keyphrase}_merged.ris"
         write_ris_file(unique_records, output_file)
-        print(f"\n[OK] Merged file created: {output_file}")
+        print(f"\n[OK] Saved: {output_file.name}")
 
         # Show some duplicate examples
         if duplicates:
-            print(f"\nExample duplicates (showing first 3):")
+            print(f"\nExample duplicates removed (showing first 3):")
             for dup in duplicates[:3]:
                 print(f"  DOI: {dup['doi']}")
-                print(f"    Title: {dup['title']}")
+                print(f"    Title: {dup['title'][:80]}...")
 
     # Final summary
     print(f"\n{'='*70}")
     print("FINAL SUMMARY")
     print(f"{'='*70}")
-    print(f"Key phrases processed: {len(grouped_files)}")
-    print(f"Total records (all files): {total_original}")
-    print(f"Unique records: {total_unique}")
-    print(f"Duplicates removed: {total_duplicates}")
-    print(f"Deduplication rate: {(total_duplicates/total_original*100):.1f}%")
 
-    print(f"\nMerged files created in: {output_dir}")
+    # Overall stats
+    print(f"\nOVERALL STATISTICS:")
+    print(f"  Key phrases processed:     {len(grouped_files)}")
+    print(f"  Total records BEFORE:      {total_original:>6}")
+    print(f"  Total records AFTER:       {total_unique:>6}")
+    print(f"  Total duplicates removed:  {total_duplicates:>6} ({(total_duplicates/total_original*100):.1f}%)")
+    print(f"  Net reduction:             {total_duplicates:>6} records")
+
+    # Summary table by keyphrase
+    print(f"\n{'-'*70}")
+    print("BREAKDOWN BY KEY PHRASE:")
+    print(f"{'-'*70}")
+    print(f"{'Key Phrase':<45} {'Before':>8} {'After':>8} {'Removed':>8}")
+    print(f"{'-'*70}")
+
+    for keyphrase in sorted(keyphrase_stats.keys()):
+        stats = keyphrase_stats[keyphrase]
+        # Shorten keyphrase for display
+        display_name = keyphrase.replace('_', ' ').title()
+        if len(display_name) > 44:
+            display_name = display_name[:41] + '...'
+
+        print(f"{display_name:<45} {stats['before']:>8} {stats['after']:>8} {stats['removed']:>8}")
+
+    print(f"{'-'*70}")
+    print(f"{'TOTAL':<45} {total_original:>8} {total_unique:>8} {total_duplicates:>8}")
+    print(f"{'-'*70}")
+
+    print(f"\nOutput files created in: {output_dir}/")
     for keyphrase in sorted(grouped_files.keys()):
-        print(f"  - {keyphrase}_merged.ris")
+        filename = f"{keyphrase}_merged.ris"
+        records = keyphrase_stats[keyphrase]['after']
+        print(f"  - {filename:<60} {records:>6} records")
 
-    print("\nYou can now import these merged files into reference management software.")
+    print("\nThese merged files are ready to import into reference management software")
+    print("such as Zotero, Mendeley, EndNote, or RefWorks.")
 
 
 def main():
