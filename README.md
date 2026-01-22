@@ -37,6 +37,7 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step4_filter_by_journal.py          # Filter by target journals
 ├── Step5_filter_by_type.py             # Filter by article type (JOUR/CONF only)
 ├── Step6_filter_by_content.py          # Filter by content analysis (ICD as task)
+├── Step7_filter_by_methodology.py      # Filter for methodological/technical papers
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
@@ -449,9 +450,145 @@ NEG_PHRASES = [
 ]
 ```
 
+## Filtering by Methodology (Technical/Methods Focus)
+
+The final filtering step focuses on methodological and technical papers by keeping papers with method or evaluation signals and removing non-methodological studies like audits, training programs, or guidelines.
+
+### Filter Script
+
+**Step7_filter_by_methodology.py** - Filters for methodological/technical papers
+
+This script:
+- Keeps papers with method signals (ML, NLP, algorithms, systems)
+- Keeps papers with evaluation signals (metrics, benchmarking, validation)
+- Removes audit/quality studies, training, billing, qualitative, and guidelines
+- Provides detailed statistics and reasoning
+
+### Filtering Criteria
+
+**KEEPS papers with:**
+
+*Method/System Signals:*
+- Machine learning, deep learning, neural networks (LSTM, CNN, BERT, transformers)
+- NLP, language models, LLMs, GPT
+- Classification, prediction models, algorithms, pipelines, frameworks
+- Multi-label, hierarchical classification
+- Weak/distant/self-supervised learning
+- Retrieval-augmented systems, prompting, in-context learning
+- Embeddings, fine-tuning, pre-training
+- Knowledge graphs, ontologies, SNOMED, UMLS
+- Rule-based, heuristic, pattern matching systems
+
+*Evaluation Signals:*
+- Metrics: F1, precision, recall, accuracy, AUC, AUROC
+- Hamming loss, top-k, exact match
+- Sensitivity, specificity, PPV, NPV
+- Evaluation language: performance, benchmark, baseline, comparison
+- Cross-validation, train/test/validation sets, external validation
+- Ablation studies, error analysis, confusion matrices
+
+**REMOVES papers with:**
+- Audit, chart review, manual review, coding quality studies
+- Inter-rater reliability, kappa, agreement studies
+- Coder training, education programs, workforce issues
+- Billing, reimbursement, DRG, claims processing
+- Qualitative studies, interviews, focus groups, surveys, implementation studies
+- Guidelines, policies, position papers, editorials, commentaries
+
+### Usage
+
+Filter content-curated files:
+```bash
+python Step7_filter_by_methodology.py curated_output/ refined_output/
+```
+
+Filter a single file:
+```bash
+python Step7_filter_by_methodology.py input.ris output_methodology_filtered.ris
+```
+
+### Example Results
+
+Step 7 filtering produces focused methodological papers:
+
+```
+OVERALL STATISTICS:
+  Files processed:           4
+  Total records BEFORE:       942
+  Total records AFTER:        728
+  Total records removed:      214 (22.7%)
+  Retention rate:            77.3%
+
+REASONS FOR KEEPING RECORDS:
+----------------------------------------------------------------------
+  Method signals present                                          554
+  Strong methodology signals (method + evaluation)                171
+  Evaluation signals present                                        3
+----------------------------------------------------------------------
+  TOTAL KEPT                                                      728
+
+REASONS FOR REMOVING RECORDS:
+----------------------------------------------------------------------
+  Non-methodological focus (audit/billing/qualitative/guideline)    109
+  No methodology or evaluation signals                            105
+----------------------------------------------------------------------
+  TOTAL REMOVED                                                   214
+```
+
+**Refined files created:**
+- `automated_ICD_coding_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 121 records
+- `automatic_international_classification_of_diseases_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 398 records
+- `clinical_coding_ICD_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 195 records
+- `computer_assisted_ICD_coding_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 14 records
+
+This step focuses on:
+- Technical system development papers
+- Novel algorithm/model papers
+- Evaluation and benchmarking studies
+- Method comparison studies
+
+### Example Decisions
+
+**Kept (Strong Methodology Signals):**
+- "Deep learning for automated ICD coding: BERT-based multi-label classification"
+- Reason: Method signals + evaluation signals
+
+**Kept (Method Signals):**
+- "Rule-based system for ICD code assignment using clinical notes"
+- Reason: Method signals present (rule-based, system)
+
+**Removed (Non-Methodological):**
+- "Audit of ICD-10 coding accuracy in hospital records"
+- Reason: Audit/quality study (not system development)
+
+**Removed (No Signals):**
+- "Policy recommendations for ICD-11 adoption"
+- Reason: Guideline/policy paper (no methods or evaluation)
+
+### Customizing Filtering Patterns
+
+To modify the filtering patterns, edit the pattern lists at the top of `Step7_filter_by_methodology.py`:
+
+```python
+METHOD_PATTERNS = [
+    r"\b(machine learning|deep learning|...)\b",
+    # Add your patterns...
+]
+
+EVAL_PATTERNS = [
+    r"\b(f1|precision|recall|...)\b",
+    # Add your patterns...
+]
+
+NEG_PATTERNS = [
+    r"\b(audit|chart review|...)\b",
+    # Add your patterns...
+]
+```
+
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 6 steps:
+The complete literature review pipeline consists of 7 steps:
 
 1. **Step 1**: Fetch data from PubMed, Scopus, and ACM Digital Library
    - Use `Step1_pubmed_fetcher.py` and `Step1_fetchallscopusresults.py`
@@ -477,7 +614,11 @@ The complete literature review pipeline consists of 6 steps:
    - Use `Step6_filter_by_content.py`
    - Result: 942 papers where ICD coding is the primary task (40.6% retention)
 
-**Final Result**: From 51,774 initial records to 942 highly curated research papers on automated ICD coding!
+7. **Step 7**: Filter by methodology
+   - Use `Step7_filter_by_methodology.py`
+   - Result: 728 methodological/technical papers (77.3% retention, 22.7% removed)
+
+**Final Result**: From 51,774 initial records to 728 highly refined, methodologically-focused research papers on automated ICD coding!
 
 ## Sample Data
 
