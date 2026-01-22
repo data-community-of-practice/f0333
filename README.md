@@ -1,8 +1,8 @@
-# Literature Review Data Fetcher for Automated ICD Coding - PART A
+# Literature Review Data Fetcher for Automated ICD Coding
 
 A comprehensive toolkit for collecting and organising academic literature on automated International Classification of Diseases (ICD) coding from multiple sources including PubMed, ACM Digital Library and Scopus. This is content material for an upcoming publication. This is a placeholder for future work.
 
-## Overview
+## Overview - PART A
 
 This project provides automated scripts to fetch research articles from major academic databases for systematic literature reviews. It's specifically designed to handle large-scale data collection with features like:
 
