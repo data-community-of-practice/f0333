@@ -29,11 +29,149 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step1_fetchallscopusresults.py      # Fetch ScienceDirect/Scopus results by year
 ├── Step1_pubmed_fetcher.py             # Fetch PubMed results
 ├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
+├── convert_pubmed_to_ris.py            # PubMed JSON to RIS converter
+├── convert_scopus_to_ris.py            # Scopus JSON to RIS converter
+├── convert_enw_to_ris.py               # ACM EndNote to RIS converter
+├── convert_all_to_ris.py               # Master converter for all formats
+├── merge_ris_by_keyphrase.py           # Merge and deduplicate RIS files
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
 └── output/                             # All results
 ```
+
+## Converting to RIS Format
+
+All fetched data can be converted to RIS (Research Information Systems) format for easy import into reference management software like Zotero, Mendeley, EndNote, or RefWorks.
+
+### Conversion Scripts
+
+Three converter scripts are provided:
+
+1. **convert_pubmed_to_ris.py** - Converts PubMed JSON files to RIS
+2. **convert_scopus_to_ris.py** - Converts Scopus/ScienceDirect JSON files to RIS
+3. **convert_enw_to_ris.py** - Converts ACM EndNote (.enw) files to RIS
+4. **convert_all_to_ris.py** - Master script to convert all formats at once
+
+### Usage
+
+Convert all files at once:
+```bash
+python convert_all_to_ris.py output
+```
+
+Convert specific source individually:
+```bash
+# PubMed only
+python convert_pubmed_to_ris.py output/pubmed_output/
+
+# Scopus only
+python convert_scopus_to_ris.py output/Scopus/
+
+# ACM EndNote only
+python convert_enw_to_ris.py output/acm_output/
+```
+
+Convert a single file:
+```bash
+python convert_pubmed_to_ris.py input.json output.ris
+```
+
+### Output
+
+RIS files are created in the same directory as the source files:
+- `output/pubmed_output/*.ris`
+- `output/Scopus/*.ris`
+- `output/acm_output/*.ris`
+
+### Importing into Reference Managers
+
+The generated RIS files can be directly imported into:
+- **Zotero**: File → Import → Select RIS file
+- **Mendeley**: File → Import → RIS
+- **EndNote**: File → Import → File → Choose RIS filter
+- **RefWorks**: Add → Import References → From File
+
+## Merging and Deduplicating RIS Files
+
+After converting all sources to RIS format, you may want to merge files by key phrase and remove duplicates across different sources (PubMed, Scopus, ACM).
+
+### Merger Script
+
+**merge_ris_by_keyphrase.py** - Merges RIS files by key phrase and deduplicates based on DOI
+
+This script:
+- Automatically groups RIS files by key phrase
+- Merges all files for each key phrase (e.g., combines PubMed, Scopus, and ACM results for "automated_ICD_coding")
+- Deduplicates based on DOI
+- Retains all records without DOI
+
+### Usage
+
+```bash
+python merge_ris_by_keyphrase.py output/ merged_output/
+```
+
+Or use default output directory:
+```bash
+python merge_ris_by_keyphrase.py output/
+```
+
+### Key Phrases Recognized
+
+The script automatically recognizes these key phrases:
+- `automated_ICD_coding`
+- `automatic_international_classification_of_diseases`
+- `computer_assisted_ICD_coding`
+- `clinical_coding_ICD`
+
+### Example Results
+
+Running the merger on the sample data:
+
+```
+Key phrases processed: 4
+Total records (all files): 51,774
+Unique records: 49,767
+Duplicates removed: 2,007
+Deduplication rate: 3.9%
+```
+
+**Merged files created:**
+- `automated_ICD_coding_merged.ris` - 3,733 unique records
+- `automatic_international_classification_of_diseases_merged.ris` - 14,895 unique records
+- `clinical_coding_ICD_merged.ris` - 30,251 unique records
+- `computer_assisted_ICD_coding_merged.ris` - 888 unique records
+
+### Deduplication Logic
+
+- **Primary key**: DOI (Digital Object Identifier)
+- Records with the same DOI are considered duplicates
+- First occurrence is kept, subsequent duplicates are removed
+- Records without DOI are all retained (not deduplicated)
+
+## Sample Data
+
+This repository includes a sample dataset (`output_data.tar.gz`) containing pre-fetched literature review results on automated ICD coding. The archive includes:
+
+- Multiple search queries (automated ICD coding, clinical coding, computer-assisted coding, etc.)
+- Data from both PubMed and Scopus/ScienceDirect sources
+- Both JSON and CSV formats for each query
+- Approximately 14MB compressed data
+
+### Extracting Sample Data
+
+To extract and explore the sample data:
+
+```bash
+tar -xzf output_data.tar.gz
+```
+
+This has an `output/` directory with subdirectories:
+- `output/pubmed_output/` - PubMed search results
+- `output/Scopus/` - ScienceDirect/Scopus search results
+- `output/acm_output/` - ACM Digital Library results (if available)
+
 ## Installation
 
 ### Prerequisites
@@ -274,80 +412,7 @@ Use `Step1_fetchallscopusresults.py` with year-based splitting to get all result
 - `volume`: Volume number
 - `page_range`: Page numbers
 - `cited_by_count`: Citation count
-- 
-## Converting to RIS Format - PART B
 
-All fetched data can be converted to RIS (Research Information Systems) format for easy import into reference management software like Zotero, Mendeley, EndNote, or RefWorks.
-
-### Conversion Scripts
-
-Three converter scripts are provided:
-
-1. **convert_pubmed_to_ris.py** - Converts PubMed JSON files to RIS
-2. **convert_scopus_to_ris.py** - Converts Scopus/ScienceDirect JSON files to RIS
-3. **convert_enw_to_ris.py** - Converts ACM EndNote (.enw) files to RIS
-4. **convert_all_to_ris.py** - Master script to convert all formats at once
-
-### Usage
-
-Convert all files at once:
-```bash
-python convert_all_to_ris.py output
-```
-
-Convert specific source individually:
-```bash
-# PubMed only
-python convert_pubmed_to_ris.py output/pubmed_output/
-
-# Scopus only
-python convert_scopus_to_ris.py output/Scopus/
-
-# ACM EndNote only
-python convert_enw_to_ris.py output/acm_output/
-```
-
-Convert a single file:
-```bash
-python convert_pubmed_to_ris.py input.json output.ris
-```
-
-### Output
-
-RIS files are created in the same directory as the source files:
-- `output/pubmed_output/*.ris`
-- `output/Scopus/*.ris`
-- `output/acm_output/*.ris`
-
-### Importing into Reference Managers
-
-The generated RIS files can be directly imported into:
-- **Zotero**: File → Import → Select RIS file
-- **Mendeley**: File → Import → RIS
-- **EndNote**: File → Import → File → Choose RIS filter
-- **RefWorks**: Add → Import References → From File
-
-## Sample Data
-
-This repository includes a sample dataset (`output_data.tar.gz`) containing pre-fetched literature review results on automated ICD coding. The archive includes:
-
-- Multiple search queries (automated ICD coding, clinical coding, computer-assisted coding, etc.)
-- Data from both PubMed and Scopus/ScienceDirect sources
-- Both JSON and CSV formats for each query
-- Approximately 14MB compressed data
-
-### Extracting Sample Data
-
-To extract and explore the sample data:
-
-```bash
-tar -xzf output_data.tar.gz
-```
-
-This has an `output/` directory with subdirectories:
-- `output/pubmed_output/` - PubMed search results
-- `output/Scopus/` - ScienceDirect/Scopus search results
-- `output/acm_output/` - ACM Digital Library results (if available)
 ## License
 
 This project is intended for academic research purposes. Please respect the terms of service of each API provider:
