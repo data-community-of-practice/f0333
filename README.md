@@ -32,8 +32,8 @@ This project provides automated scripts to fetch research articles from major ac
 ├── convert_pubmed_to_ris.py            # PubMed JSON to RIS converter
 ├── convert_scopus_to_ris.py            # Scopus JSON to RIS converter
 ├── convert_enw_to_ris.py               # ACM EndNote to RIS converter
-├── convert_all_to_ris.py               # Master converter for all formats
-├── merge_ris_by_keyphrase.py           # Merge and deduplicate RIS files
+├── Step2_convert_all_to_ris.py         # Master converter for all formats
+├── Step3_merge_ris_by_keyphrase.py     # Merge and deduplicate RIS files
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
@@ -51,13 +51,13 @@ Three converter scripts are provided:
 1. **convert_pubmed_to_ris.py** - Converts PubMed JSON files to RIS
 2. **convert_scopus_to_ris.py** - Converts Scopus/ScienceDirect JSON files to RIS
 3. **convert_enw_to_ris.py** - Converts ACM EndNote (.enw) files to RIS
-4. **convert_all_to_ris.py** - Master script to convert all formats at once
+4. **Step2_convert_all_to_ris.py** - Master script to convert all formats at once
 
 ### Usage
 
 Convert all files at once:
 ```bash
-python convert_all_to_ris.py output
+python Step2_convert_all_to_ris.py output
 ```
 
 Convert specific source individually:
@@ -98,7 +98,7 @@ After converting all sources to RIS format, you may want to merge files by key p
 
 ### Merger Script
 
-**merge_ris_by_keyphrase.py** - Merges RIS files by key phrase and deduplicates based on DOI
+**Step3_merge_ris_by_keyphrase.py** - Merges RIS files by key phrase and deduplicates based on DOI
 
 This script:
 - Automatically groups RIS files by key phrase
@@ -109,12 +109,12 @@ This script:
 ### Usage
 
 ```bash
-python merge_ris_by_keyphrase.py output/ merged_output/
+python Step3_merge_ris_by_keyphrase.py output/ merged_output/
 ```
 
 Or use default output directory:
 ```bash
-python merge_ris_by_keyphrase.py output/
+python Step3_merge_ris_by_keyphrase.py output/
 ```
 
 ### Key Phrases Recognized
@@ -127,14 +127,44 @@ The script automatically recognizes these key phrases:
 
 ### Example Results
 
-Running the merger on the sample data:
+Running the merger on the sample data shows detailed tracking:
 
 ```
-Key phrases processed: 4
-Total records (all files): 51,774
-Unique records: 49,767
-Duplicates removed: 2,007
-Deduplication rate: 3.9%
+======================================================================
+Key Phrase: automated_ICD_coding
+======================================================================
+Input: 2 file(s) to merge
+
+Source files:
+  - automated_ICD_coding_pubmed.ris                                 430 records
+  - automated_ICD_coding_ALL_articles.ris                          3458 records
+
+----------------------------------------------------------------------
+BEFORE MERGING:    3888 total records
+AFTER MERGING:     3733 unique records
+----------------------------------------------------------------------
+Change:             155 duplicates removed (4.0%)
+```
+
+**Overall Summary:**
+```
+OVERALL STATISTICS:
+  Key phrases processed:     4
+  Total records BEFORE:      51,774
+  Total records AFTER:       49,767
+  Total duplicates removed:   2,007 (3.9%)
+
+BREAKDOWN BY KEY PHRASE:
+----------------------------------------------------------------------
+Key Phrase                                      Before    After  Removed
+----------------------------------------------------------------------
+Automated Icd Coding                              3888     3733      155
+Automatic International Classification Of...     15161    14895      266
+Clinical Coding Icd                              31815    30251     1564
+Computer Assisted Icd Coding                       910      888       22
+----------------------------------------------------------------------
+TOTAL                                            51774    49767     2007
+----------------------------------------------------------------------
 ```
 
 **Merged files created:**
