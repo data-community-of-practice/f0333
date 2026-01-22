@@ -35,6 +35,7 @@ pubmed_output/
 acm_output/
 *.csv
 *.json
+*.ris
 
 # IDE
 .vscode/

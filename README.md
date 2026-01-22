@@ -35,6 +35,58 @@ This project provides automated scripts to fetch research articles from major ac
 └── output/                             # All results
 ```
 
+## Converting to RIS Format
+
+All fetched data can be converted to RIS (Research Information Systems) format for easy import into reference management software like Zotero, Mendeley, EndNote, or RefWorks.
+
+### Conversion Scripts
+
+Three converter scripts are provided:
+
+1. **convert_pubmed_to_ris.py** - Converts PubMed JSON files to RIS
+2. **convert_scopus_to_ris.py** - Converts Scopus/ScienceDirect JSON files to RIS
+3. **convert_enw_to_ris.py** - Converts ACM EndNote (.enw) files to RIS
+4. **convert_all_to_ris.py** - Master script to convert all formats at once
+
+### Usage
+
+Convert all files at once:
+```bash
+python convert_all_to_ris.py output
+```
+
+Convert specific source individually:
+```bash
+# PubMed only
+python convert_pubmed_to_ris.py output/pubmed_output/
+
+# Scopus only
+python convert_scopus_to_ris.py output/Scopus/
+
+# ACM EndNote only
+python convert_enw_to_ris.py output/acm_output/
+```
+
+Convert a single file:
+```bash
+python convert_pubmed_to_ris.py input.json output.ris
+```
+
+### Output
+
+RIS files are created in the same directory as the source files:
+- `output/pubmed_output/*.ris`
+- `output/Scopus/*.ris`
+- `output/acm_output/*.ris`
+
+### Importing into Reference Managers
+
+The generated RIS files can be directly imported into:
+- **Zotero**: File → Import → Select RIS file
+- **Mendeley**: File → Import → RIS
+- **EndNote**: File → Import → File → Choose RIS filter
+- **RefWorks**: Add → Import References → From File
+
 ## Sample Data
 
 This repository includes a sample dataset (`output_data.tar.gz`) containing pre-fetched literature review results on automated ICD coding. The archive includes:
