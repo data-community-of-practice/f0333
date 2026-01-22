@@ -36,6 +36,7 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step3_merge_ris_by_keyphrase.py     # Merge and deduplicate RIS files
 ├── Step4_filter_by_journal.py          # Filter by target journals
 ├── Step5_filter_by_type.py             # Filter by article type (JOUR/CONF only)
+├── Step6_filter_by_content.py          # Filter by content analysis (ICD as task)
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
@@ -333,9 +334,124 @@ After all filtering steps:
 - **Journal Articles (JOUR)**: 2,182 records (94.0%)
 - **Conference Papers (CONF)**: 139 records (6.0%)
 
+## Filtering by Content (ICD Coding as Primary Task)
+
+The final and most sophisticated filtering step uses content analysis to identify papers where ICD coding is the primary research task, not just used for cohort identification or metadata.
+
+### Filter Script
+
+**Step6_filter_by_content.py** - Intelligent content analysis filter
+
+This script:
+- Analyzes title, abstract, and keywords using regex patterns
+- Identifies positive signals (ICD coding as the task)
+- Detects negative signals (ICD codes used only for cohort/metadata)
+- Uses a scoring system to make filtering decisions
+- Provides detailed reasoning for each decision
+
+### Filtering Criteria
+
+**Positive Signals (KEEP):**
+- Strong phrases: "ICD coding", "automated ICD", "code assignment", etc.
+- Model verbs near ICD: "predict", "classify", "assign", "automate"
+- ML/NLP signals: "machine learning", "deep learning", "transformer", "BERT"
+
+**Negative Signals (REMOVE):**
+- "used ICD codes to identify"
+- "patients identified using ICD"
+- "ICD ... cohort" / "ICD ... phenotyping"
+- "retrospective cohort" / "population-based"
+- "incidence" / "prevalence" / "mortality"
+
+### Scoring System
+
+The script calculates positive and negative scores:
+- **Strong positive** (score ≥ 3): Keep regardless of negatives
+- **Moderate positive** (score ≥ 2, negatives ≤ 2): Keep
+- **Strong negative** (negatives ≥ 3, positives < 2): Remove
+- **Weak positive** (any positive signals): Keep
+- **No clear signals**: Remove (too ambiguous)
+
+### Usage
+
+Filter type-filtered files:
+```bash
+python Step6_filter_by_content.py final_output/ curated_output/
+```
+
+Filter a single file:
+```bash
+python Step6_filter_by_content.py input.ris output_content_filtered.ris
+```
+
+### Example Results
+
+Content filtering produces highly curated research papers:
+
+```
+OVERALL STATISTICS:
+  Files processed:           4
+  Total records BEFORE:      2,321
+  Total records AFTER:        942
+  Total records removed:     1,379 (59.4%)
+  Retention rate:            40.6%
+
+REASONS FOR KEEPING RECORDS:
+----------------------------------------------------------------------
+  Weak positive signals                                           509
+  Strong positive signals                                         332
+  Moderate positive signals                                       101
+----------------------------------------------------------------------
+  TOTAL KEPT                                                      942
+
+REASONS FOR REMOVING RECORDS:
+----------------------------------------------------------------------
+  No clear ICD coding task signals                               1,350
+  Strong negative signals (cohort/metadata use)                    29
+----------------------------------------------------------------------
+  TOTAL REMOVED                                                  1,379
+```
+
+**Curated files created:**
+- `automated_ICD_coding_merged_filtered_type_filtered_content_filtered.ris` - 165 records
+- `automatic_international_classification_of_diseases_merged_filtered_type_filtered_content_filtered.ris` - 473 records
+- `clinical_coding_ICD_merged_filtered_type_filtered_content_filtered.ris` - 276 records
+- `computer_assisted_ICD_coding_merged_filtered_type_filtered_content_filtered.ris` - 28 records
+
+### Example Decisions
+
+**Kept (Strong Positive):**
+- Title: "Automated ICD coding via unsupervised knowledge integration"
+- Reason: Strong positive signals (Score: +16 / -0)
+
+**Removed (No Clear Signals):**
+- Title: "Knowledge acquisition for computation of semantic distance between WHO-ART terms"
+- Reason: No clear ICD coding task signals (Score: +0 / -0)
+
+**Removed (Strong Negative):**
+- Title: "Using clinical data to predict high-cost performance coding issues associated with pressure ulcers"
+- Reason: ICD used for cohort identification only (Score: +1 / -9)
+
+### Customizing Filtering Patterns
+
+To modify the filtering patterns, edit the lists at the top of `Step6_filter_by_content.py`:
+
+```python
+POS_PHRASES = [
+    r"\bicd coding\b",
+    r"\bclinical coding\b",
+    # Add your patterns...
+]
+
+NEG_PHRASES = [
+    r"\bused icd (codes? )?to identify\b",
+    # Add your patterns...
+]
+```
+
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 5 steps:
+The complete literature review pipeline consists of 6 steps:
 
 1. **Step 1**: Fetch data from PubMed, Scopus, and ACM Digital Library
    - Use `Step1_pubmed_fetcher.py` and `Step1_fetchallscopusresults.py`
@@ -357,7 +473,11 @@ The complete literature review pipeline consists of 5 steps:
    - Use `Step5_filter_by_type.py`
    - Result: 2,321 journal articles and conference papers (99.9% retention)
 
-**Final Result**: From 51,774 initial records to 2,321 high-quality, peer-reviewed research papers from top journals!
+6. **Step 6**: Filter by content analysis
+   - Use `Step6_filter_by_content.py`
+   - Result: 942 papers where ICD coding is the primary task (40.6% retention)
+
+**Final Result**: From 51,774 initial records to 942 highly curated research papers on automated ICD coding!
 
 ## Sample Data
 

@@ -45,6 +45,7 @@ acm_output/**/*.json
 merged_output/
 filtered_output/
 final_output/
+curated_output/
 
 # IDE
 .vscode/
