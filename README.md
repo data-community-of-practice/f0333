@@ -38,6 +38,8 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step5_filter_by_type.py             # Filter by article type (JOUR/CONF only)
 ├── Step6_filter_by_content.py          # Filter by content analysis (ICD as task)
 ├── Step7_filter_by_methodology.py      # Filter for methodological/technical papers
+├── Step8_tag_papers.py                 # Tag papers by method/challenge/dataset/period
+├── Step9_select_representatives.py     # Select representative papers from each bucket
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
@@ -586,9 +588,305 @@ NEG_PATTERNS = [
 ]
 ```
 
+## Tagging Papers by Method, Challenge, and Dataset
+
+After filtering to methodological papers, Step 8 automatically tags each paper to identify research trends, methods used, challenges addressed, and datasets employed.
+
+### Tagging Script
+
+**Step8_tag_papers.py** - Automatic paper tagging and analysis
+
+This script:
+- Tags papers by method family (LLM, Transformer, Deep Learning, Classical ML, Rule-based)
+- Identifies challenges addressed (Hierarchy, Rare labels, Long text, etc.)
+- Detects datasets used (MIMIC, eICU, UCSF, Claims)
+- Categorizes by time period (pre2012 to 2023+)
+- Detects evaluation metrics, novelty language, and coding task specificity
+- Outputs tagged RIS files and analysis CSV
+
+### Tagging Criteria
+
+**Method Families:**
+- **LLM_RAG_XAI**: Large language models, GPT, ChatGPT, RAG, prompting, agents
+- **TRANSFORMER**: BERT, RoBERTa, DeBERTa, Longformer, BigBird, transformers
+- **DEEP_CNN_RNN**: CNN, RNN, LSTM, BiLSTM, GRU, attention mechanisms
+- **CLASSICAL_ML**: SVM, logistic regression, naive Bayes, random forest, XGBoost, CRF, HMM
+- **RULE_BASED**: Rule-based systems, heuristics, dictionary-based, pattern matching
+
+**Challenges Addressed:**
+- **HIERARCHY**: Hierarchical classification, taxonomy, tree-structured codes
+- **RARE_LABELS**: Rare/long-tail labels, few-shot learning, data sparsity, imbalanced data
+- **LONG_TEXT**: Long documents/notes, sequence length issues, truncation, segmentation
+- **EXTREME_MULTILABEL**: Extreme multi-label classification, XMLC
+- **COOCCURRENCE_RULES**: Code co-occurrence, combination rules, dependencies
+- **MAPPING_INTEROP**: ICD version mapping, crosswalks, ICD-9/10/11 transitions
+- **KNOWLEDGE_AUG**: Ontologies, knowledge graphs, UMLS, SNOMED integration
+- **EXPLAINABILITY**: Explainable AI, interpretability, LIME, SHAP, rationales
+
+**Datasets:**
+- **MIMIC**: MIMIC-III, MIMIC-IV
+- **EICU**: eICU database
+- **UCSF**: UCSF data
+- **CLAIMS**: Administrative claims data
+
+**Time Periods:**
+- **pre2012**: Before 2012
+- **2012_2016**: 2012-2016
+- **2017_2019**: 2017-2019
+- **2020_2022**: 2020-2022
+- **2023_plus**: 2023 and later
+
+### Usage
+
+Tag refined papers:
+```bash
+python Step8_tag_papers.py refined_output/ tagged_output/ paper_tags_analysis.csv
+```
+
+Tag with defaults:
+```bash
+python Step8_tag_papers.py refined_output/
+```
+
+### Example Results
+
+Tagging the 728 methodological papers produces comprehensive analysis:
+
+```
+OVERALL STATISTICS:
+  Files processed:           4
+  Total papers tagged:       728
+
+METHOD FAMILIES (a paper can have multiple):
+----------------------------------------------------------------------
+  DEEP_CNN_RNN                    117 papers ( 16.1%)
+  TRANSFORMER                      67 papers (  9.2%)
+  LLM_RAG_XAI                      21 papers (  2.9%)
+  CLASSICAL_ML                     21 papers (  2.9%)
+  RULE_BASED                       13 papers (  1.8%)
+
+CHALLENGES ADDRESSED (a paper can address multiple):
+----------------------------------------------------------------------
+  MAPPING_INTEROP                 167 papers ( 22.9%)
+  HIERARCHY                        50 papers (  6.9%)
+  KNOWLEDGE_AUG                    38 papers (  5.2%)
+  EXTREME_MULTILABEL               30 papers (  4.1%)
+  LONG_TEXT                        29 papers (  4.0%)
+  RARE_LABELS                      17 papers (  2.3%)
+  COOCCURRENCE_RULES                2 papers (  0.3%)
+  EXPLAINABILITY                    1 papers (  0.1%)
+
+DATASETS USED:
+----------------------------------------------------------------------
+  MIMIC                            24 papers (  3.3%)
+
+TIME PERIODS:
+----------------------------------------------------------------------
+  pre2012                          38 papers (  5.2%)
+  2012_2016                        41 papers (  5.6%)
+  2017_2019                        96 papers ( 13.2%)
+  2020_2022                       236 papers ( 32.4%)
+  2023_plus                       317 papers ( 43.5%)
+
+CONTENT FLAGS:
+----------------------------------------------------------------------
+  Has evaluation metrics:      94 papers ( 12.9%)
+  Has novelty language:        77 papers ( 10.6%)
+  Explicit coding task:       100 papers ( 13.7%)
+```
+
+### Key Insights
+
+**Method Evolution:**
+- Deep CNN/RNN methods dominate (16.1% of papers)
+- Transformer models growing rapidly (9.2%)
+- Emerging LLM/RAG approaches (2.9%)
+
+**Research Focus:**
+- Mapping/interoperability is the top challenge (22.9%)
+- Hierarchical classification is second (6.9%)
+- Knowledge augmentation gaining traction (5.2%)
+
+**Time Trends:**
+- **76% of papers from 2020 onwards**
+- Recent explosion: 43.5% from 2023+
+- Field is rapidly evolving
+
+**Dataset Diversity:**
+- Low MIMIC concentration (3.3%) suggests diverse data sources
+- Many papers use proprietary/institutional datasets
+
+### Output Files
+
+**Tagged RIS Files:**
+Tags are embedded as `N1` (notes) fields in RIS format:
+```
+N1  - [AUTO_TAGS] PERIOD: 2023_plus | METHODS: TRANSFORMER, DEEP_CNN_RNN | CHALLENGES: HIERARCHY, EXTREME_MULTILABEL | DATASETS: MIMIC | FLAGS: HAS_METRICS, NOVEL, CODING_TASK
+```
+
+**Analysis CSV:**
+Tabular format (`paper_tags_analysis.csv`) with columns:
+- file, title, doi, year, year_bucket
+- phases (method families)
+- challenges (challenges addressed)
+- datasets (datasets used)
+- has_metrics, has_novelty, has_coding_task (boolean flags)
+
+Perfect for:
+- Pivot tables and statistical analysis
+- Trend visualization
+- Gap analysis (underexplored methods/challenges)
+- Literature review categorization
+
+## Selecting Representative Papers
+
+After tagging all papers, Step 9 selects a curated set of representative papers from each bucket (method × challenge combination) using intelligent scoring heuristics.
+
+### Selection Script
+
+**Step9_select_representatives.py** - Representative paper selector with scoring
+
+This script:
+- Uses priority-based method tagging (LLM > Transformer > Deep > Classical > Rule-based)
+- Tags multiple challenges per paper
+- Scores papers by quality indicators (metrics, novelty, coding task, length)
+- Buckets papers by method family × challenge
+- Selects top N papers per bucket (configurable)
+- Outputs CSV and RIS files with representative papers
+
+### Scoring Heuristic
+
+Papers are scored to identify the best representatives:
+
+**Score Components:**
+- **+3 points**: Has evaluation metrics (F1, precision, recall, accuracy, AUC, etc.)
+- **+2 points**: Has novelty language ("we propose", "novel", "new framework")
+- **+2 points**: Explicit coding task terminology
+- **+1 point**: Substantial abstract (> 600 characters)
+
+**Selection Process:**
+1. Papers are bucketed by (method family, primary challenge)
+2. Within each bucket, sort by: score (desc) → year (desc) → title length (desc)
+3. Select top 3 papers per bucket
+4. Optional total cap can be applied
+
+### Configuration
+
+Edit the script to modify selection parameters:
+
+```python
+TOP_N_PER_BUCKET = 3      # Papers per bucket
+TOTAL_CAP = None          # Optional cap on total papers
+BUCKET_MODE = "phase_x_challenge"  # Options: phase_only, phase_x_dataset, phase_x_challenge
+WRITE_SELECTED_RIS = True  # Export to RIS format
+```
+
+### Usage
+
+Select representatives from tagged papers:
+```bash
+python Step9_select_representatives.py tagged_output/ representatives/
+```
+
+Use default output directory:
+```bash
+python Step9_select_representatives.py tagged_output/
+```
+
+### Example Results
+
+Selecting from 728 tagged papers produces focused representatives:
+
+```
+OVERALL STATISTICS:
+  Total records loaded:      728
+  Tagged with scores:        230 papers
+  Buckets created:           24
+  Representatives selected:  62 papers
+
+REPRESENTATIVES BY METHOD FAMILY:
+----------------------------------------------------------------------
+  UNSPECIFIED                      15 papers
+  DEEP_CNN_RNN                     14 papers
+  TRANSFORMER                      13 papers
+  LLM_RAG_XAI                       8 papers
+  RULE_BASED                        6 papers
+  CLASSICAL_ML                      6 papers
+
+REPRESENTATIVES BY CHALLENGE/DIMENSION:
+----------------------------------------------------------------------
+  MAPPING_INTEROP                  18 papers
+  GENERAL                          15 papers
+  HIERARCHY                        12 papers
+  RARE_LABELS                       7 papers
+  EXTREME_MULTILABEL                5 papers
+  KNOWLEDGE_AUG                     3 papers
+  LONG_TEXT                         1 papers
+  COOCCURRENCE_RULES                1 papers
+
+REPRESENTATIVES BY TIME PERIOD:
+----------------------------------------------------------------------
+  pre2012                           2 papers
+  2012_2016                         4 papers
+  2017_2019                         9 papers
+  2020_2022                        17 papers
+  2023_plus                        30 papers (48.4%)
+```
+
+### Output Files
+
+**1. tagged_papers.csv**
+- All papers that scored > 0
+- Includes: title, DOI, year, method, challenges, datasets, scores
+- Useful for understanding what was evaluated
+
+**2. selected_representatives.csv**
+- Representative papers only (62 papers)
+- Additional columns: bucket_phase, bucket_dim, bucket
+- Perfect for literature review table creation
+
+**3. selected_representatives.ris**
+- Representative papers in RIS format
+- Ready for import into reference management software
+- Can be used as core citation set for the review
+
+### Use Cases
+
+**Literature Review:**
+- Create a representative sample across all method × challenge combinations
+- Ensure balanced coverage of the field
+- Identify exemplary papers for each approach
+
+**Gap Analysis:**
+- Identify under-explored method × challenge combinations
+- Buckets with fewer papers indicate research opportunities
+- Guide future research directions
+
+**Systematic Review:**
+- Focus deep reading on high-quality representative papers
+- Use as seed set for snowball sampling
+- Extract key insights from each methodological approach
+
+### Key Insights from Selection
+
+**Method Distribution:**
+- Deep learning methods dominate representatives (14 papers)
+- Transformer models well-represented (13 papers)
+- Emerging LLM approaches gaining traction (8 papers)
+
+**Challenge Focus:**
+- Mapping/interoperability most common (18 papers)
+- Hierarchical classification well-studied (12 papers)
+- Rare labels receiving attention (7 papers)
+
+**Temporal Distribution:**
+- **77.4% from 2020 onwards** (47 / 62 papers)
+- Recent explosion in 2023+ (30 papers)
+- Field rapidly evolving with modern methods
+
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 7 steps:
+The complete literature review pipeline consists of 9 steps:
 
 1. **Step 1**: Fetch data from PubMed, Scopus, and ACM Digital Library
    - Use `Step1_pubmed_fetcher.py` and `Step1_fetchallscopusresults.py`
@@ -618,7 +916,54 @@ The complete literature review pipeline consists of 7 steps:
    - Use `Step7_filter_by_methodology.py`
    - Result: 728 methodological/technical papers (77.3% retention, 22.7% removed)
 
-**Final Result**: From 51,774 initial records to 728 highly refined, methodologically-focused research papers on automated ICD coding!
+8. **Step 8**: Tag papers by method, challenge, and dataset
+   - Use `Step8_tag_papers.py`
+   - Result: 728 tagged papers with comprehensive metadata
+   - Output: Tagged RIS files + analysis CSV
+
+9. **Step 9**: Select representative papers from each bucket
+   - Use `Step9_select_representatives.py`
+   - Result: 62 representative papers (top 3 per method × challenge bucket)
+   - Output: Selected representatives CSV + RIS file
+
+**Final Result**: From 51,774 initial records to 728 highly refined papers, with 62 carefully selected representatives covering all method × challenge combinations!
+
+### Pipeline Statistics
+
+| Step | Records | Change | Description |
+|------|---------|--------|-------------|
+| 1-2 | 51,774 | - | Fetch & convert to RIS |
+| 3 | 49,767 | -3.9% | Merge & deduplicate |
+| 4 | 2,324 | -95.3% | Filter by journals |
+| 5 | 2,321 | -0.1% | Filter by type |
+| 6 | 942 | -59.4% | Filter by content |
+| 7 | 728 | -22.7% | Filter by methodology |
+| 8 | 728 | tagged | Tag by method/challenge/dataset |
+| 9 | 62 | selected | Select representatives (top 3 per bucket) |
+
+**Final retention: 1.4% of original records (728 / 51,774)**
+**Representative sample: 0.12% of original records (62 / 51,774)**
+
+### Tagged Paper Distribution
+
+**By Method (728 papers, papers can have multiple methods):**
+- Deep CNN/RNN: 117 papers (16.1%)
+- Transformer: 67 papers (9.2%)
+- LLM/RAG/XAI: 21 papers (2.9%)
+- Classical ML: 21 papers (2.9%)
+- Rule-based: 13 papers (1.8%)
+
+**By Time Period:**
+- 2023+: 317 papers (43.5%)
+- 2020-2022: 236 papers (32.4%)
+- 2017-2019: 96 papers (13.2%)
+- 2012-2016: 41 papers (5.6%)
+- pre-2012: 38 papers (5.2%)
+
+**Top Challenges:**
+- Mapping/Interoperability: 167 papers (22.9%)
+- Hierarchy: 50 papers (6.9%)
+- Knowledge Augmentation: 38 papers (5.2%)
 
 ## Sample Data
 

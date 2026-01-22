@@ -47,6 +47,8 @@ filtered_output/
 final_output/
 curated_output/
 refined_output/
+tagged_output/
+representatives/
 
 # IDE
 .vscode/
