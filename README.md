@@ -34,6 +34,7 @@ This project provides automated scripts to fetch research articles from major ac
 ├── convert_enw_to_ris.py               # ACM EndNote to RIS converter
 ├── Step2_convert_all_to_ris.py         # Master converter for all formats
 ├── Step3_merge_ris_by_keyphrase.py     # Merge and deduplicate RIS files
+├── Step4_filter_by_journal.py          # Filter by target journals
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
 ├── output_data.tar.gz                  # Sample output data archive
@@ -179,6 +180,94 @@ TOTAL                                            51774    49767     2007
 - Records with the same DOI are considered duplicates
 - First occurrence is kept, subsequent duplicates are removed
 - Records without DOI are all retained (not deduplicated)
+
+## Filtering by Target Journals
+
+After merging and deduplication, you can further filter papers to keep only those published in specific high-quality journals relevant to your research.
+
+### Filter Script
+
+**Step4_filter_by_journal.py** - Filters RIS files to keep only papers from target journals
+
+This script:
+- Scans journal names in RIS files (JO, JF, and T2 tags)
+- Matches against a predefined list of target journals
+- Handles case-insensitive and partial matching
+- Provides detailed statistics on filtering
+
+### Target Journals
+
+The script filters for these 11 journals:
+1. Journal of Biomedical Informatics
+2. Journal of the American Medical Informatics Association
+3. International Journal of Medical Informatics
+4. BMC Medical Informatics and Decision Making
+5. Studies in Health Technology and Informatics
+6. Computers in Biology and Medicine
+7. IEEE Access
+8. Expert Systems with Applications
+9. Biomedical Signal Processing and Control
+10. Sensors
+11. Applied Sciences Switzerland
+
+### Usage
+
+Filter all merged files:
+```bash
+python Step4_filter_by_journal.py merged_output/ filtered_output/
+```
+
+Filter a single file:
+```bash
+python Step4_filter_by_journal.py input.ris output_filtered.ris
+```
+
+### Example Results
+
+Filtering the merged files produces focused results:
+
+```
+OVERALL STATISTICS:
+  Files processed:           4
+  Total records BEFORE:      49,767
+  Total records AFTER:        2,324
+  Total records removed:     47,443 (95.3%)
+  Retention rate:            4.7%
+
+MATCHED JOURNALS DISTRIBUTION:
+----------------------------------------------------------------------
+  IEEE Access                                                     361
+  Journal of Biomedical Informatics                               260
+  Journal of the American Medical Informatics Association         227
+  Studies in Health Technology and Informatics                    224
+  Sensors                                                         223
+  Computers in Biology and Medicine                               214
+  BMC Medical Informatics and Decision Making                     200
+  Biomedical Signal Processing and Control                        192
+  International Journal of Medical Informatics                    158
+  Expert Systems with Applications                                139
+  Applied Sciences Switzerland                                    126
+----------------------------------------------------------------------
+  TOTAL                                                          2,324
+```
+
+**Filtered files created:**
+- `automated_ICD_coding_merged_filtered.ris` - 338 records
+- `automatic_international_classification_of_diseases_merged_filtered.ris` - 1,324 records
+- `clinical_coding_ICD_merged_filtered.ris` - 615 records
+- `computer_assisted_ICD_coding_merged_filtered.ris` - 47 records
+
+### Customizing Target Journals
+
+To modify the target journal list, edit the `TARGET_JOURNALS` list at the top of `Step4_filter_by_journal.py`:
+
+```python
+TARGET_JOURNALS = [
+    "Your Journal Name Here",
+    "Another Journal Name",
+    # Add more journals as needed
+]
+```
 
 ## Sample Data
 

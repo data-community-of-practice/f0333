@@ -41,8 +41,9 @@ acm_output/**/*.json
 !output/**/*.ris
 !output/
 
-# Merged output directory
+# Merged and filtered output directories
 merged_output/
+filtered_output/
 
 # IDE
 .vscode/
