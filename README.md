@@ -98,7 +98,7 @@ The generated RIS files can be directly imported into:
 - **EndNote**: File → Import → File → Choose RIS filter
 - **RefWorks**: Add → Import References → From File
 
-## Merging and Deduplicating RIS Files
+## Merging and Deduplicating RIS Files - PART B
 
 After converting all sources to RIS format, you may want to merge files by key phrase and remove duplicates across different sources (PubMed, Scopus, ACM).
 
@@ -186,7 +186,9 @@ TOTAL                                            51774    49767     2007
 - First occurrence is kept, subsequent duplicates are removed
 - Records without DOI are all retained (not deduplicated)
 
-## Filtering by Target Journals
+## Filtering - PART C
+
+### Filtering by Target Journals
 
 After merging and deduplication, you can further filter papers to keep only those published in specific high-quality journals relevant to your research.
 
