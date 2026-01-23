@@ -401,45 +401,46 @@ Running the merger on the sample data shows detailed tracking:
 ======================================================================
 Key Phrase: automated_ICD_coding
 ======================================================================
-Input: 2 file(s) to merge
+Input: 3 file(s) to merge
 
 Source files:
+  - automated_icd_coding_acm.ris                                    853 records
   - automated_ICD_coding_pubmed.ris                                 430 records
   - automated_ICD_coding_ALL_articles.ris                          3458 records
 
 ----------------------------------------------------------------------
-BEFORE MERGING:    3888 total records
-AFTER MERGING:     3733 unique records
+BEFORE MERGING:    4741 total records
+AFTER MERGING:     4547 unique records
 ----------------------------------------------------------------------
-Change:             155 duplicates removed (4.0%)
+Change:             194 duplicates removed (4.1%)
 ```
 
 **Overall Summary:**
 ```
 OVERALL STATISTICS:
   Key phrases processed:     4
-  Total records BEFORE:      51,774
-  Total records AFTER:       49,767
-  Total duplicates removed:   2,007 (3.9%)
+  Total records BEFORE:      53,194
+  Total records AFTER:       51,307
+  Total duplicates removed:   1,887 (3.5%)
 
 BREAKDOWN BY KEY PHRASE:
 ----------------------------------------------------------------------
 Key Phrase                                      Before    After  Removed
 ----------------------------------------------------------------------
-Automated Icd Coding                              3888     3733      155
-Automatic International Classification Of...     15161    14895      266
+Automated Icd Coding                              4741     4547      194
+Automatic International Classification Of...     14978    14875      103
 Clinical Coding Icd                              31815    30251     1564
-Computer Assisted Icd Coding                       910      888       22
+Computer Assisted Icd Coding                      1660     1634       26
 ----------------------------------------------------------------------
-TOTAL                                            51774    49767     2007
+TOTAL                                            53194    51307     1887
 ----------------------------------------------------------------------
 ```
 
 **Merged files created:**
-- `automated_ICD_coding_merged.ris` - 3,733 unique records
-- `automatic_international_classification_of_diseases_merged.ris` - 14,895 unique records
+- `automated_ICD_coding_merged.ris` - 4,547 unique records
+- `automatic_international_classification_of_diseases_merged.ris` - 14,875 unique records
 - `clinical_coding_ICD_merged.ris` - 30,251 unique records
-- `computer_assisted_ICD_coding_merged.ris` - 888 unique records
+- `computer_assisted_ICD_coding_merged.ris` - 1,634 unique records
 
 ### Deduplication Logic
 
@@ -498,10 +499,10 @@ Filtering the merged files produces focused results:
 ```
 OVERALL STATISTICS:
   Files processed:           4
-  Total records BEFORE:      49,767
+  Total records BEFORE:      51,307
   Total records AFTER:        2,324
-  Total records removed:     47,443 (95.3%)
-  Retention rate:            4.7%
+  Total records removed:     48,983 (95.5%)
+  Retention rate:            4.5%
 
 MATCHED JOURNALS DISTRIBUTION:
 ----------------------------------------------------------------------
@@ -1158,15 +1159,15 @@ The complete literature review pipeline consists of 9 steps:
 
 2. **Step 2**: Convert all data to RIS format
    - Use `Step2_convert_all_to_ris.py`
-   - Result: 51,774 records in RIS format
+   - Result: 53,194 records in RIS format
 
 3. **Step 3**: Merge and deduplicate by key phrase
    - Use `Step3_merge_ris_by_keyphrase.py`
-   - Result: 49,767 unique records (3.9% duplicates removed)
+   - Result: 51,307 unique records (3.5% duplicates removed)
 
 4. **Step 4**: Filter by target journals
    - Use `Step4_filter_by_journal.py`
-   - Result: 2,324 high-quality papers from 11 top journals (4.7% retention)
+   - Result: 2,324 high-quality papers from 11 top journals (4.5% retention)
 
 5. **Step 5**: Filter by article type
    - Use `Step5_filter_by_type.py`
@@ -1190,23 +1191,23 @@ The complete literature review pipeline consists of 9 steps:
    - Result: 62 representative papers (top 3 per method × challenge bucket)
    - Output: Selected representatives CSV + RIS file
 
-**Final Result**: From 51,774 initial records to 728 highly refined papers, with 62 carefully selected representatives covering all method × challenge combinations!
+**Final Result**: From 53,194 initial records to 728 highly refined papers, with 62 carefully selected representatives covering all method × challenge combinations!
 
 ### Pipeline Statistics
 
 | Step | Records | Change | Description |
 |------|---------|--------|-------------|
-| 1-2 | 51,774 | - | Fetch & convert to RIS |
-| 3 | 49,767 | -3.9% | Merge & deduplicate |
-| 4 | 2,324 | -95.3% | Filter by journals |
+| 1-2 | 53,194 | - | Fetch & convert to RIS |
+| 3 | 51,307 | -3.5% | Merge & deduplicate |
+| 4 | 2,324 | -95.5% | Filter by journals |
 | 5 | 2,321 | -0.1% | Filter by type |
 | 6 | 942 | -59.4% | Filter by content |
 | 7 | 728 | -22.7% | Filter by methodology |
 | 8 | 728 | tagged | Tag by method/challenge/dataset |
 | 9 | 62 | selected | Select representatives (top 3 per bucket) |
 
-**Final retention: 1.4% of original records (728 / 51,774)**
-**Representative sample: 0.12% of original records (62 / 51,774)**
+**Final retention: 1.4% of original records (728 / 53,194)**
+**Representative sample: 0.12% of original records (62 / 53,194)**
 
 ### Tagged Paper Distribution
 
