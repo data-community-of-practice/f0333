@@ -554,13 +554,109 @@ DEDUPLICATION STATISTICS:
 
 ### Next Steps
 
-After global deduplication, the unified dataset (105,920 papers) is ready for further analysis and filtering based on your research needs:
-- Filter by target journals (quality filter)
-- Filter by article type (remove books/chapters)
-- Content analysis (identify papers where ICD coding is the primary task)
-- Methodology filtering (focus on technical/methods papers)
-- Manual review and selection
+After global deduplication, proceed to PRISMA screening (Step 6) to categorize papers by relevance.
 
+## PRISMA Screening and Relevance Categorization - PART C
+
+After global deduplication produces 105,920 unique papers, the next step is to screen and categorize them using PRISMA-style automated criteria. This helps prioritize which papers to review first.
+
+### Step 6: PRISMA Screening
+**Step6_prisma_screening.py** - Automated relevance scoring and categorization
+
+This script:
+- Filters papers by year range (2005-2026) and publication type (CONF/JOUR)
+- Scores papers based on relevance criteria using regex patterns
+- Categorizes papers into 4 levels: HIGH, MEDIUM, LOW, EXCLUDE
+- Exports results to Excel with multiple sheets for easy review
+
+#### Scoring Criteria
+
+**Positive Signals (adds points):**
+- ICD terms in title: +10 points
+- ICD terms in abstract: +5 points
+- "Automated ICD" in title: +5 points
+- Coding task terminology: +3 points
+- AI/ML terms: +2 points each (max +10)
+- Evaluation metrics present: +2 points
+
+**Negative Signals (subtracts points):**
+- No ICD terms found: -10 points
+- Exclusion terms (billing, audit, manual coding, etc.): -5 points each (max -15)
+
+**Categories:**
+- **HIGH** (score ≥ 15): Definite include - highly relevant papers
+- **MEDIUM** (score 8-14): Review abstract - potentially relevant
+- **LOW** (score 0-7): Likely exclude - marginal relevance
+- **EXCLUDE** (score < 0): Clear exclusion - not relevant
+
+#### Usage
+
+Run with default settings:
+```bash
+python Step6_prisma_screening.py
+```
+
+Custom input/output files:
+```bash
+python Step6_prisma_screening.py merged_deduplicated_papers.csv prisma_results.xlsx
+```
+
+Custom year range:
+```bash
+python Step6_prisma_screening.py merged_deduplicated_papers.csv prisma_results.xlsx 2010 2025
+```
+
+#### Output
+
+**Excel file with 6 sheets:**
+1. **Summary** - Overview statistics and percentages
+2. **High_Relevance** - Papers to review first (score ≥ 15)
+3. **Medium_Relevance** - Papers to review if needed (score 8-14)
+4. **Low_Relevance** - Marginal papers (score 0-7)
+5. **Excluded** - Papers to skip (score < 0)
+6. **All_Filtered** - Complete filtered dataset with scores
+
+**RIS files for reference management:**
+- **prisma_screening_results_included.ris** - HIGH + MEDIUM papers (ready to import into Zotero/Mendeley/EndNote)
+- **prisma_screening_results_excluded.ris** - LOW + EXCLUDE papers (for record keeping)
+
+#### Example Results
+
+```
+PRISMA SCREENING RESULTS
+================================================================================
+
+1. Records identified through database searching: 105,920
+2. Records after year filter (2005-2026): 102,543
+   Excluded (outside date range): 3,377
+3. Records after publication type filter: 98,234
+   Excluded (non-CONF/JOUR): 4,309
+
+RELEVANCE CATEGORIZATION
+--------------------------------------------------------------------------------
+HIGH - Definite Include        : 3,245 (3.3%)
+MEDIUM - Review Abstract       : 8,567 (8.7%)
+LOW - Likely Exclude           : 45,123 (45.9%)
+EXCLUDE - Clear Exclusion      : 41,299 (42.1%)
+
+TOTAL                          : 98,234
+```
+
+#### Recommendations
+
+1. **Start with HIGH relevance papers** - Most likely to be relevant (typically 3-5% of dataset)
+2. **Review MEDIUM papers** - Check abstracts to determine relevance (typically 8-10%)
+3. **Consider LOW papers only if needed** - Lower probability of relevance
+4. **Skip EXCLUDED papers** - Strong negative signals indicate non-relevance
+
+#### Customization
+
+To adjust scoring criteria, edit these sections in the script:
+- `ICD_TERMS` - ICD-related terminology
+- `AI_ML_TERMS` - Automation/ML terminology
+- `EXCLUSION_TERMS` - Terms indicating non-relevant papers
+- `score_relevance()` function - Scoring logic
+- `categorize_paper()` function - Category thresholds
 
 ## Project Structure
 
@@ -576,6 +672,7 @@ After global deduplication, the unified dataset (105,920 papers) is ready for fu
 ├── Step3_merge_and_deduplicate.py      # Global merge and deduplication
 ├── Step4_export_to_csv.py              # Export merged data to CSV
 ├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
+├── Step6_prisma_screening.py           # PRISMA screening and categorization
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── acm_output.tar.gz                   # ACM source data (6,112 records)
@@ -586,7 +683,7 @@ After global deduplication, the unified dataset (105,920 papers) is ready for fu
 
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 5 main steps:
+The complete literature review pipeline consists of 6 main steps:
 
 ### Step 1: Fetch Data from Sources
 - Use `Step1_pubmed_fetcher.py` for PubMed
@@ -594,7 +691,7 @@ The complete literature review pipeline consists of 5 main steps:
 - Manually download from ACM Digital Library (no API)
 - Result: Raw data in JSON, CSV, and ENW formats
 
-### Step 2: Convert to RIS Format  
+### Step 2: Convert to RIS Format
 - Use `Step2_convert_all_to_ris.py`
 - Converts all formats to standardized RIS
 - Result: 167,268 records in RIS format across 19 files
@@ -618,6 +715,13 @@ The complete literature review pipeline consists of 5 main steps:
 - Shows which papers appear in multiple databases
 - Output: `duplicate_analysis_report.txt`
 
+### Step 6: PRISMA Screening
+- Use `Step6_prisma_screening.py`
+- Filters by year (2005-2026) and publication type (CONF/JOUR)
+- Scores and categorizes papers by relevance (HIGH/MEDIUM/LOW/EXCLUDE)
+- Result: ~98,000 papers categorized with relevance scores
+- Output: `prisma_screening_results.xlsx` (6 sheets)
+
 ### Running the Complete Deduplication Pipeline
 
 ```bash
@@ -638,8 +742,13 @@ python run_deduplication_pipeline.py
 | 3 | 105,920 | -36.7% | Global merge & deduplicate |
 | 4 | 105,920 | - | Export to CSV format |
 | 5 | - | - | Analyze duplicates (optional) |
+| 6 | ~98,000 | -7.5% | PRISMA screening & categorization |
 
-**Final result: 105,920 unique papers from 167,268 total records**
+**Final result after screening:**
+- HIGH relevance: ~3,000-3,500 papers (3-4%)
+- MEDIUM relevance: ~8,000-9,000 papers (8-9%)
+- LOW relevance: ~45,000 papers (46%)
+- EXCLUDED: ~41,000 papers (42%)
 
 **Source breakdown:**
 - ACM Digital Library: 6,112 records (3.7%)
