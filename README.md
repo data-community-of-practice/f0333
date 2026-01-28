@@ -362,7 +362,7 @@ The generated RIS files can be directly imported into:
 
 ## Global Merging and Deduplication - PART B
 
-After converting all sources to RIS format, the next step is to perform **global deduplication** across all data sources (ACM, PubMed, Scopus) and all keyphrases. This approach differs from the previous keyphrase-based merging by:
+After converting all sources to RIS format, the next step is to perform **global deduplication** across all data sources (ACM, PubMed, Scopus) and all keyphrases. It does the following:
 
 1. **Merging everything at once** - All RIS files from all sources and keyphrases are merged into a single dataset
 2. **Global deduplication** - Removes duplicates based on DOI across the entire dataset
@@ -562,7 +562,7 @@ After global deduplication, the unified dataset (105,920 papers) is ready for fu
 - Manual review and selection
 
 
-## Project Structure (Updated)
+## Project Structure
 
 ```
 .
