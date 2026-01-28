@@ -658,6 +658,147 @@ To adjust scoring criteria, edit these sections in the script:
 - `score_relevance()` function - Scoring logic
 - `categorize_paper()` function - Category thresholds
 
+## Taxonomy Classification - PART D
+
+After PRISMA screening identifies 6,418 included papers (HIGH + MEDIUM), the next step is to classify them using a comprehensive taxonomy to understand research trends and methods.
+
+### Step 7: Taxonomy Classification
+**Step7_taxonomy_classification.py** - Multi-dimensional classification of papers
+
+This script:
+- Classifies papers across 7 dimensions using regex pattern matching
+- Analyzes research trends by ML methods, ICD versions, task types, datasets, etc.
+- Generates cross-tabulations and temporal evolution analysis
+- Provides statistics for each taxonomy category
+
+#### Taxonomy Dimensions
+
+**1. ML_Method**
+- Traditional_ML (SVM, Random Forest, Naive Bayes, XGBoost)
+- RNN_LSTM (Recurrent networks)
+- CNN (Convolutional networks)
+- Attention (Attention mechanisms)
+- BERT_Transformers (BERT, RoBERTa, ClinicalBERT, BioBERT)
+- LLM (GPT, ChatGPT, LLaMA, large language models)
+- Graph_Neural (GCN, GAT, knowledge graphs)
+- Multi_task (Multi-task learning)
+- Ensemble (Hybrid models)
+- Rule_Based (Rule systems, heuristics)
+
+**2. ICD_Version**
+- ICD-9, ICD-10, ICD-11, ICD-O (Oncology)
+- Multiple_Versions (Crosswalks/mapping studies)
+
+**3. Input_Data**
+- Discharge_Summary, Clinical_Notes, Radiology, Pathology
+- EHR (Electronic Health Records)
+- Nursing, Operative, Emergency notes
+
+**4. Task_Type**
+- Multi_label, Hierarchical, Explainable
+- Few_shot, Imbalance (rare codes, long-tail)
+- Extreme_Multilabel, Code_Assignment
+
+**5. Dataset**
+- MIMIC-III, MIMIC-IV, eICU, CMC
+- Private_Hospital, Claims data
+
+**6. Key_Contribution**
+- Knowledge_Graph (SNOMED, UMLS, ontologies)
+- Transfer_Learning (Pre-training, fine-tuning)
+- Efficiency (Speed, scalability)
+- Weakly_Supervised, Active_Learning
+- Retrieval_Augmented, Prompt_Engineering
+
+**7. Evaluation_Metric**
+- F1_Score, Precision_Recall, Accuracy
+- AUC/AUROC, Top-K, Hamming Loss
+
+#### Usage
+
+Run with default settings (classifies HIGH + MEDIUM papers):
+```bash
+python Step7_taxonomy_classification.py
+```
+
+Custom input file:
+```bash
+python Step7_taxonomy_classification.py prisma_screening_results_all_filtered.csv
+```
+
+Classify all papers (not just HIGH + MEDIUM):
+```bash
+python Step7_taxonomy_classification.py input.csv output.csv false
+```
+
+#### Output Files
+
+1. **papers_with_taxonomy.csv** - All 6,418 papers with taxonomy columns added
+2. **papers_with_taxonomy_statistics.txt** - Detailed distribution statistics
+3. **papers_with_taxonomy_crosstab_method_version.csv** - ML Method × ICD Version
+4. **papers_with_taxonomy_temporal_evolution.csv** - Methods over time (2005-2026)
+
+#### Example Results
+
+From 6,418 included papers:
+
+**ML Methods:**
+- Traditional_ML: 258 papers (4.0%)
+- Ensemble: 153 papers (2.4%)
+- BERT/Transformers: 115 papers (1.8%)
+- Rule_Based: 74 papers (1.2%)
+- LLM: 59 papers (0.9%)
+- Unclassified: 5,721 papers (89.1%)
+
+**ICD Versions:**
+- ICD-10: 3,492 papers (54.4%)
+- ICD-9: 1,021 papers (15.9%)
+- ICD-11: 1,012 papers (15.8%)
+- Multiple_Versions: 503 papers (7.8%)
+
+**Datasets:**
+- Private Hospital: 514 papers (8.0%)
+- Claims data: 430 papers (6.7%)
+- MIMIC-III: 70 papers (1.1%)
+- MIMIC-IV: 16 papers (0.2%)
+
+**Task Types:**
+- Explainable: 495 papers (7.7%)
+- Hierarchical: 124 papers (1.9%)
+- Code Assignment: 101 papers (1.6%)
+- Multi-label: 62 papers (1.0%)
+
+#### Key Insights
+
+1. **High unclassified rate** (89% for ML methods) indicates many papers are:
+   - Review/survey papers
+   - Conceptual studies about ICD coding
+   - Studies using methods without explicitly naming them
+
+2. **ICD-10 dominance** (54.4%) reflects current clinical practice worldwide
+
+3. **Low MIMIC usage** (1.3%) shows most research uses proprietary hospital data
+
+4. **Emerging LLM trend** (59 papers) demonstrates recent interest in large language models
+
+5. **Temporal evolution** shows:
+   - Traditional ML still active (258 papers across all years)
+   - BERT/Transformers growing (from 3 in 2019 to 20 in 2025)
+   - LLMs emerging (starting 2022)
+
+#### Customization
+
+To modify taxonomy categories, edit the `TAXONOMY` dictionary at the top of the script:
+```python
+TAXONOMY = {
+    'ML_Method': {
+        'Your_Category': [r'\bpattern1\b', r'\bpattern2\b'],
+        # Add more categories...
+    },
+    # Add more dimensions...
+}
+```
+
 ## Project Structure
 
 ```
@@ -673,6 +814,7 @@ To adjust scoring criteria, edit these sections in the script:
 ├── Step4_export_to_csv.py              # Export merged data to CSV
 ├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
 ├── Step6_prisma_screening.py           # PRISMA screening and categorization
+├── Step7_taxonomy_classification.py    # Taxonomy classification of papers
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── acm_output.tar.gz                   # ACM source data (6,112 records)
@@ -683,7 +825,7 @@ To adjust scoring criteria, edit these sections in the script:
 
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 6 main steps:
+The complete literature review pipeline consists of 7 main steps:
 
 ### Step 1: Fetch Data from Sources
 - Use `Step1_pubmed_fetcher.py` for PubMed
@@ -719,8 +861,15 @@ The complete literature review pipeline consists of 6 main steps:
 - Use `Step6_prisma_screening.py`
 - Filters by year (2005-2026) and publication type (CONF/JOUR)
 - Scores and categorizes papers by relevance (HIGH/MEDIUM/LOW/EXCLUDE)
-- Result: ~98,000 papers categorized with relevance scores
-- Output: `prisma_screening_results.xlsx` (6 sheets)
+- Result: ~100,566 papers filtered, 6,418 included (HIGH + MEDIUM)
+- Output: `prisma_screening_results.xlsx` (5 sheets), 2 RIS files
+
+### Step 7: Taxonomy Classification
+- Use `Step7_taxonomy_classification.py`
+- Classifies 6,418 included papers across 7 dimensions
+- Dimensions: ML_Method, ICD_Version, Input_Data, Task_Type, Dataset, Key_Contribution, Evaluation_Metric
+- Generates statistics, cross-tabulations, and temporal evolution analysis
+- Output: `papers_with_taxonomy.csv` + 3 analysis files
 
 ### Running the Complete Deduplication Pipeline
 
@@ -742,13 +891,19 @@ python run_deduplication_pipeline.py
 | 3 | 105,920 | -36.7% | Global merge & deduplicate |
 | 4 | 105,920 | - | Export to CSV format |
 | 5 | - | - | Analyze duplicates (optional) |
-| 6 | ~98,000 | -7.5% | PRISMA screening & categorization |
+| 6 | 100,566 | -5.1% | PRISMA screening & categorization |
+| 7 | 6,418 | - | Taxonomy classification (HIGH + MEDIUM) |
 
-**Final result after screening:**
-- HIGH relevance: ~3,000-3,500 papers (3-4%)
-- MEDIUM relevance: ~8,000-9,000 papers (8-9%)
-- LOW relevance: ~45,000 papers (46%)
-- EXCLUDED: ~41,000 papers (42%)
+**Final screening results (Step 6):**
+- HIGH relevance: 446 papers (0.4%) - Definite include
+- MEDIUM relevance: 5,972 papers (5.9%) - Review abstract
+- **Included for review: 6,418 papers (6.4%)**
+- LOW relevance: 19,759 papers (19.6%)
+- EXCLUDED: 74,389 papers (74.0%)
+
+**Taxonomy classification (Step 7):**
+- 6,418 papers classified across 7 dimensions
+- Key findings: 54% ICD-10, 4% Traditional ML, 1.8% BERT/Transformers, 0.9% LLM
 
 **Source breakdown:**
 - ACM Digital Library: 6,112 records (3.7%)
