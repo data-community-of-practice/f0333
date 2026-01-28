@@ -360,876 +360,299 @@ The generated RIS files can be directly imported into:
 - **EndNote**: File → Import → File → Choose RIS filter
 - **RefWorks**: Add → Import References → From File
 
-## Merging and Deduplicating RIS Files - PART B
+## Global Merging and Deduplication - PART B
 
-After converting all sources to RIS format, you may want to merge files by key phrase and remove duplicates across different sources (PubMed, Scopus, ACM).
+After converting all sources to RIS format, the next step is to perform **global deduplication** across all data sources (ACM, PubMed, Scopus) and all keyphrases. This approach differs from the previous keyphrase-based merging by:
 
-### Merger Script
+1. **Merging everything at once** - All RIS files from all sources and keyphrases are merged into a single dataset
+2. **Global deduplication** - Removes duplicates based on DOI across the entire dataset
+3. **Comprehensive statistics** - Provides detailed analysis of duplicates by source and keyphrase
 
-**Step3_merge_ris_by_keyphrase.py** - Merges RIS files by key phrase and deduplicates based on DOI
+### Data Files
+
+Three compressed archives contain the raw RIS files from each source:
+- `acm_output.tar.gz` - ACM Digital Library results (6,112 records)
+- `pubmed_output.tar.gz` - PubMed search results (36,333 records)
+- `scopus_output.tar.gz` - Scopus search results (124,823 records)
+
+**Extract the data:**
+```bash
+tar -xzf acm_output.tar.gz
+tar -xzf pubmed_output.tar.gz
+tar -xzf scopus_output.tar.gz
+```
+
+### Search Keyphrases Used
+
+The following keyphrases were used to search for ICD coding papers:
+- `automated ICD coding`
+- `automatic international classification of diseases coding`
+- `computer-assisted ICD coding`
+- `clinical coding ICD`
+- `icd coding`
+- `icd classification`
+
+### Deduplication Scripts
+
+Three scripts handle the global deduplication pipeline:
+
+#### Step 3: Merge and Deduplicate
+**Step3_merge_and_deduplicate.py** - Main deduplication script
 
 This script:
-- Automatically groups RIS files by key phrase
-- Merges all files for each key phrase (e.g., combines PubMed, Scopus, and ACM results for "automated_ICD_coding")
-- Deduplicates based on DOI
-- Retains all records without DOI
+- Reads all RIS files from the three source folders
+- Merges them into a single dataset
+- Deduplicates based on DOI (normalized, case-insensitive)
+- Tracks metadata (source, keyphrase, duplicate sources)
+- Generates comprehensive statistics
 
-### Usage
-
+**Usage:**
 ```bash
-python Step3_merge_ris_by_keyphrase.py output/ merged_output/
+python Step3_merge_and_deduplicate.py
 ```
 
-Or use default output directory:
+**Output:**
+- `merged_deduplicated_papers.ris` - All unique papers in RIS format
+- `deduplication_statistics.txt` - Summary statistics
+
+#### Step 4: Export to CSV
+**Step4_export_to_csv.py** - Converts RIS to CSV format
+
+This script:
+- Converts the merged RIS file to CSV format
+- Includes all metadata fields (title, DOI, authors, abstract, keywords, etc.)
+- Easy to open in Excel or Google Sheets for analysis
+
+**Usage:**
 ```bash
-python Step3_merge_ris_by_keyphrase.py output/
+python Step4_export_to_csv.py
 ```
 
-### Key Phrases Recognized
+**Output:**
+- `merged_deduplicated_papers.csv` - All unique papers in CSV format
 
-The script automatically recognizes these key phrases:
-- `automated_ICD_coding`
-- `automatic_international_classification_of_diseases`
-- `computer_assisted_ICD_coding`
-- `clinical_coding_ICD`
+#### Step 5: Analyze Duplicates
+**Step5_analyze_duplicates.py** - Detailed duplicate analysis (optional)
+
+This script:
+- Analyzes which papers appear in multiple sources
+- Shows which papers appear under multiple keyphrases
+- Provides detailed overlap statistics
+- Useful for understanding data source coverage
+
+**Usage:**
+```bash
+python Step5_analyze_duplicates.py
+```
+
+**Output:**
+- `duplicate_analysis_report.txt` - Detailed duplicate analysis
+
+### Running the Complete Pipeline
+
+Use the master script to run all three steps in sequence:
+
+```bash
+python run_deduplication_pipeline.py
+```
+
+This will execute:
+1. Step 5: Analyze duplicates (shows overlap before merging)
+2. Step 3: Merge and deduplicate (creates unified dataset)
+3. Step 4: Export to CSV (creates spreadsheet format)
 
 ### Example Results
 
-Running the merger on the sample data shows detailed tracking:
+Running the deduplication pipeline produces:
 
-```
-======================================================================
-Key Phrase: automated_ICD_coding
-======================================================================
-Input: 3 file(s) to merge
-
-Source files:
-  - automated_icd_coding_acm.ris                                    853 records
-  - automated_ICD_coding_pubmed.ris                                 430 records
-  - automated_ICD_coding_ALL_articles.ris                          3458 records
-
-----------------------------------------------------------------------
-BEFORE MERGING:    4741 total records
-AFTER MERGING:     4547 unique records
-----------------------------------------------------------------------
-Change:             194 duplicates removed (4.1%)
-```
-
-**Overall Summary:**
 ```
 OVERALL STATISTICS:
-  Key phrases processed:     4
-  Total records BEFORE:      53,194
-  Total records AFTER:       51,307
-  Total duplicates removed:   1,887 (3.5%)
+  Total records collected:        167,268
+  Unique DOIs:                     93,815
+  Records without DOI:             12,105
+  DOIs with duplicates:            38,269
+  Total duplicate records:         61,348
+  Deduplication rate:              36.68%
 
-BREAKDOWN BY KEY PHRASE:
-----------------------------------------------------------------------
-Key Phrase                                      Before    After  Removed
-----------------------------------------------------------------------
-Automated Icd Coding                              4741     4547      194
-Automatic International Classification Of...     14978    14875      103
-Clinical Coding Icd                              31815    30251     1564
-Computer Assisted Icd Coding                      1660     1634       26
-----------------------------------------------------------------------
-TOTAL                                            53194    51307     1887
-----------------------------------------------------------------------
+SOURCE OVERLAP ANALYSIS:
+  scopus                           24,216 papers
+  pubmed & scopus                   9,571 papers
+  pubmed                            3,451 papers
+  acm                                 885 papers
+  acm & scopus                        141 papers
+  acm & pubmed & scopus                 4 papers
+  acm & pubmed                          1 papers
+
+DEDUPLICATION STATISTICS:
+  Total files processed: 19
+
+  Records per source:
+    acm            :  6,112 records
+    pubmed         : 36,333 records
+    scopus         :124,823 records
+
+  Records per keyphrase:
+    icd_classification                  : 62,937 records
+    icd_coding                          : 51,137 records
+    clinical_coding_ICD                 : 31,815 records
+    automatic_intl_class_of_diseases    : 13,948 records
+    automated_ICD_coding                :  3,888 records
+    computer_assisted_ICD_coding        :  1,660 records
+
+  ------------------------------------------------------------
+  Total records before deduplication: 167,268
+    - Records with DOI:                155,163
+    - Records without DOI:              12,105
+
+  Duplicates removed:                   61,348
+  Total records after deduplication:   105,920
+
+  Deduplication rate: 36.68%
 ```
 
-**Merged files created:**
-- `automated_ICD_coding_merged.ris` - 4,547 unique records
-- `automatic_international_classification_of_diseases_merged.ris` - 14,875 unique records
-- `clinical_coding_ICD_merged.ris` - 30,251 unique records
-- `computer_assisted_ICD_coding_merged.ris` - 1,634 unique records
+**Generated files:**
+- `merged_deduplicated_papers.ris` - 105,920 unique papers (98MB)
+- `merged_deduplicated_papers.csv` - 105,920 unique papers (85MB)
+- `deduplication_statistics.txt` - Summary statistics
+- `duplicate_analysis_report.txt` - Detailed overlap analysis
 
 ### Deduplication Logic
 
-- **Primary key**: DOI (Digital Object Identifier)
-- Records with the same DOI are considered duplicates
-- First occurrence is kept, subsequent duplicates are removed
-- Records without DOI are all retained (not deduplicated)
-
-## Filtering - PART C
-
-### Filtering by Target Journals
-
-After merging and deduplication, you can further filter papers to keep only those published in specific high-quality journals relevant to your research.
-
-### Filter Script
-
-**Step4_filter_by_journal.py** - Filters RIS files to keep only papers from target journals
-
-This script:
-- Scans journal names in RIS files (JO, JF, and T2 tags)
-- Matches against a predefined list of target journals
-- Handles case-insensitive and partial matching
-- Provides detailed statistics on filtering
-
-### Target Journals
-
-The script filters for these 11 journals:
-1. Journal of Biomedical Informatics
-2. Journal of the American Medical Informatics Association
-3. International Journal of Medical Informatics
-4. BMC Medical Informatics and Decision Making
-5. Studies in Health Technology and Informatics
-6. Computers in Biology and Medicine
-7. IEEE Access
-8. Expert Systems with Applications
-9. Biomedical Signal Processing and Control
-10. Sensors
-11. Applied Sciences Switzerland
-
-### Usage
-
-Filter all merged files:
-```bash
-python Step4_filter_by_journal.py merged_output/ filtered_output/
-```
-
-Filter a single file:
-```bash
-python Step4_filter_by_journal.py input.ris output_filtered.ris
-```
-
-### Example Results
-
-Filtering the merged files produces focused results:
-
-```
-OVERALL STATISTICS:
-  Files processed:           4
-  Total records BEFORE:      51,307
-  Total records AFTER:        2,324
-  Total records removed:     48,983 (95.5%)
-  Retention rate:            4.5%
-
-MATCHED JOURNALS DISTRIBUTION:
-----------------------------------------------------------------------
-  IEEE Access                                                     361
-  Journal of Biomedical Informatics                               260
-  Journal of the American Medical Informatics Association         227
-  Studies in Health Technology and Informatics                    224
-  Sensors                                                         223
-  Computers in Biology and Medicine                               214
-  BMC Medical Informatics and Decision Making                     200
-  Biomedical Signal Processing and Control                        192
-  International Journal of Medical Informatics                    158
-  Expert Systems with Applications                                139
-  Applied Sciences Switzerland                                    126
-----------------------------------------------------------------------
-  TOTAL                                                          2,324
-```
-
-**Filtered files created:**
-- `automated_ICD_coding_merged_filtered.ris` - 338 records
-- `automatic_international_classification_of_diseases_merged_filtered.ris` - 1,324 records
-- `clinical_coding_ICD_merged_filtered.ris` - 615 records
-- `computer_assisted_ICD_coding_merged_filtered.ris` - 47 records
-
-### Customizing Target Journals
-
-To modify the target journal list, edit the `TARGET_JOURNALS` list at the top of `Step4_filter_by_journal.py`:
-
-```python
-TARGET_JOURNALS = [
-    "Your Journal Name Here",
-    "Another Journal Name",
-    # Add more journals as needed
-]
-```
-
-## Filtering by Article Type
-
-As a final filtering step, you can remove books and book chapters, keeping only journal articles and conference papers.
-
-### Filter Script
-
-**Step5_filter_by_type.py** - Filters RIS files by article type
-
-This script:
-- Keeps only journal articles (JOUR) and conference papers (CONF)
-- Removes books (BOOK) and book chapters (CHAP)
-- Shows detailed statistics on types filtered
-
-### Usage
-
-Filter all journal-filtered files:
-```bash
-python Step5_filter_by_type.py filtered_output/ final_output/
-```
-
-Filter a single file:
-```bash
-python Step5_filter_by_type.py input.ris output_type_filtered.ris
-```
-
-### Example Results
-
-Filtering by article type produces focused research outputs:
-
-```
-OVERALL STATISTICS:
-  Files processed:           4
-  Total records BEFORE:      2,324
-  Total records AFTER:       2,321
-  Total records removed:     3 (0.1%)
-  Retention rate:            99.9%
-
-KEPT TYPES DISTRIBUTION:
-----------------------------------------------------------------------
-  Journal Article                                                2,182
-  Conference Paper                                                 139
-----------------------------------------------------------------------
-  TOTAL KEPT                                                     2,321
-
-REMOVED TYPES DISTRIBUTION:
-----------------------------------------------------------------------
-  Book                                                              3
-----------------------------------------------------------------------
-  TOTAL REMOVED                                                     3
-```
-
-**Final filtered files:**
-- `automated_ICD_coding_merged_filtered_type_filtered.ris` - 338 records
-- `automatic_international_classification_of_diseases_merged_filtered_type_filtered.ris` - 1,321 records
-- `clinical_coding_ICD_merged_filtered_type_filtered.ris` - 615 records
-- `computer_assisted_ICD_coding_merged_filtered_type_filtered.ris` - 47 records
-
-### Article Type Distribution
-
-After all filtering steps:
-- **Journal Articles (JOUR)**: 2,182 records (94.0%)
-- **Conference Papers (CONF)**: 139 records (6.0%)
-
-## Filtering by Content (ICD Coding as Primary Task)
-
-The final and most sophisticated filtering step uses content analysis to identify papers where ICD coding is the primary research task, not just used for cohort identification or metadata.
-
-### Filter Script
-
-**Step6_filter_by_content.py** - Intelligent content analysis filter
-
-This script:
-- Analyzes title, abstract, and keywords using regex patterns
-- Identifies positive signals (ICD coding as the task)
-- Detects negative signals (ICD codes used only for cohort/metadata)
-- Uses a scoring system to make filtering decisions
-- Provides detailed reasoning for each decision
-
-### Filtering Criteria
-
-**Positive Signals (KEEP):**
-- Strong phrases: "ICD coding", "automated ICD", "code assignment", etc.
-- Model verbs near ICD: "predict", "classify", "assign", "automate"
-- ML/NLP signals: "machine learning", "deep learning", "transformer", "BERT"
-
-**Negative Signals (REMOVE):**
-- "used ICD codes to identify"
-- "patients identified using ICD"
-- "ICD ... cohort" / "ICD ... phenotyping"
-- "retrospective cohort" / "population-based"
-- "incidence" / "prevalence" / "mortality"
-
-### Scoring System
-
-The script calculates positive and negative scores:
-- **Strong positive** (score ≥ 3): Keep regardless of negatives
-- **Moderate positive** (score ≥ 2, negatives ≤ 2): Keep
-- **Strong negative** (negatives ≥ 3, positives < 2): Remove
-- **Weak positive** (any positive signals): Keep
-- **No clear signals**: Remove (too ambiguous)
-
-### Usage
-
-Filter type-filtered files:
-```bash
-python Step6_filter_by_content.py final_output/ curated_output/
-```
-
-Filter a single file:
-```bash
-python Step6_filter_by_content.py input.ris output_content_filtered.ris
-```
-
-### Example Results
-
-Content filtering produces highly curated research papers:
-
-```
-OVERALL STATISTICS:
-  Files processed:           4
-  Total records BEFORE:      2,321
-  Total records AFTER:        942
-  Total records removed:     1,379 (59.4%)
-  Retention rate:            40.6%
-
-REASONS FOR KEEPING RECORDS:
-----------------------------------------------------------------------
-  Weak positive signals                                           509
-  Strong positive signals                                         332
-  Moderate positive signals                                       101
-----------------------------------------------------------------------
-  TOTAL KEPT                                                      942
-
-REASONS FOR REMOVING RECORDS:
-----------------------------------------------------------------------
-  No clear ICD coding task signals                               1,350
-  Strong negative signals (cohort/metadata use)                    29
-----------------------------------------------------------------------
-  TOTAL REMOVED                                                  1,379
-```
-
-**Curated files created:**
-- `automated_ICD_coding_merged_filtered_type_filtered_content_filtered.ris` - 165 records
-- `automatic_international_classification_of_diseases_merged_filtered_type_filtered_content_filtered.ris` - 473 records
-- `clinical_coding_ICD_merged_filtered_type_filtered_content_filtered.ris` - 276 records
-- `computer_assisted_ICD_coding_merged_filtered_type_filtered_content_filtered.ris` - 28 records
-
-### Example Decisions
-
-**Kept (Strong Positive):**
-- Title: "Automated ICD coding via unsupervised knowledge integration"
-- Reason: Strong positive signals (Score: +16 / -0)
-
-**Removed (No Clear Signals):**
-- Title: "Knowledge acquisition for computation of semantic distance between WHO-ART terms"
-- Reason: No clear ICD coding task signals (Score: +0 / -0)
-
-**Removed (Strong Negative):**
-- Title: "Using clinical data to predict high-cost performance coding issues associated with pressure ulcers"
-- Reason: ICD used for cohort identification only (Score: +1 / -9)
-
-### Customizing Filtering Patterns
-
-To modify the filtering patterns, edit the lists at the top of `Step6_filter_by_content.py`:
-
-```python
-POS_PHRASES = [
-    r"\bicd coding\b",
-    r"\bclinical coding\b",
-    # Add your patterns...
-]
-
-NEG_PHRASES = [
-    r"\bused icd (codes? )?to identify\b",
-    # Add your patterns...
-]
-```
-
-## Filtering by Methodology (Technical/Methods Focus)
-
-The final filtering step focuses on methodological and technical papers by keeping papers with method or evaluation signals and removing non-methodological studies like audits, training programs, or guidelines.
-
-### Filter Script
-
-**Step7_filter_by_methodology.py** - Filters for methodological/technical papers
-
-This script:
-- Keeps papers with method signals (ML, NLP, algorithms, systems)
-- Keeps papers with evaluation signals (metrics, benchmarking, validation)
-- Removes audit/quality studies, training, billing, qualitative, and guidelines
-- Provides detailed statistics and reasoning
-
-### Filtering Criteria
-
-**KEEPS papers with:**
-
-*Method/System Signals:*
-- Machine learning, deep learning, neural networks (LSTM, CNN, BERT, transformers)
-- NLP, language models, LLMs, GPT
-- Classification, prediction models, algorithms, pipelines, frameworks
-- Multi-label, hierarchical classification
-- Weak/distant/self-supervised learning
-- Retrieval-augmented systems, prompting, in-context learning
-- Embeddings, fine-tuning, pre-training
-- Knowledge graphs, ontologies, SNOMED, UMLS
-- Rule-based, heuristic, pattern matching systems
-
-*Evaluation Signals:*
-- Metrics: F1, precision, recall, accuracy, AUC, AUROC
-- Hamming loss, top-k, exact match
-- Sensitivity, specificity, PPV, NPV
-- Evaluation language: performance, benchmark, baseline, comparison
-- Cross-validation, train/test/validation sets, external validation
-- Ablation studies, error analysis, confusion matrices
-
-**REMOVES papers with:**
-- Audit, chart review, manual review, coding quality studies
-- Inter-rater reliability, kappa, agreement studies
-- Coder training, education programs, workforce issues
-- Billing, reimbursement, DRG, claims processing
-- Qualitative studies, interviews, focus groups, surveys, implementation studies
-- Guidelines, policies, position papers, editorials, commentaries
-
-### Usage
-
-Filter content-curated files:
-```bash
-python Step7_filter_by_methodology.py curated_output/ refined_output/
-```
-
-Filter a single file:
-```bash
-python Step7_filter_by_methodology.py input.ris output_methodology_filtered.ris
-```
-
-### Example Results
-
-Step 7 filtering produces focused methodological papers:
-
-```
-OVERALL STATISTICS:
-  Files processed:           4
-  Total records BEFORE:       942
-  Total records AFTER:        728
-  Total records removed:      214 (22.7%)
-  Retention rate:            77.3%
-
-REASONS FOR KEEPING RECORDS:
-----------------------------------------------------------------------
-  Method signals present                                          554
-  Strong methodology signals (method + evaluation)                171
-  Evaluation signals present                                        3
-----------------------------------------------------------------------
-  TOTAL KEPT                                                      728
-
-REASONS FOR REMOVING RECORDS:
-----------------------------------------------------------------------
-  Non-methodological focus (audit/billing/qualitative/guideline)    109
-  No methodology or evaluation signals                            105
-----------------------------------------------------------------------
-  TOTAL REMOVED                                                   214
-```
-
-**Refined files created:**
-- `automated_ICD_coding_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 121 records
-- `automatic_international_classification_of_diseases_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 398 records
-- `clinical_coding_ICD_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 195 records
-- `computer_assisted_ICD_coding_merged_filtered_type_filtered_content_filtered_methodology_filtered.ris` - 14 records
-
-This step focuses on:
-- Technical system development papers
-- Novel algorithm/model papers
-- Evaluation and benchmarking studies
-- Method comparison studies
-
-### Example Decisions
-
-**Kept (Strong Methodology Signals):**
-- "Deep learning for automated ICD coding: BERT-based multi-label classification"
-- Reason: Method signals + evaluation signals
-
-**Kept (Method Signals):**
-- "Rule-based system for ICD code assignment using clinical notes"
-- Reason: Method signals present (rule-based, system)
-
-**Removed (Non-Methodological):**
-- "Audit of ICD-10 coding accuracy in hospital records"
-- Reason: Audit/quality study (not system development)
-
-**Removed (No Signals):**
-- "Policy recommendations for ICD-11 adoption"
-- Reason: Guideline/policy paper (no methods or evaluation)
-
-### Customizing Filtering Patterns
-
-To modify the filtering patterns, edit the pattern lists at the top of `Step7_filter_by_methodology.py`:
-
-```python
-METHOD_PATTERNS = [
-    r"\b(machine learning|deep learning|...)\b",
-    # Add your patterns...
-]
-
-EVAL_PATTERNS = [
-    r"\b(f1|precision|recall|...)\b",
-    # Add your patterns...
-]
-
-NEG_PATTERNS = [
-    r"\b(audit|chart review|...)\b",
-    # Add your patterns...
-]
-```
-
-## Tagging Papers by Method, Challenge, and Dataset
-
-After filtering to methodological papers, Step 8 automatically tags each paper to identify research trends, methods used, challenges addressed, and datasets employed.
-
-### Tagging Script
-
-**Step8_tag_papers.py** - Automatic paper tagging and analysis
-
-This script:
-- Tags papers by method family (LLM, Transformer, Deep Learning, Classical ML, Rule-based)
-- Identifies challenges addressed (Hierarchy, Rare labels, Long text, etc.)
-- Detects datasets used (MIMIC, eICU, UCSF, Claims)
-- Categorizes by time period (pre2012 to 2023+)
-- Detects evaluation metrics, novelty language, and coding task specificity
-- Outputs tagged RIS files and analysis CSV
-
-### Tagging Criteria
-
-**Method Families:**
-- **LLM_RAG_XAI**: Large language models, GPT, ChatGPT, RAG, prompting, agents
-- **TRANSFORMER**: BERT, RoBERTa, DeBERTa, Longformer, BigBird, transformers
-- **DEEP_CNN_RNN**: CNN, RNN, LSTM, BiLSTM, GRU, attention mechanisms
-- **CLASSICAL_ML**: SVM, logistic regression, naive Bayes, random forest, XGBoost, CRF, HMM
-- **RULE_BASED**: Rule-based systems, heuristics, dictionary-based, pattern matching
-
-**Challenges Addressed:**
-- **HIERARCHY**: Hierarchical classification, taxonomy, tree-structured codes
-- **RARE_LABELS**: Rare/long-tail labels, few-shot learning, data sparsity, imbalanced data
-- **LONG_TEXT**: Long documents/notes, sequence length issues, truncation, segmentation
-- **EXTREME_MULTILABEL**: Extreme multi-label classification, XMLC
-- **COOCCURRENCE_RULES**: Code co-occurrence, combination rules, dependencies
-- **MAPPING_INTEROP**: ICD version mapping, crosswalks, ICD-9/10/11 transitions
-- **KNOWLEDGE_AUG**: Ontologies, knowledge graphs, UMLS, SNOMED integration
-- **EXPLAINABILITY**: Explainable AI, interpretability, LIME, SHAP, rationales
-
-**Datasets:**
-- **MIMIC**: MIMIC-III, MIMIC-IV
-- **EICU**: eICU database
-- **UCSF**: UCSF data
-- **CLAIMS**: Administrative claims data
-
-**Time Periods:**
-- **pre2012**: Before 2012
-- **2012_2016**: 2012-2016
-- **2017_2019**: 2017-2019
-- **2020_2022**: 2020-2022
-- **2023_plus**: 2023 and later
-
-### Usage
-
-Tag refined papers:
-```bash
-python Step8_tag_papers.py refined_output/ tagged_output/ paper_tags_analysis.csv
-```
-
-Tag with defaults:
-```bash
-python Step8_tag_papers.py refined_output/
-```
-
-### Example Results
-
-Tagging the 728 methodological papers produces comprehensive analysis:
-
-```
-OVERALL STATISTICS:
-  Files processed:           4
-  Total papers tagged:       728
-
-METHOD FAMILIES (a paper can have multiple):
-----------------------------------------------------------------------
-  DEEP_CNN_RNN                    117 papers ( 16.1%)
-  TRANSFORMER                      67 papers (  9.2%)
-  LLM_RAG_XAI                      21 papers (  2.9%)
-  CLASSICAL_ML                     21 papers (  2.9%)
-  RULE_BASED                       13 papers (  1.8%)
-
-CHALLENGES ADDRESSED (a paper can address multiple):
-----------------------------------------------------------------------
-  MAPPING_INTEROP                 167 papers ( 22.9%)
-  HIERARCHY                        50 papers (  6.9%)
-  KNOWLEDGE_AUG                    38 papers (  5.2%)
-  EXTREME_MULTILABEL               30 papers (  4.1%)
-  LONG_TEXT                        29 papers (  4.0%)
-  RARE_LABELS                      17 papers (  2.3%)
-  COOCCURRENCE_RULES                2 papers (  0.3%)
-  EXPLAINABILITY                    1 papers (  0.1%)
-
-DATASETS USED:
-----------------------------------------------------------------------
-  MIMIC                            24 papers (  3.3%)
-
-TIME PERIODS:
-----------------------------------------------------------------------
-  pre2012                          38 papers (  5.2%)
-  2012_2016                        41 papers (  5.6%)
-  2017_2019                        96 papers ( 13.2%)
-  2020_2022                       236 papers ( 32.4%)
-  2023_plus                       317 papers ( 43.5%)
-
-CONTENT FLAGS:
-----------------------------------------------------------------------
-  Has evaluation metrics:      94 papers ( 12.9%)
-  Has novelty language:        77 papers ( 10.6%)
-  Explicit coding task:       100 papers ( 13.7%)
-```
+**Primary method:** Papers are deduplicated based on DOI (Digital Object Identifier)
+
+**DOI normalization:**
+- Convert to lowercase
+- Remove URL prefixes (`http://doi.org/`, `https://dx.doi.org/`)
+- Remove `doi:` prefix
+- Trim whitespace
+
+**Handling records without DOI:**
+- Papers without DOI are all retained (not deduplicated)
+- 12,105 records (7.2%) have no DOI
+
+**Duplicate tracking:**
+- First occurrence is kept
+- Source and keyphrase metadata is preserved
+- Duplicate sources are tracked for analysis
 
 ### Key Insights
 
-**Method Evolution:**
-- Deep CNN/RNN methods dominate (16.1% of papers)
-- Transformer models growing rapidly (9.2%)
-- Emerging LLM/RAG approaches (2.9%)
+**Significant overlap across sources:**
+- 36.68% of all records are duplicates
+- PubMed & Scopus have highest overlap (9,571 papers)
+- Some papers appear in all three sources
 
-**Research Focus:**
-- Mapping/interoperability is the top challenge (22.9%)
-- Hierarchical classification is second (6.9%)
-- Knowledge augmentation gaining traction (5.2%)
+**Keyphrase redundancy:**
+- Many papers match multiple keyphrases
+- `icd_coding` and `clinical_coding_ICD` have most overlap (18,279 papers)
+- Broad terms like `icd_classification` capture most papers (62,937)
 
-**Time Trends:**
-- **76% of papers from 2020 onwards**
-- Recent explosion: 43.5% from 2023+
-- Field is rapidly evolving
+**Why global deduplication?**
+- Previous approach: Deduplicate within each keyphrase separately
+- New approach: Deduplicate globally across all keyphrases and sources
+- Result: Single unified dataset ready for filtering
 
-**Dataset Diversity:**
-- Low MIMIC concentration (3.3%) suggests diverse data sources
-- Many papers use proprietary/institutional datasets
+### Next Steps
 
-### Output Files
+After global deduplication, the unified dataset (105,920 papers) is ready for further analysis and filtering based on your research needs:
+- Filter by target journals (quality filter)
+- Filter by article type (remove books/chapters)
+- Content analysis (identify papers where ICD coding is the primary task)
+- Methodology filtering (focus on technical/methods papers)
+- Manual review and selection
 
-**Tagged RIS Files:**
-Tags are embedded as `N1` (notes) fields in RIS format:
-```
-N1  - [AUTO_TAGS] PERIOD: 2023_plus | METHODS: TRANSFORMER, DEEP_CNN_RNN | CHALLENGES: HIERARCHY, EXTREME_MULTILABEL | DATASETS: MIMIC | FLAGS: HAS_METRICS, NOVEL, CODING_TASK
-```
 
-**Analysis CSV:**
-Tabular format (`paper_tags_analysis.csv`) with columns:
-- file, title, doi, year, year_bucket
-- phases (method families)
-- challenges (challenges addressed)
-- datasets (datasets used)
-- has_metrics, has_novelty, has_coding_task (boolean flags)
-
-Perfect for:
-- Pivot tables and statistical analysis
-- Trend visualization
-- Gap analysis (underexplored methods/challenges)
-- Literature review categorization
-
-## Selecting Representative Papers
-
-After tagging all papers, Step 9 selects a curated set of representative papers from each bucket (method × challenge combination) using intelligent scoring heuristics.
-
-### Selection Script
-
-**Step9_select_representatives.py** - Representative paper selector with scoring
-
-This script:
-- Uses priority-based method tagging (LLM > Transformer > Deep > Classical > Rule-based)
-- Tags multiple challenges per paper
-- Scores papers by quality indicators (metrics, novelty, coding task, length)
-- Buckets papers by method family × challenge
-- Selects top N papers per bucket (configurable)
-- Outputs CSV and RIS files with representative papers
-
-### Scoring Heuristic
-
-Papers are scored to identify the best representatives:
-
-**Score Components:**
-- **+3 points**: Has evaluation metrics (F1, precision, recall, accuracy, AUC, etc.)
-- **+2 points**: Has novelty language ("we propose", "novel", "new framework")
-- **+2 points**: Explicit coding task terminology
-- **+1 point**: Substantial abstract (> 600 characters)
-
-**Selection Process:**
-1. Papers are bucketed by (method family, primary challenge)
-2. Within each bucket, sort by: score (desc) → year (desc) → title length (desc)
-3. Select top 3 papers per bucket
-4. Optional total cap can be applied
-
-### Configuration
-
-Edit the script to modify selection parameters:
-
-```python
-TOP_N_PER_BUCKET = 3      # Papers per bucket
-TOTAL_CAP = None          # Optional cap on total papers
-BUCKET_MODE = "phase_x_challenge"  # Options: phase_only, phase_x_dataset, phase_x_challenge
-WRITE_SELECTED_RIS = True  # Export to RIS format
-```
-
-### Usage
-
-Select representatives from tagged papers:
-```bash
-python Step9_select_representatives.py tagged_output/ representatives/
-```
-
-Use default output directory:
-```bash
-python Step9_select_representatives.py tagged_output/
-```
-
-### Example Results
-
-Selecting from 728 tagged papers produces focused representatives:
+## Project Structure (Updated)
 
 ```
-OVERALL STATISTICS:
-  Total records loaded:      728
-  Tagged with scores:        230 papers
-  Buckets created:           24
-  Representatives selected:  62 papers
-
-REPRESENTATIVES BY METHOD FAMILY:
-----------------------------------------------------------------------
-  UNSPECIFIED                      15 papers
-  DEEP_CNN_RNN                     14 papers
-  TRANSFORMER                      13 papers
-  LLM_RAG_XAI                       8 papers
-  RULE_BASED                        6 papers
-  CLASSICAL_ML                      6 papers
-
-REPRESENTATIVES BY CHALLENGE/DIMENSION:
-----------------------------------------------------------------------
-  MAPPING_INTEROP                  18 papers
-  GENERAL                          15 papers
-  HIERARCHY                        12 papers
-  RARE_LABELS                       7 papers
-  EXTREME_MULTILABEL                5 papers
-  KNOWLEDGE_AUG                     3 papers
-  LONG_TEXT                         1 papers
-  COOCCURRENCE_RULES                1 papers
-
-REPRESENTATIVES BY TIME PERIOD:
-----------------------------------------------------------------------
-  pre2012                           2 papers
-  2012_2016                         4 papers
-  2017_2019                         9 papers
-  2020_2022                        17 papers
-  2023_plus                        30 papers (48.4%)
+.
+├── Step1_fetchallscopusresults.py      # Fetch ScienceDirect/Scopus results by year
+├── Step1_pubmed_fetcher.py             # Fetch PubMed results
+├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
+├── convert_pubmed_to_ris.py            # PubMed JSON to RIS converter
+├── convert_scopus_to_ris.py            # Scopus JSON to RIS converter
+├── convert_enw_to_ris.py               # ACM EndNote to RIS converter
+├── Step2_convert_all_to_ris.py         # Master converter for all formats
+├── Step3_merge_and_deduplicate.py      # Global merge and deduplication
+├── Step4_export_to_csv.py              # Export merged data to CSV
+├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
+├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
+├── template_config.ini                 # Configuration template
+├── acm_output.tar.gz                   # ACM source data (6,112 records)
+├── pubmed_output.tar.gz                # PubMed source data (36,333 records)
+├── scopus_output.tar.gz                # Scopus source data (124,823 records)
+└── output_data_complete.tar.gz         # Legacy output archive
 ```
-
-### Output Files
-
-**1. tagged_papers.csv**
-- All papers that scored > 0
-- Includes: title, DOI, year, method, challenges, datasets, scores
-- Useful for understanding what was evaluated
-
-**2. selected_representatives.csv**
-- Representative papers only (62 papers)
-- Additional columns: bucket_phase, bucket_dim, bucket
-- Perfect for literature review table creation
-
-**3. selected_representatives.ris**
-- Representative papers in RIS format
-- Ready for import into reference management software
-- Can be used as core citation set for the review
-
-### Use Cases
-
-**Literature Review:**
-- Create a representative sample across all method × challenge combinations
-- Ensure balanced coverage of the field
-- Identify exemplary papers for each approach
-
-**Gap Analysis:**
-- Identify under-explored method × challenge combinations
-- Buckets with fewer papers indicate research opportunities
-- Guide future research directions
-
-**Systematic Review:**
-- Focus deep reading on high-quality representative papers
-- Use as seed set for snowball sampling
-- Extract key insights from each methodological approach
-
-### Key Insights from Selection
-
-**Method Distribution:**
-- Deep learning methods dominate representatives (14 papers)
-- Transformer models well-represented (13 papers)
-- Emerging LLM approaches gaining traction (8 papers)
-
-**Challenge Focus:**
-- Mapping/interoperability most common (18 papers)
-- Hierarchical classification well-studied (12 papers)
-- Rare labels receiving attention (7 papers)
-
-**Temporal Distribution:**
-- **77.4% from 2020 onwards** (47 / 62 papers)
-- Recent explosion in 2023+ (30 papers)
-- Field rapidly evolving with modern methods
 
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 9 steps:
+The complete literature review pipeline consists of 5 main steps:
 
-1. **Step 1**: Fetch data from PubMed, Scopus, and ACM Digital Library
-   - Use `Step1_pubmed_fetcher.py` and `Step1_fetchallscopusresults.py`
-   - Result: Raw data in JSON, CSV, and ENW formats
+### Step 1: Fetch Data from Sources
+- Use `Step1_pubmed_fetcher.py` for PubMed
+- Use `Step1_fetchallscopusresults.py` for Scopus
+- Manually download from ACM Digital Library (no API)
+- Result: Raw data in JSON, CSV, and ENW formats
 
-2. **Step 2**: Convert all data to RIS format
-   - Use `Step2_convert_all_to_ris.py`
-   - Result: 53,194 records in RIS format
+### Step 2: Convert to RIS Format  
+- Use `Step2_convert_all_to_ris.py`
+- Converts all formats to standardized RIS
+- Result: 167,268 records in RIS format across 19 files
 
-3. **Step 3**: Merge and deduplicate by key phrase
-   - Use `Step3_merge_ris_by_keyphrase.py`
-   - Result: 51,307 unique records (3.5% duplicates removed)
+### Step 3: Global Merge and Deduplicate
+- Use `Step3_merge_and_deduplicate.py`
+- Merges all sources and keyphrases
+- Deduplicates based on DOI (normalized)
+- Result: 105,920 unique papers (36.68% deduplication rate)
+- Output: `merged_deduplicated_papers.ris`
 
-4. **Step 4**: Filter by target journals
-   - Use `Step4_filter_by_journal.py`
-   - Result: 2,324 high-quality papers from 11 top journals (4.5% retention)
+### Step 4: Export to CSV
+- Use `Step4_export_to_csv.py`
+- Converts RIS to spreadsheet format
+- Result: 105,920 papers in CSV format
+- Output: `merged_deduplicated_papers.csv`
 
-5. **Step 5**: Filter by article type
-   - Use `Step5_filter_by_type.py`
-   - Result: 2,321 journal articles and conference papers (99.9% retention)
+### Step 5: Analyze Duplicates (Optional)
+- Use `Step5_analyze_duplicates.py`
+- Detailed analysis of overlap across sources
+- Shows which papers appear in multiple databases
+- Output: `duplicate_analysis_report.txt`
 
-6. **Step 6**: Filter by content analysis
-   - Use `Step6_filter_by_content.py`
-   - Result: 942 papers where ICD coding is the primary task (40.6% retention)
+### Running the Complete Deduplication Pipeline
 
-7. **Step 7**: Filter by methodology
-   - Use `Step7_filter_by_methodology.py`
-   - Result: 728 methodological/technical papers (77.3% retention, 22.7% removed)
+```bash
+# Extract the data archives
+tar -xzf acm_output.tar.gz
+tar -xzf pubmed_output.tar.gz
+tar -xzf scopus_output.tar.gz
 
-8. **Step 8**: Tag papers by method, challenge, and dataset
-   - Use `Step8_tag_papers.py`
-   - Result: 728 tagged papers with comprehensive metadata
-   - Output: Tagged RIS files + analysis CSV
+# Run the complete pipeline
+python run_deduplication_pipeline.py
+```
 
-9. **Step 9**: Select representative papers from each bucket
-   - Use `Step9_select_representatives.py`
-   - Result: 62 representative papers (top 3 per method × challenge bucket)
-   - Output: Selected representatives CSV + RIS file
-
-**Final Result**: From 53,194 initial records to 728 highly refined papers, with 62 carefully selected representatives covering all method × challenge combinations!
-
-### Pipeline Statistics
+## Pipeline Statistics
 
 | Step | Records | Change | Description |
 |------|---------|--------|-------------|
-| 1-2 | 53,194 | - | Fetch & convert to RIS |
-| 3 | 51,307 | -3.5% | Merge & deduplicate |
-| 4 | 2,324 | -95.5% | Filter by journals |
-| 5 | 2,321 | -0.1% | Filter by type |
-| 6 | 942 | -59.4% | Filter by content |
-| 7 | 728 | -22.7% | Filter by methodology |
-| 8 | 728 | tagged | Tag by method/challenge/dataset |
-| 9 | 62 | selected | Select representatives (top 3 per bucket) |
+| 1-2 | 167,268 | - | Fetch & convert to RIS |
+| 3 | 105,920 | -36.7% | Global merge & deduplicate |
+| 4 | 105,920 | - | Export to CSV format |
+| 5 | - | - | Analyze duplicates (optional) |
 
-**Final retention: 1.4% of original records (728 / 53,194)**
-**Representative sample: 0.12% of original records (62 / 53,194)**
+**Final result: 105,920 unique papers from 167,268 total records**
 
-### Tagged Paper Distribution
+**Source breakdown:**
+- ACM Digital Library: 6,112 records (3.7%)
+- PubMed: 36,333 records (21.7%)
+- Scopus: 124,823 records (74.6%)
 
-**By Method (728 papers, papers can have multiple methods):**
-- Deep CNN/RNN: 117 papers (16.1%)
-- Transformer: 67 papers (9.2%)
-- LLM/RAG/XAI: 21 papers (2.9%)
-- Classical ML: 21 papers (2.9%)
-- Rule-based: 13 papers (1.8%)
+**Keyphrase breakdown:**
+- icd_classification: 62,937 records (37.6%)
+- icd_coding: 51,137 records (30.6%)
+- clinical_coding_ICD: 31,815 records (19.0%)
+- automatic_international_classification_of_diseases: 13,948 records (8.3%)
+- Other keyphrases: 7,431 records (4.5%)
 
-**By Time Period:**
-- 2023+: 317 papers (43.5%)
-- 2020-2022: 236 papers (32.4%)
-- 2017-2019: 96 papers (13.2%)
-- 2012-2016: 41 papers (5.6%)
-- pre-2012: 38 papers (5.2%)
-
-**Top Challenges:**
-- Mapping/Interoperability: 167 papers (22.9%)
-- Hierarchy: 50 papers (6.9%)
-- Knowledge Augmentation: 38 papers (5.2%)
-  
 ## License
 
 This project is intended for academic research purposes. Please respect the terms of service of each API provider:
@@ -1257,5 +680,3 @@ This project uses:
 - NCBI E-utilities API for PubMed access
 - Elsevier ScienceDirect/Scopus Search API
 - Python requests library for HTTP operations
-
-
