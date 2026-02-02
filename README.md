@@ -556,248 +556,159 @@ DEDUPLICATION STATISTICS:
 
 After global deduplication, proceed to PRISMA screening (Step 6) to categorize papers by relevance.
 
-## PRISMA Screening and Relevance Categorization - PART C
+## PRISMA Screening - Systematic Keyword-Based Filtering - PART C
 
-After global deduplication produces 105,920 unique papers, the next step is to screen and categorize them using PRISMA-style automated criteria. This helps prioritize which papers to review first.
+After global deduplication produces 105,920 unique papers, the next step is to screen them using PRISMA-style systematic filtering. Papers must pass through three sequential filters to be included in the final literature review.
 
-### Step 6: PRISMA Screening
-**Step6_prisma_screening.py** - Automated relevance scoring and categorization
+### Pre-filtering: Year and Publication Type
+First, papers are filtered by:
+- **Year range**: 2005-2026 (configurable)
+- **Publication type**: Conference papers (CONF) and Journal articles (JOUR) only
 
-This script:
-- Filters papers by year range (2005-2026) and publication type (CONF/JOUR)
-- Scores papers based on relevance criteria using regex patterns
-- Categorizes papers into 4 levels: HIGH, MEDIUM, LOW, EXCLUDE
-- Exports results to Excel with multiple sheets for easy review
+This reduces the dataset from 105,920 to ~100,902 papers.
 
-#### Scoring Criteria
+### Step 6: Systematic PRISMA Filtering
 
-**Positive Signals (adds points):**
-- ICD terms in title: +10 points
-- ICD terms in abstract: +5 points
-- "Automated ICD" in title: +5 points
-- Coding task terminology: +3 points
-- AI/ML terms: +2 points each (max +10)
-- Evaluation metrics present: +2 points
+The remaining papers go through three mandatory filters in sequence:
 
-**Negative Signals (subtracts points):**
-- No ICD terms found: -10 points
-- Exclusion terms (billing, audit, manual coding, etc.): -5 points each (max -15)
+#### Filter 1: ICD Relevance Check
+**step6_filter1_icd_relevance.py** - Papers MUST mention ICD coding/classification
 
-**Categories:**
-- **HIGH** (score ≥ 15): Definite include - highly relevant papers
-- **MEDIUM** (score 8-14): Review abstract - potentially relevant
-- **LOW** (score 0-7): Likely exclude - marginal relevance
-- **EXCLUDE** (score < 0): Clear exclusion - not relevant
+**Criteria:**
+- Paper must contain at least one ICD-related term in Title OR Abstract OR Keywords
+- ICD keywords include: ICD, ICD-9, ICD-10, International Classification of Diseases, medical coding, clinical coding, diagnosis coding, code assignment, disease classification
 
-#### Usage
-
-Run with default settings:
+**Usage:**
 ```bash
-python Step6_prisma_screening.py
+python step6_filter1_icd_relevance.py
 ```
 
-Custom input/output files:
+**Input:** `prisma_screening_results_all_filtered.csv` (year and type filtered)
+
+**Output:**
+- `filter1_all_results.csv` - All papers with filtering decisions
+- `filter1_passed.csv` - Papers that PASSED (mention ICD terms) → proceed to Filter 2
+- `filter1_excluded.csv` - Papers that were EXCLUDED (no ICD terms) → archived
+
+**Decision Documentation:**
+Each paper receives:
+- `Filter1_Decision`: PASS or EXCLUDE
+- `Filter1_Matched_Terms`: Which ICD keywords matched (e.g., "ICD; Medical Coding")
+- `Filter1_Match_Location`: Where terms were found (Title, Abstract, or Keywords)
+- `Filter1_Reason`: Human-readable explanation
+
+**Example:**
+```
+Title: "Automated ICD-10 Coding Using Machine Learning"
+Decision: PASS
+Matched Terms: ICD; Medical Coding
+Location: Title
+Reason: Paper mentions ICD-related terms in TITLE: ICD; Medical Coding. Relevant to ICD coding/classification.
+```
+
+#### Filter 2: Automation/AI Relevance Check
+**step6_filter2_automation_relevance.py** - Papers MUST mention automation/AI/ML methods
+
+**Criteria:**
+- Paper must contain at least one automation/AI keyword in Title OR Abstract OR Keywords
+- Automation keywords include: automated, automatic, machine learning, deep learning, neural network, BERT, LSTM, transformer, NLP, algorithm, AI, computational methods
+
+**Usage:**
 ```bash
-python Step6_prisma_screening.py merged_deduplicated_papers.csv prisma_results.xlsx
+python step6_filter2_automation_relevance.py
 ```
 
-Custom year range:
+**Input:** `filter1_passed.csv` (papers that passed Filter 1)
+
+**Output:**
+- `filter2_all_results.csv` - All papers with filtering decisions
+- `filter2_passed.csv` - Papers that PASSED (mention automation/AI) → proceed to Filter 3
+- `filter2_excluded.csv` - Papers that were EXCLUDED (ICD but not automated) → archived
+
+**Example:**
+```
+Title: "Manual ICD Coding Guidelines for Hospitals"
+Decision: EXCLUDE
+Reason: Paper does not mention automation, AI, machine learning, or computational methods. Likely about manual ICD coding.
+```
+
+#### Filter 3: Exclusion Criteria Check
+**step6_filter3_exclusion_check.py** - Papers MUST NOT contain exclusion terms
+
+**Criteria:**
+- Paper must not contain any exclusion keywords
+- Exclusion keywords: quantum computing, satellite, ICD device (cardioverter-defibrillator), billing-only, reimbursement-only, manual coding-only, qualitative study, survey, editorial, commentary
+
+**Usage:**
 ```bash
-python Step6_prisma_screening.py merged_deduplicated_papers.csv prisma_results.xlsx 2010 2025
+python step6_filter3_exclusion_check.py
 ```
 
-#### Output
+**Input:** `filter2_passed.csv` (papers that passed Filters 1 and 2)
 
-**Excel file with 6 sheets:**
-1. **Summary** - Overview statistics and percentages
-2. **High_Relevance** - Papers to review first (score ≥ 15)
-3. **Medium_Relevance** - Papers to review if needed (score 8-14)
-4. **Low_Relevance** - Marginal papers (score 0-7)
-5. **Excluded** - Papers to skip (score < 0)
-6. **All_Filtered** - Complete filtered dataset with scores
+**Output:**
+- `filter3_all_results.csv` - All papers with filtering decisions
+- `filter3_final_included.csv` - **FINAL DATASET** for literature review
+- `filter3_excluded.csv` - Papers excluded due to negative criteria → archived
 
-**RIS files for reference management:**
-- **prisma_screening_results_included.ris** - HIGH + MEDIUM papers (ready to import into Zotero/Mendeley/EndNote)
-- **prisma_screening_results_excluded.ris** - LOW + EXCLUDE papers (for record keeping)
+**Final included papers are:**
+1. ✓ About ICD coding/classification (Filter 1)
+2. ✓ About automation/AI/ML (Filter 2)
+3. ✓ Not excluded by negative criteria (Filter 3)
 
-#### Example Results
+#### Complete Filtering Workflow
 
 ```
-PRISMA SCREENING RESULTS
-================================================================================
-
-1. Records identified through database searching: 105,920
-2. Records after year filter (2005-2026): 102,543
-   Excluded (outside date range): 3,377
-3. Records after publication type filter: 98,234
-   Excluded (non-CONF/JOUR): 4,309
-
-RELEVANCE CATEGORIZATION
---------------------------------------------------------------------------------
-HIGH - Definite Include        : 3,245 (3.3%)
-MEDIUM - Review Abstract       : 8,567 (8.7%)
-LOW - Likely Exclude           : 45,123 (45.9%)
-EXCLUDE - Clear Exclusion      : 41,299 (42.1%)
-
-TOTAL                          : 98,234
+Starting Point: prisma_screening_results_all_filtered.csv (~100,902 papers)
+                        ↓
+              Filter 1: ICD Relevance
+                        ↓
+            filter1_passed.csv (papers with ICD terms)
+                        ↓
+        Filter 2: Automation/AI Relevance
+                        ↓
+            filter2_passed.csv (automated ICD papers)
+                        ↓
+          Filter 3: Exclusion Criteria
+                        ↓
+    filter3_final_included.csv (FINAL DATASET)
 ```
 
-#### Recommendations
+#### Running All Filters Sequentially
 
-1. **Start with HIGH relevance papers** - Most likely to be relevant (typically 3-5% of dataset)
-2. **Review MEDIUM papers** - Check abstracts to determine relevance (typically 8-10%)
-3. **Consider LOW papers only if needed** - Lower probability of relevance
-4. **Skip EXCLUDED papers** - Strong negative signals indicate non-relevance
-
-#### Customization
-
-To adjust scoring criteria, edit these sections in the script:
-- `ICD_TERMS` - ICD-related terminology
-- `AI_ML_TERMS` - Automation/ML terminology
-- `EXCLUSION_TERMS` - Terms indicating non-relevant papers
-- `score_relevance()` function - Scoring logic
-- `categorize_paper()` function - Category thresholds
-
-## Taxonomy Classification - PART D
-
-After PRISMA screening identifies 6,418 included papers (HIGH + MEDIUM), the next step is to classify them using a comprehensive taxonomy to understand research trends and methods.
-
-### Step 7: Taxonomy Classification
-**Step7_taxonomy_classification.py** - Multi-dimensional classification of papers
-
-This script:
-- Classifies papers across 7 dimensions using regex pattern matching
-- Analyzes research trends by ML methods, ICD versions, task types, datasets, etc.
-- Generates cross-tabulations and temporal evolution analysis
-- Provides statistics for each taxonomy category
-
-#### Taxonomy Dimensions
-
-**1. ML_Method**
-- Traditional_ML (SVM, Random Forest, Naive Bayes, XGBoost)
-- RNN_LSTM (Recurrent networks)
-- CNN (Convolutional networks)
-- Attention (Attention mechanisms)
-- BERT_Transformers (BERT, RoBERTa, ClinicalBERT, BioBERT)
-- LLM (GPT, ChatGPT, LLaMA, large language models)
-- Graph_Neural (GCN, GAT, knowledge graphs)
-- Multi_task (Multi-task learning)
-- Ensemble (Hybrid models)
-- Rule_Based (Rule systems, heuristics)
-
-**2. ICD_Version**
-- ICD-9, ICD-10, ICD-11, ICD-O (Oncology)
-- Multiple_Versions (Crosswalks/mapping studies)
-
-**3. Input_Data**
-- Discharge_Summary, Clinical_Notes, Radiology, Pathology
-- EHR (Electronic Health Records)
-- Nursing, Operative, Emergency notes
-
-**4. Task_Type**
-- Multi_label, Hierarchical, Explainable
-- Few_shot, Imbalance (rare codes, long-tail)
-- Extreme_Multilabel, Code_Assignment
-
-**5. Dataset**
-- MIMIC-III, MIMIC-IV, eICU, CMC
-- Private_Hospital, Claims data
-
-**6. Key_Contribution**
-- Knowledge_Graph (SNOMED, UMLS, ontologies)
-- Transfer_Learning (Pre-training, fine-tuning)
-- Efficiency (Speed, scalability)
-- Weakly_Supervised, Active_Learning
-- Retrieval_Augmented, Prompt_Engineering
-
-**7. Evaluation_Metric**
-- F1_Score, Precision_Recall, Accuracy
-- AUC/AUROC, Top-K, Hamming Loss
-
-#### Usage
-
-Run with default settings (classifies HIGH + MEDIUM papers):
 ```bash
-python Step7_taxonomy_classification.py
+# Filter 1: ICD Relevance
+python step6_filter1_icd_relevance.py
+
+# Filter 2: Automation/AI Relevance
+python step6_filter2_automation_relevance.py
+
+# Filter 3: Exclusion Criteria
+python step6_filter3_exclusion_check.py
 ```
 
-Custom input file:
-```bash
-python Step7_taxonomy_classification.py prisma_screening_results_all_filtered.csv
-```
+#### Advantages of Systematic Filtering
 
-Classify all papers (not just HIGH + MEDIUM):
-```bash
-python Step7_taxonomy_classification.py input.csv output.csv false
-```
+**Transparency:**
+- Clear, binary decisions (PASS/EXCLUDE) instead of scores
+- Exact keywords that triggered each decision are documented
+- Easy to audit and reproduce
 
-#### Output Files
+**Customization:**
+- Easy to add/remove keywords in each filter
+- Simple regex patterns that researchers can understand and modify
+- No complex scoring thresholds to calibrate
 
-1. **papers_with_taxonomy.csv** - All 6,418 papers with taxonomy columns added
-2. **papers_with_taxonomy_statistics.txt** - Detailed distribution statistics
-3. **papers_with_taxonomy_crosstab_method_version.csv** - ML Method × ICD Version
-4. **papers_with_taxonomy_temporal_evolution.csv** - Methods over time (2005-2026)
+**PRISMA Compliance:**
+- Each filter is a distinct exclusion criterion
+- Number of papers excluded at each stage is clearly reported
+- Full documentation of reasons for exclusion
 
-#### Example Results
+**Documentation:**
+- Every paper has a detailed reason for inclusion/exclusion
+- Matched keywords are listed for transparency
+- Location of matches (Title/Abstract/Keywords) is recorded
 
-From 6,418 included papers:
-
-**ML Methods:**
-- Traditional_ML: 258 papers (4.0%)
-- Ensemble: 153 papers (2.4%)
-- BERT/Transformers: 115 papers (1.8%)
-- Rule_Based: 74 papers (1.2%)
-- LLM: 59 papers (0.9%)
-- Unclassified: 5,721 papers (89.1%)
-
-**ICD Versions:**
-- ICD-10: 3,492 papers (54.4%)
-- ICD-9: 1,021 papers (15.9%)
-- ICD-11: 1,012 papers (15.8%)
-- Multiple_Versions: 503 papers (7.8%)
-
-**Datasets:**
-- Private Hospital: 514 papers (8.0%)
-- Claims data: 430 papers (6.7%)
-- MIMIC-III: 70 papers (1.1%)
-- MIMIC-IV: 16 papers (0.2%)
-
-**Task Types:**
-- Explainable: 495 papers (7.7%)
-- Hierarchical: 124 papers (1.9%)
-- Code Assignment: 101 papers (1.6%)
-- Multi-label: 62 papers (1.0%)
-
-#### Key Insights
-
-1. **High unclassified rate** (89% for ML methods) indicates many papers are:
-   - Review/survey papers
-   - Conceptual studies about ICD coding
-   - Studies using methods without explicitly naming them
-
-2. **ICD-10 dominance** (54.4%) reflects current clinical practice worldwide
-
-3. **Low MIMIC usage** (1.3%) shows most research uses proprietary hospital data
-
-4. **Emerging LLM trend** (59 papers) demonstrates recent interest in large language models
-
-5. **Temporal evolution** shows:
-   - Traditional ML still active (258 papers across all years)
-   - BERT/Transformers growing (from 3 in 2019 to 20 in 2025)
-   - LLMs emerging (starting 2022)
-
-#### Customization
-
-To modify taxonomy categories, edit the `TAXONOMY` dictionary at the top of the script:
-```python
-TAXONOMY = {
-    'ML_Method': {
-        'Your_Category': [r'\bpattern1\b', r'\bpattern2\b'],
-        # Add more categories...
-    },
-    # Add more dimensions...
-}
-```
 
 ## Project Structure
 
