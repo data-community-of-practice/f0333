@@ -29,21 +29,27 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step1_fetchallscopusresults.py      # Fetch ScienceDirect/Scopus results by year
 ├── Step1_pubmed_fetcher.py             # Fetch PubMed results
 ├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
-├── convert_pubmed_to_ris.py            # PubMed JSON to RIS converter
-├── convert_scopus_to_ris.py            # Scopus JSON to RIS converter
-├── convert_enw_to_ris.py               # ACM EndNote to RIS converter
-├── Step2_convert_all_to_ris.py         # Master converter for all formats
-├── Step3_merge_ris_by_keyphrase.py     # Merge and deduplicate RIS files
-├── Step4_filter_by_journal.py          # Filter by target journals
-├── Step5_filter_by_type.py             # Filter by article type (JOUR/CONF only)
-├── Step6_filter_by_content.py          # Filter by content analysis (ICD as task)
-├── Step7_filter_by_methodology.py      # Filter for methodological/technical papers
-├── Step8_tag_papers.py                 # Tag papers by method/challenge/dataset/period
-├── Step9_select_representatives.py     # Select representative papers from each bucket
+├── Step3_merge_and_deduplicate.py      # Global merge and deduplication
+├── Step4_export_to_csv.py              # Export merged data to CSV
+├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
+├── step6_filter_by_year_type.py        # Filter by year and publication type
+├── step7_filter1_icd_relevance.py      # Filter 1: ICD relevance check
+├── step7_filter2_automation_relevance.py # Filter 2: Automation/AI check (to be added)
+├── step7_filter3_exclusion_check.py    # Filter 3: Exclusion criteria (to be added)
+├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
-├── output_data.tar.gz                  # Sample output data archive
-└── output/                             # All results
+├── conversion_scripts/                 # Format conversion tools
+│   ├── convert_pubmed_to_ris.py        # PubMed JSON to RIS converter
+│   ├── convert_scopus_to_ris.py        # Scopus JSON to RIS converter
+│   ├── convert_enw_to_ris.py           # ACM EndNote to RIS converter
+│   └── Step2_convert_all_to_ris.py     # Master converter for all formats
+├── raw_data/                           # Compressed source data archives
+│   ├── acm_output.tar.gz               # ACM source data (6,112 records)
+│   ├── pubmed_output.tar.gz            # PubMed source data (36,333 records)
+│   ├── scopus_output.tar.gz            # Scopus source data (124,823 records)
+│   └── output_data_complete.tar.gz     # Complete output archive (legacy)
+└── output/                             # Extracted data and results
 ```
 ## Installation
 
@@ -314,35 +320,35 @@ All fetched data can be converted to RIS (Research Information Systems) format f
 
 ### Conversion Scripts
 
-Three converter scripts are provided:
+Three converter scripts are provided in the `conversion_scripts/` folder:
 
-1. **convert_pubmed_to_ris.py** - Converts PubMed JSON files to RIS
-2. **convert_scopus_to_ris.py** - Converts Scopus/ScienceDirect JSON files to RIS
-3. **convert_enw_to_ris.py** - Converts ACM EndNote (.enw) files to RIS
-4. **Step2_convert_all_to_ris.py** - Master script to convert all formats at once
+1. **conversion_scripts/convert_pubmed_to_ris.py** - Converts PubMed JSON files to RIS
+2. **conversion_scripts/convert_scopus_to_ris.py** - Converts Scopus/ScienceDirect JSON files to RIS
+3. **conversion_scripts/convert_enw_to_ris.py** - Converts ACM EndNote (.enw) files to RIS
+4. **conversion_scripts/Step2_convert_all_to_ris.py** - Master script to convert all formats at once
 
 ### Usage
 
 Convert all files at once:
 ```bash
-python Step2_convert_all_to_ris.py output
+python conversion_scripts/Step2_convert_all_to_ris.py output
 ```
 
 Convert specific source individually:
 ```bash
 # PubMed only
-python convert_pubmed_to_ris.py output/pubmed_output/
+python conversion_scripts/convert_pubmed_to_ris.py output/pubmed_output/
 
 # Scopus only
-python convert_scopus_to_ris.py output/Scopus/
+python conversion_scripts/convert_scopus_to_ris.py output/Scopus/
 
 # ACM EndNote only
-python convert_enw_to_ris.py output/acm_output/
+python conversion_scripts/convert_enw_to_ris.py output/acm_output/
 ```
 
 Convert a single file:
 ```bash
-python convert_pubmed_to_ris.py input.json output.ris
+python conversion_scripts/convert_pubmed_to_ris.py input.json output.ris
 ```
 
 ### Output
@@ -370,16 +376,19 @@ After converting all sources to RIS format, the next step is to perform **global
 
 ### Data Files
 
-Three compressed archives contain the raw RIS files from each source:
-- `acm_output.tar.gz` - ACM Digital Library results (6,112 records)
-- `pubmed_output.tar.gz` - PubMed search results (36,333 records)
-- `scopus_output.tar.gz` - Scopus search results (124,823 records)
+Three compressed archives in the `raw_data/` folder contain the raw RIS files from each source:
+- `raw_data/acm_output.tar.gz` - ACM Digital Library results (6,112 records)
+- `raw_data/pubmed_output.tar.gz` - PubMed search results (36,333 records)
+- `raw_data/scopus_output.tar.gz` - Scopus search results (124,823 records)
+- `raw_data/output_data_complete.tar.gz` - Complete output archive (legacy)
 
 **Extract the data:**
 ```bash
+cd raw_data
 tar -xzf acm_output.tar.gz
 tar -xzf pubmed_output.tar.gz
 tar -xzf scopus_output.tar.gz
+cd ..
 ```
 
 ### Search Keyphrases Used
@@ -717,21 +726,26 @@ python step6_filter3_exclusion_check.py
 ├── Step1_fetchallscopusresults.py      # Fetch ScienceDirect/Scopus results by year
 ├── Step1_pubmed_fetcher.py             # Fetch PubMed results
 ├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
-├── convert_pubmed_to_ris.py            # PubMed JSON to RIS converter
-├── convert_scopus_to_ris.py            # Scopus JSON to RIS converter
-├── convert_enw_to_ris.py               # ACM EndNote to RIS converter
-├── Step2_convert_all_to_ris.py         # Master converter for all formats
 ├── Step3_merge_and_deduplicate.py      # Global merge and deduplication
 ├── Step4_export_to_csv.py              # Export merged data to CSV
 ├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
-├── Step6_prisma_screening.py           # PRISMA screening and categorization
-├── Step7_taxonomy_classification.py    # Taxonomy classification of papers
+├── step6_filter_by_year_type.py        # Filter by year and publication type
+├── step7_filter1_icd_relevance.py      # Filter 1: ICD relevance check
+├── step7_filter2_automation_relevance.py # Filter 2: Automation/AI check (to be added)
+├── step7_filter3_exclusion_check.py    # Filter 3: Exclusion criteria (to be added)
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
-├── acm_output.tar.gz                   # ACM source data (6,112 records)
-├── pubmed_output.tar.gz                # PubMed source data (36,333 records)
-├── scopus_output.tar.gz                # Scopus source data (124,823 records)
-└── output_data_complete.tar.gz         # Legacy output archive
+├── conversion_scripts/                 # Format conversion tools
+│   ├── convert_pubmed_to_ris.py        # PubMed JSON to RIS converter
+│   ├── convert_scopus_to_ris.py        # Scopus JSON to RIS converter
+│   ├── convert_enw_to_ris.py           # ACM EndNote to RIS converter
+│   └── Step2_convert_all_to_ris.py     # Master converter for all formats
+├── raw_data/                           # Compressed source data archives
+│   ├── acm_output.tar.gz               # ACM source data (6,112 records)
+│   ├── pubmed_output.tar.gz            # PubMed source data (36,333 records)
+│   ├── scopus_output.tar.gz            # Scopus source data (124,823 records)
+│   └── output_data_complete.tar.gz     # Complete output archive (legacy)
+└── output/                             # Extracted data and results
 ```
 
 ## Complete Pipeline Summary
@@ -745,7 +759,7 @@ The complete literature review pipeline consists of 7 main steps:
 - Result: Raw data in JSON, CSV, and ENW formats
 
 ### Step 2: Convert to RIS Format
-- Use `Step2_convert_all_to_ris.py`
+- Use `conversion_scripts/Step2_convert_all_to_ris.py`
 - Converts all formats to standardized RIS
 - Result: 167,268 records in RIS format across 19 files
 
