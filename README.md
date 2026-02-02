@@ -782,27 +782,39 @@ The complete literature review pipeline consists of 7 main steps:
 - Shows which papers appear in multiple databases
 - Output: `duplicate_analysis_report.txt`
 
-### Step 6: PRISMA Screening
-- Use `Step6_prisma_screening.py`
+### Step 6: Year and Publication Type Filtering
+- Use `step6_filter_by_year_type.py`
 - Filters by year (2005-2026) and publication type (CONF/JOUR)
-- Scores and categorizes papers by relevance (HIGH/MEDIUM/LOW/EXCLUDE)
-- Result: ~100,566 papers filtered, 6,418 included (HIGH + MEDIUM)
-- Output: `prisma_screening_results.xlsx` (5 sheets), 2 RIS files
+- Result: ~100,902 papers filtered
+- Output: `prisma_screening_results_all_filtered.csv`
 
-### Step 7: Taxonomy Classification
-- Use `Step7_taxonomy_classification.py`
-- Classifies 6,418 included papers across 7 dimensions
-- Dimensions: ML_Method, ICD_Version, Input_Data, Task_Type, Dataset, Key_Contribution, Evaluation_Metric
-- Generates statistics, cross-tabulations, and temporal evolution analysis
-- Output: `papers_with_taxonomy.csv` + 3 analysis files
+### Step 7: Systematic PRISMA Filtering
+Applies three sequential keyword-based filters:
+
+**Filter 1: ICD Relevance Check**
+- Use `step7_filter1_icd_relevance.py`
+- Papers MUST mention ICD coding/classification
+- Output: `filter1_passed.csv` → proceeds to Filter 2
+
+**Filter 2: Automation/AI Relevance Check**
+- Use `step7_filter2_automation_relevance.py` (to be added)
+- Papers MUST mention automation/AI/ML methods
+- Output: `filter2_passed.csv` → proceeds to Filter 3
+
+**Filter 3: Exclusion Criteria Check**
+- Use `step7_filter3_exclusion_check.py` (to be added)
+- Papers MUST NOT contain exclusion keywords
+- Output: `filter3_final_included.csv` → FINAL DATASET for review
 
 ### Running the Complete Deduplication Pipeline
 
 ```bash
 # Extract the data archives
+cd raw_data
 tar -xzf acm_output.tar.gz
 tar -xzf pubmed_output.tar.gz
 tar -xzf scopus_output.tar.gz
+cd ..
 
 # Run the complete pipeline
 python run_deduplication_pipeline.py
@@ -816,19 +828,17 @@ python run_deduplication_pipeline.py
 | 3 | 105,920 | -36.7% | Global merge & deduplicate |
 | 4 | 105,920 | - | Export to CSV format |
 | 5 | - | - | Analyze duplicates (optional) |
-| 6 | 100,566 | -5.1% | PRISMA screening & categorization |
-| 7 | 6,418 | - | Taxonomy classification (HIGH + MEDIUM) |
+| 6 | ~100,902 | -4.7% | Year & publication type filter |
+| 7.1 | TBD | TBD | Filter 1: ICD relevance |
+| 7.2 | TBD | TBD | Filter 2: Automation/AI relevance |
+| 7.3 | TBD | TBD | Filter 3: Exclusion criteria |
 
-**Final screening results (Step 6):**
-- HIGH relevance: 446 papers (0.4%) - Definite include
-- MEDIUM relevance: 5,972 papers (5.9%) - Review abstract
-- **Included for review: 6,418 papers (6.4%)**
-- LOW relevance: 19,759 papers (19.6%)
-- EXCLUDED: 74,389 papers (74.0%)
-
-**Taxonomy classification (Step 7):**
-- 6,418 papers classified across 7 dimensions
-- Key findings: 54% ICD-10, 4% Traditional ML, 1.8% BERT/Transformers, 0.9% LLM
+**Systematic filtering (Step 7):**
+- Three sequential keyword-based filters
+- Filter 1: Papers must mention ICD coding/classification
+- Filter 2: Papers must mention automation/AI/ML methods
+- Filter 3: Papers must not contain exclusion keywords
+- Final dataset will contain papers relevant to automated ICD coding research
 
 **Source breakdown:**
 - ACM Digital Library: 6,112 records (3.7%)
