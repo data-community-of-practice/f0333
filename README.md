@@ -249,15 +249,8 @@ Use `Step1_fetchallscopusresults.py` with year-based splitting to get all result
 - automatic international classification of diseases coding
 - computer-assisted ICD coding
 - clinical coding ICD
-
-## Best Practices
-
-1. **Start with a small max_results** to test your query before fetching everything
-2. **Use specific search terms** to reduce irrelevant results
-3. **Check result counts** before fetching to estimate time
-4. **Review the first few results** to ensure query relevance
-5. **Keep your config.ini secure** - never commit it to version control
-6. **Use year-based splitting** for queries with >5000 results
+- ICD Coding
+- ICD Classification
 
 ## Data Fields
 
@@ -555,11 +548,6 @@ DEDUPLICATION STATISTICS:
 - Many papers match multiple keyphrases
 - `icd_coding` and `clinical_coding_ICD` have most overlap (18,279 papers)
 - Broad terms like `icd_classification` capture most papers (62,937)
-
-**Why global deduplication?**
-- Previous approach: Deduplicate within each keyphrase separately
-- New approach: Deduplicate globally across all keyphrases and sources
-- Result: Single unified dataset ready for filtering
 
 ### Next Steps
 
