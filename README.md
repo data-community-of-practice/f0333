@@ -36,6 +36,7 @@ This project provides automated scripts to fetch research articles from major ac
 ├── step7_filter1_exclusion_check.py    # Filter 1: Exclusion criteria check
 ├── step7_filter2_icd_relevance.py      # Filter 2: ICD relevance check
 ├── step7_filter3_automation_relevance.py # Filter 3: Automation/AI relevance check
+├── step7_filter4_study_type.py         # Filter 4: Study type classification
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
@@ -658,10 +659,10 @@ python step7_filter3_automation_relevance.py
 
 **Output:**
 - `filter3_all_results.csv` - All papers with filtering decisions
-- `filter3_passed.csv` - **FINAL DATASET** for literature review (7,357 papers)
+- `filter3_passed.csv` - Papers that PASSED (mention automation/AI) → proceed to Filter 4 (7,357 papers)
 - `filter3_excluded.csv` - Papers that were EXCLUDED (ICD coding but not automated) → archived (19,166 papers)
 
-**Result:** 7,357 papers (27.7% of Filter 2, 7.3% of starting dataset) in FINAL DATASET
+**Result:** 7,357 papers (27.7% of Filter 2) passed Filter 3
 
 **Example:**
 ```
@@ -670,10 +671,77 @@ Decision: EXCLUDE
 Reason: Paper does not mention automation, AI, machine learning, or computational methods. Likely about manual ICD coding.
 ```
 
+#### Filter 4: Study Type Classification
+**step7_filter4_study_type.py** - Distinguish primary research from reviews and non-research items
+
+**Criteria:**
+- **PRIMARY:** Original research papers (methods, experiments, implementations, datasets)
+- **SECONDARY:** Reviews, surveys, meta-analyses (valuable for background, flagged separately)
+- **EXCLUDE:** Non-research items (editorials, commentaries, letters to editor)
+
+**Classification Logic:**
+1. Check TITLE for non-research keywords (editorial, letter to editor, commentary) → EXCLUDE
+2. Check TITLE for review keywords (systematic review, literature review, meta-analysis) → SECONDARY
+3. Check ABSTRACT for strong review indicators (≥2 matches or systematic review/meta-analysis) → SECONDARY
+4. Otherwise → PRIMARY (default for research papers)
+
+**Keywords:**
+
+*Secondary Studies (Reviews/Surveys):*
+- Systematic Review, Literature Review, Scoping Review, Meta-Analysis
+- Survey (of/on), Comprehensive Review, Overview (of/on)
+- Recent Advances in (AI/ML/automation)
+
+*Non-Research Items:*
+- Editorial, Commentary, Opinion Piece, Viewpoint
+- Letter to Editor, Author Response/Reply
+- News Item, Erratum, Retraction, Meeting Report
+
+**Usage:**
+```bash
+python step7_filter4_study_type.py
+```
+
+**Input:** `filter3_passed.csv` (7,357 papers that passed Filters 1-3)
+
+**Output:**
+- `filter4_all_results.csv` - All papers with classifications
+- `filter4_primary_research.csv` - **MAIN DATASET** for systematic review (7,201 papers)
+- `filter4_secondary_studies.csv` - Reviews/surveys for background section (151 papers)
+- `filter4_excluded.csv` - Non-research items (5 papers)
+
+**Result:** 7,201 primary research papers (97.9% of Filter 3) - FINAL DATASET
+
+**Example Classifications:**
+
+*PRIMARY:*
+```
+Title: "Automatic ICD-10 Coding Using Deep Learning"
+Category: Original Research
+Reason: Original contribution (no review/survey/editorial indicators detected).
+```
+
+*SECONDARY:*
+```
+Title: "A systematic review of automated ICD coding models"
+Category: Review/Survey
+Matched: Systematic Review; Review Article
+Reason: Secondary study. Valuable for background but not primary research.
+```
+
+*EXCLUDED:*
+```
+Title: "Letter to the Editor: ICD-11 Classification Updates"
+Category: Non-Research
+Matched: Letter to Editor
+Reason: Non-research item. Letters and commentaries are not original research.
+```
+
 **Final included papers are:**
 1. ✓ Not about non-medical ICD terms (Filter 1)
 2. ✓ About ICD coding/classification (Filter 2)
 3. ✓ About automation/AI/ML methods (Filter 3)
+4. ✓ Original research (not reviews or editorials) (Filter 4)
 
 #### Complete Filtering Workflow
 
@@ -694,7 +762,15 @@ Starting Point: prisma_screening_results_all_filtered.csv (100,566 papers)
           (Papers must mention automation/AI)
                         ↓
             filter3_passed.csv (7,357 papers)
+                        ↓
+          Filter 4: Study Type Classification
+        (Primary research vs reviews/editorials)
+                        ↓
+         filter4_primary_research.csv (7,201 papers)
                   FINAL DATASET
+
+         + filter4_secondary_studies.csv (151 reviews)
+           (Use for background/related work)
 ```
 
 #### Running All Filters Sequentially
@@ -708,6 +784,9 @@ python step7_filter2_icd_relevance.py
 
 # Filter 3: Automation/AI Relevance (Must mention automation/AI)
 python step7_filter3_automation_relevance.py
+
+# Filter 4: Study Type Classification (Primary vs reviews/editorials)
+python step7_filter4_study_type.py
 ```
 
 #### Advantages of Systematic Filtering
@@ -747,6 +826,7 @@ python step7_filter3_automation_relevance.py
 ├── step7_filter1_exclusion_check.py    # Filter 1: Exclusion criteria check
 ├── step7_filter2_icd_relevance.py      # Filter 2: ICD relevance check
 ├── step7_filter3_automation_relevance.py # Filter 3: Automation/AI relevance check
+├── step7_filter4_study_type.py         # Filter 4: Study type classification
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── conversion_scripts/                 # Format conversion tools
@@ -818,7 +898,13 @@ Applies three sequential keyword-based filters:
 **Filter 3: Automation/AI Relevance Check**
 - Use `step7_filter3_automation_relevance.py`
 - Papers MUST mention automation/AI/ML methods
-- Output: `filter3_passed.csv` (7,357 papers) → FINAL DATASET for review
+- Output: `filter3_passed.csv` (7,357 papers) → proceeds to Filter 4
+
+**Filter 4: Study Type Classification**
+- Use `step7_filter4_study_type.py`
+- Classify as PRIMARY research, SECONDARY studies, or EXCLUDE non-research
+- Output: `filter4_primary_research.csv` (7,201 papers) → FINAL DATASET for review
+- Bonus: `filter4_secondary_studies.csv` (151 reviews) → use for background/related work
 
 ### Running the Complete Deduplication Pipeline
 
@@ -846,13 +932,16 @@ python run_deduplication_pipeline.py
 | 7.1 | 100,121 | -0.4% | Filter 1: Exclusion criteria (remove non-medical ICD) |
 | 7.2 | 26,523 | -73.5% | Filter 2: ICD relevance (must mention ICD coding) |
 | 7.3 | 7,357 | -72.3% | Filter 3: Automation/AI relevance (must mention automation/AI) |
+| 7.4 | 7,201 | -2.1% | Filter 4: Study type (primary research only) |
 
 **Systematic filtering (Step 7):**
-- Three sequential keyword-based filters
+- Four sequential keyword-based filters
 - Filter 1: Papers must NOT contain non-medical ICD terms (cardiac devices, quantum computing, etc.)
 - Filter 2: Papers must mention ICD coding/classification
 - Filter 3: Papers must mention automation/AI/ML methods (72 comprehensive keywords)
-- **Final dataset: 7,357 papers** relevant to automated ICD coding research (7.3% of starting dataset)
+- Filter 4: Papers must be primary research (not reviews/editorials)
+- **Final dataset: 7,201 primary research papers** relevant to automated ICD coding (7.2% of starting dataset)
+- **Bonus: 151 review papers** flagged separately for background/related work
 
 **Source breakdown:**
 - ACM Digital Library: 6,112 records (3.7%)
