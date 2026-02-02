@@ -33,9 +33,9 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step4_export_to_csv.py              # Export merged data to CSV
 ├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
 ├── step6_filter_by_year_type.py        # Filter by year and publication type
-├── step7_filter1_icd_relevance.py      # Filter 1: ICD relevance check
-├── step7_filter2_automation_relevance.py # Filter 2: Automation/AI check (to be added)
-├── step7_filter3_exclusion_check.py    # Filter 3: Exclusion criteria (to be added)
+├── step7_filter1_exclusion_check.py    # Filter 1: Exclusion criteria check
+├── step7_filter2_icd_relevance.py      # Filter 2: ICD relevance check
+├── step7_filter3_automation_relevance.py # Filter 3: Automation/AI relevance check
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
@@ -562,37 +562,68 @@ First, papers are filtered by:
 - **Year range**: 2005-2026 (configurable)
 - **Publication type**: Conference papers (CONF) and Journal articles (JOUR) only
 
-This reduces the dataset from 105,920 to ~100,902 papers.
+This reduces the dataset from 105,920 to 100,566 papers.
 
-### Step 6: Systematic PRISMA Filtering
+### Step 7: Systematic PRISMA Filtering
 
 The remaining papers go through three mandatory filters in sequence:
 
-#### Filter 1: ICD Relevance Check
-**step6_filter1_icd_relevance.py** - Papers MUST mention ICD coding/classification
+#### Filter 1: Exclusion Criteria Check (Non-Medical ICD Terms)
+**step7_filter1_exclusion_check.py** - Papers MUST NOT contain non-medical ICD terms
 
 **Criteria:**
-- Paper must contain at least one ICD-related term in Title OR Abstract OR Keywords
-- ICD keywords include: ICD, ICD-9, ICD-10, International Classification of Diseases, medical coding, clinical coding, diagnosis coding, code assignment, disease classification
+- Paper must not contain any exclusion keywords for non-medical meanings of ICD
+- Exclusion keywords: implantable cardioverter defibrillator (cardiac device), quantum computing, satellite interface control documents, gaming (internal cooldown), intelligence community directive
 
 **Usage:**
 ```bash
-python step6_filter1_icd_relevance.py
+python step7_filter1_exclusion_check.py
 ```
 
-**Input:** `prisma_screening_results_all_filtered.csv` (year and type filtered)
+**Input:** `prisma_screening_results_all_filtered.csv` (100,566 papers after year and type filtering)
 
 **Output:**
 - `filter1_all_results.csv` - All papers with filtering decisions
-- `filter1_passed.csv` - Papers that PASSED (mention ICD terms) → proceed to Filter 2
-- `filter1_excluded.csv` - Papers that were EXCLUDED (no ICD terms) → archived
+- `filter1_passed.csv` - Papers that PASSED (no non-medical ICD terms) → proceed to Filter 2 (100,121 papers)
+- `filter1_excluded.csv` - Papers that were EXCLUDED (contain non-medical ICD terms) → archived (445 papers)
+
+**Result:** 100,121 papers (99.6%) passed Filter 1
+
+**Example:**
+```
+Title: "Cardiac Arrhythmia Management with Implantable Cardioverter Defibrillators"
+Decision: EXCLUDE
+Matched Exclusions: Cardiac Device
+Reason: Paper contains exclusion keywords: Cardiac Device. Not about automated ICD coding (likely about cardiac device).
+```
+
+#### Filter 2: ICD Relevance Check (Medical ICD Coding)
+**step7_filter2_icd_relevance.py** - Papers MUST mention ICD coding/classification
+
+**Criteria:**
+- Paper must contain at least one ICD-related term in Title OR Abstract OR Keywords
+- ICD keywords include: ICD, ICD-9, ICD-10, International Classification of Diseases, medical coding, clinical coding, diagnosis coding, diagnostic coding, code assignment, disease classification, health record coding, clinical classification
+
+**Usage:**
+```bash
+python step7_filter2_icd_relevance.py
+```
+
+**Input:** `filter1_passed.csv` (100,121 papers that passed Filter 1)
+
+**Output:**
+- `filter2_all_results.csv` - All papers with filtering decisions
+- `filter2_passed.csv` - Papers that PASSED (mention ICD terms) → proceed to Filter 3 (26,523 papers)
+- `filter2_excluded.csv` - Papers that were EXCLUDED (no ICD terms) → archived (73,598 papers)
+
+**Result:** 26,523 papers (26.5%) passed Filter 2
 
 **Decision Documentation:**
 Each paper receives:
-- `Filter1_Decision`: PASS or EXCLUDE
-- `Filter1_Matched_Terms`: Which ICD keywords matched (e.g., "ICD; Medical Coding")
-- `Filter1_Match_Location`: Where terms were found (Title, Abstract, or Keywords)
-- `Filter1_Reason`: Human-readable explanation
+- `Filter2_Decision`: PASS or EXCLUDE
+- `Filter2_Matched_Terms`: Which ICD keywords matched (e.g., "ICD; Medical Coding")
+- `Filter2_Match_Location`: Where terms were found (Title, Abstract, or Keywords)
+- `Filter2_Reason`: Human-readable explanation
 
 **Example:**
 ```
@@ -603,24 +634,34 @@ Location: Title
 Reason: Paper mentions ICD-related terms in TITLE: ICD; Medical Coding. Relevant to ICD coding/classification.
 ```
 
-#### Filter 2: Automation/AI Relevance Check
-**step6_filter2_automation_relevance.py** - Papers MUST mention automation/AI/ML methods
+#### Filter 3: Automation/AI Relevance Check
+**step7_filter3_automation_relevance.py** - Papers MUST mention automation/AI/ML methods
 
 **Criteria:**
 - Paper must contain at least one automation/AI keyword in Title OR Abstract OR Keywords
-- Automation keywords include: automated, automatic, machine learning, deep learning, neural network, BERT, LSTM, transformer, NLP, algorithm, AI, computational methods
+- Automation keywords include 72 terms across categories:
+  - General Automation: automated, automatic, computer-assisted, algorithm, computational
+  - AI/ML General: AI, ML, machine learning, deep learning, model, prediction, training, inference
+  - NLP: natural language processing, text classification, text mining, data mining
+  - Neural Networks: CNN, RNN, LSTM, BiLSTM, GRU, transformer, BERT, GPT
+  - Learning Paradigms: supervised learning, reinforcement learning, transfer learning, few-shot, zero-shot
+  - Classification: multi-label, multi-class, hierarchical, label embedding
+  - Traditional ML: SVM, random forest, XGBoost, naive bayes, logistic regression
+  - Embeddings: word2vec, GloVe, FastText, feature extraction
 
 **Usage:**
 ```bash
-python step6_filter2_automation_relevance.py
+python step7_filter3_automation_relevance.py
 ```
 
-**Input:** `filter1_passed.csv` (papers that passed Filter 1)
+**Input:** `filter2_passed.csv` (26,523 papers that passed Filters 1 and 2)
 
 **Output:**
-- `filter2_all_results.csv` - All papers with filtering decisions
-- `filter2_passed.csv` - Papers that PASSED (mention automation/AI) → proceed to Filter 3
-- `filter2_excluded.csv` - Papers that were EXCLUDED (ICD but not automated) → archived
+- `filter3_all_results.csv` - All papers with filtering decisions
+- `filter3_passed.csv` - **FINAL DATASET** for literature review (7,357 papers)
+- `filter3_excluded.csv` - Papers that were EXCLUDED (ICD coding but not automated) → archived (19,166 papers)
+
+**Result:** 7,357 papers (27.7% of Filter 2, 7.3% of starting dataset) in FINAL DATASET
 
 **Example:**
 ```
@@ -629,59 +670,44 @@ Decision: EXCLUDE
 Reason: Paper does not mention automation, AI, machine learning, or computational methods. Likely about manual ICD coding.
 ```
 
-#### Filter 3: Exclusion Criteria Check
-**step6_filter3_exclusion_check.py** - Papers MUST NOT contain exclusion terms
-
-**Criteria:**
-- Paper must not contain any exclusion keywords
-- Exclusion keywords: quantum computing, satellite, ICD device (cardioverter-defibrillator), billing-only, reimbursement-only, manual coding-only, qualitative study, survey, editorial, commentary
-
-**Usage:**
-```bash
-python step6_filter3_exclusion_check.py
-```
-
-**Input:** `filter2_passed.csv` (papers that passed Filters 1 and 2)
-
-**Output:**
-- `filter3_all_results.csv` - All papers with filtering decisions
-- `filter3_final_included.csv` - **FINAL DATASET** for literature review
-- `filter3_excluded.csv` - Papers excluded due to negative criteria → archived
-
 **Final included papers are:**
-1. ✓ About ICD coding/classification (Filter 1)
-2. ✓ About automation/AI/ML (Filter 2)
-3. ✓ Not excluded by negative criteria (Filter 3)
+1. ✓ Not about non-medical ICD terms (Filter 1)
+2. ✓ About ICD coding/classification (Filter 2)
+3. ✓ About automation/AI/ML methods (Filter 3)
 
 #### Complete Filtering Workflow
 
 ```
-Starting Point: prisma_screening_results_all_filtered.csv (~100,902 papers)
+Starting Point: prisma_screening_results_all_filtered.csv (100,566 papers)
                         ↓
-              Filter 1: ICD Relevance
+         Filter 1: Exclusion Criteria Check
+           (Remove non-medical ICD terms)
                         ↓
-            filter1_passed.csv (papers with ICD terms)
+            filter1_passed.csv (100,121 papers)
                         ↓
-        Filter 2: Automation/AI Relevance
+              Filter 2: ICD Relevance Check
+           (Papers must mention ICD coding)
                         ↓
-            filter2_passed.csv (automated ICD papers)
+            filter2_passed.csv (26,523 papers)
                         ↓
-          Filter 3: Exclusion Criteria
+        Filter 3: Automation/AI Relevance Check
+          (Papers must mention automation/AI)
                         ↓
-    filter3_final_included.csv (FINAL DATASET)
+            filter3_passed.csv (7,357 papers)
+                  FINAL DATASET
 ```
 
 #### Running All Filters Sequentially
 
 ```bash
-# Filter 1: ICD Relevance
-python step6_filter1_icd_relevance.py
+# Filter 1: Exclusion Criteria (Remove non-medical ICD)
+python step7_filter1_exclusion_check.py
 
-# Filter 2: Automation/AI Relevance
-python step6_filter2_automation_relevance.py
+# Filter 2: ICD Relevance (Must mention ICD coding)
+python step7_filter2_icd_relevance.py
 
-# Filter 3: Exclusion Criteria
-python step6_filter3_exclusion_check.py
+# Filter 3: Automation/AI Relevance (Must mention automation/AI)
+python step7_filter3_automation_relevance.py
 ```
 
 #### Advantages of Systematic Filtering
@@ -718,9 +744,9 @@ python step6_filter3_exclusion_check.py
 ├── Step4_export_to_csv.py              # Export merged data to CSV
 ├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
 ├── step6_filter_by_year_type.py        # Filter by year and publication type
-├── step7_filter1_icd_relevance.py      # Filter 1: ICD relevance check
-├── step7_filter2_automation_relevance.py # Filter 2: Automation/AI check (to be added)
-├── step7_filter3_exclusion_check.py    # Filter 3: Exclusion criteria (to be added)
+├── step7_filter1_exclusion_check.py    # Filter 1: Exclusion criteria check
+├── step7_filter2_icd_relevance.py      # Filter 2: ICD relevance check
+├── step7_filter3_automation_relevance.py # Filter 3: Automation/AI relevance check
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── conversion_scripts/                 # Format conversion tools
@@ -779,20 +805,20 @@ The complete literature review pipeline consists of 7 main steps:
 ### Step 7: Systematic PRISMA Filtering
 Applies three sequential keyword-based filters:
 
-**Filter 1: ICD Relevance Check**
-- Use `step7_filter1_icd_relevance.py`
+**Filter 1: Exclusion Criteria Check**
+- Use `step7_filter1_exclusion_check.py`
+- Papers MUST NOT contain non-medical ICD terms
+- Output: `filter1_passed.csv` (100,121 papers) → proceeds to Filter 2
+
+**Filter 2: ICD Relevance Check**
+- Use `step7_filter2_icd_relevance.py`
 - Papers MUST mention ICD coding/classification
-- Output: `filter1_passed.csv` → proceeds to Filter 2
+- Output: `filter2_passed.csv` (26,523 papers) → proceeds to Filter 3
 
-**Filter 2: Automation/AI Relevance Check**
-- Use `step7_filter2_automation_relevance.py` (to be added)
+**Filter 3: Automation/AI Relevance Check**
+- Use `step7_filter3_automation_relevance.py`
 - Papers MUST mention automation/AI/ML methods
-- Output: `filter2_passed.csv` → proceeds to Filter 3
-
-**Filter 3: Exclusion Criteria Check**
-- Use `step7_filter3_exclusion_check.py` (to be added)
-- Papers MUST NOT contain exclusion keywords
-- Output: `filter3_final_included.csv` → FINAL DATASET for review
+- Output: `filter3_passed.csv` (7,357 papers) → FINAL DATASET for review
 
 ### Running the Complete Deduplication Pipeline
 
@@ -816,17 +842,17 @@ python run_deduplication_pipeline.py
 | 3 | 105,920 | -36.7% | Global merge & deduplicate |
 | 4 | 105,920 | - | Export to CSV format |
 | 5 | - | - | Analyze duplicates (optional) |
-| 6 | ~100,902 | -4.7% | Year & publication type filter |
-| 7.1 | TBD | TBD | Filter 1: ICD relevance |
-| 7.2 | TBD | TBD | Filter 2: Automation/AI relevance |
-| 7.3 | TBD | TBD | Filter 3: Exclusion criteria |
+| 6 | 100,566 | -5.1% | Year (2005-2026) & publication type (CONF/JOUR) filter |
+| 7.1 | 100,121 | -0.4% | Filter 1: Exclusion criteria (remove non-medical ICD) |
+| 7.2 | 26,523 | -73.5% | Filter 2: ICD relevance (must mention ICD coding) |
+| 7.3 | 7,357 | -72.3% | Filter 3: Automation/AI relevance (must mention automation/AI) |
 
 **Systematic filtering (Step 7):**
 - Three sequential keyword-based filters
-- Filter 1: Papers must mention ICD coding/classification
-- Filter 2: Papers must mention automation/AI/ML methods
-- Filter 3: Papers must not contain exclusion keywords
-- Final dataset will contain papers relevant to automated ICD coding research
+- Filter 1: Papers must NOT contain non-medical ICD terms (cardiac devices, quantum computing, etc.)
+- Filter 2: Papers must mention ICD coding/classification
+- Filter 3: Papers must mention automation/AI/ML methods (72 comprehensive keywords)
+- **Final dataset: 7,357 papers** relevant to automated ICD coding research (7.3% of starting dataset)
 
 **Source breakdown:**
 - ACM Digital Library: 6,112 records (3.7%)
