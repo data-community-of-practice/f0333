@@ -1,22 +1,22 @@
 #!/usr/bin/env python3
 """
 step16_classify_taxonomy.py
---------------------
-Classifies every paper in icd_verified.csv into the 10-category taxonomy
+---------------------------
+Classifies every paper in output/icd_verified.csv into the 11-category taxonomy
 that was inductively discovered from this corpus.
 
 Uses Anthropic Messages Batches API (one request per paper, cached system
 prompt). Resume-safe: already-classified papers are skipped on re-run.
 
 Produces:
-  outputs/taxonomy_classified.csv   — original data + 4 classification columns
-  outputs/taxonomy_classification_report.txt
-  taxonomy_classify_results.jsonl   — raw per-paper results (audit trail)
+  output/taxonomy_classified.csv        — original data + 4 classification columns
+  output/taxonomy_classification_report.txt
+  output/taxonomy_classify_results.jsonl — raw per-paper results (audit trail)
 
 Usage:
-    python classify_taxonomy.py
-    python classify_taxonomy.py --resume      # pick up a running batch
-    python classify_taxonomy.py --merge-only  # skip API, just write CSVs
+    python step16_classify_taxonomy.py
+    python step16_classify_taxonomy.py --resume      # pick up a running batch
+    python step16_classify_taxonomy.py --merge-only  # skip API, just write CSVs
 """
 
 import os
@@ -38,81 +38,99 @@ MODEL = "claude-sonnet-4-6"
 MISSING = {"", "nan", "none", "na", "null", "n/a"}
 
 TAXONOMY_TEXT = """\
-1. Automatic ICD/Procedure Coding from Clinical Text
-   Papers whose explicit deliverable is a predicted ICD/DRG code from narrative or structured
-   input, framed as replacing or accelerating human coders and scored on coding F1/accuracy.
-   Spans novel architectures (attention, contrastive, graph/hierarchy-aware, LLM) through to
-   deployable, language-specific coders, plus work auditing the task itself (long-tail, fairness,
-   interpretability). ICD is the TARGET.
-   Key signals: MIMIC/shared-task benchmarks; micro/macro-F1 on a code label space;
-   "automatic coding," "label hierarchy," "long-tail codes."
+1. Automated ICD Coding Engines (text -> codes)
+   Papers build computational systems that read clinical free text (discharge summaries,
+   pathology/operative reports, death certificates) and emit ICD/ICD-O codes, treated as
+   multi-label classification or generation. The contribution is architectural or training-method
+   innovation (CNN-attention, BERT, graph/hyperbolic nets, contrastive, few-shot, LLM reasoning),
+   and the code is the PREDICTION TARGET. Sub-strands include multilingual/death-certificate
+   coding (CLEF/CodiEsp-style, low-resource, short text) and shared-task/benchmark overviews.
+   Key signals: free-text input + ICD code output; F1/MAP/Hit@k on MIMIC or a shared-task
+   corpus; label hierarchy, rare-code handling, or model architecture as the contribution.
 
-2. Cause-of-Death, Mortality & Injury Coding
-   A tight cluster coding verbatim cause-of-death text, death certificates, autopsy/forensic and
-   injury narratives for vital statistics and surveillance. Methods include dictionaries,
-   rule-based underlying-cause selection, and shared-task systems. ICD is the TARGET, mortality
-   domain.
-   Key signals: "underlying cause of death," death certificates, multilingual mortality shared
-   tasks, registry/statistics framing.
+2. Computable Phenotyping & Case-Finding
+   The question is "does this patient actually have condition X?" Papers build or validate
+   algorithms (ICD codes +/- labs/meds/NLP) to assemble a disease cohort, almost always
+   validated against chart review or an instrument and reported as PPV/sensitivity/specificity.
+   The recurring move: codes alone miss cases and NLP/ML recovers them; the ICD code is the
+   IMPERFECT BASELINE, not the goal. Beneficiary is a researcher or registrar needing a clean
+   cohort.
+   Key signals: named condition; gold standard; sensitivity/PPV reporting; "codes undercount /
+   NLP improves recall" framing.
 
-3. Phenotyping, Case-Finding & Code Validation
-   Papers interrogating whether patients with a condition can be reliably identified — either by
-   validating existing code definitions against chart review (PPV/sensitivity) or by building
-   NLP/ML pipelines that recover cases codes miss. Includes clinical-NLP extraction when the goal
-   is cohort or condition labeling. ICD is the SUSPECT; recurring conclusion: "codes alone are
-   insufficient."
-   Key signals: chart-review gold standard, PPV/sensitivity reporting, "underascertainment,"
-   notes-vs-codes comparison, named-disease cohort.
+3. Clinical Risk & Outcome Prediction
+   Papers forecast a future patient-level event (mortality, readmission, length of stay, surgical
+   candidacy, exacerbation, ADE, hypoglycaemia) from structured EHR/claims features. ICD codes
+   enter as INPUT FEATURES, never as the target, and the deliverable is a prognostic tool or
+   decision-support score for a clinician or planner.
+   Key signals: future target variable; coded history as features; prognostic/decision framing;
+   AUC/calibration metrics on a future outcome.
 
-4. Clinical Risk Prediction, Outcome Modeling & Decision Support
-   Models trained on structured EHR/claims to forecast an outcome (mortality, readmission, onset,
-   cost, LOS) or trigger an alert. ICD codes are FEATURES, not the prediction target. Includes
-   explainability (SHAP/xAI) and a minority evaluating deployed decision-support effects on
-   clinician behavior.
-   Key signals: AUROC/calibration on an outcome, "risk score," "readmission/mortality
-   prediction," codes used as covariates, alert/CDS evaluation.
+4. Epidemiology, Disease Burden & Surveillance
+   Papers use ICD-coded population/registry/claims data to estimate incidence, prevalence, cost,
+   disparities, comorbidity, or safety signals, or to monitor disease activity in near-real time
+   (flu, SARI, injury, vaccine safety, cause-of-death surveillance). The deliverable is
+   epidemiological or public-health knowledge, not a tool; the code is a MEASUREMENT INSTRUMENT
+   used at face value. Verbal-autopsy and vital-statistics studies sit here.
+   Key signals: cohort/case-control/trend design; population or registry substrate;
+   burden/cost/incidence as the headline; public-health or policy audience.
 
-5. Terminology Mapping, Ontologies & Knowledge Representation
-   Engineering or evaluating the semantic scaffolding: crosswalks (ICD↔SNOMED↔ORPHA↔ICD-11),
-   OWL ontologies, code embeddings, knowledge graphs, LLM-driven structured extraction onto a
-   vocabulary. Output is a reusable mapping/representation, not a patient-level result. ICD is
-   the OBJECT OF STUDY as a vocabulary.
-   Key signals: "mapping/crosswalk," ontology/OWL, embeddings, entity alignment,
-   interoperability, knowledge graph.
+5. Terminology, Ontology Engineering & Cross-System Mapping
+   The artifact is a bridge or formal structure between vocabularies: crosswalks
+   (ICD<->SNOMED/MedDRA/UMLS/AIS, ICD-9<->ICD-10), ontologies, OWL/SWRL diagnostic rules,
+   post-coordination, multilingual dictionaries, code-embedding similarity. The problem is
+   semantic interoperability across systems, not coding a single note.
+   Key signals: two or more coding systems named; crosswalk/mapping/ontology/harmonization/
+   interoperability; output is a rule set or aligned vocabulary.
 
-6. Epidemiology, Health-Services & Outcomes Studies Using Coded Data
-   Substantive clinical, epidemiological, comorbidity, safety-signal, utilization, or cost
-   questions answered by analyzing ICD-coded populations. ICD is the COHORT-DEFINING INPUT;
-   the contribution is domain knowledge, not a tool or method.
-   Key signals: incidence/prevalence/association estimates, claims-database utilization/cost,
-   retrospective cohort, phenome-wide screening.
+6. Image, Signal & Omics Disease Classification
+   Input is non-text biomedical data — radiographs, CT/OCT/MRI/SPECT, ECG/EEG/EMG/fNIRS,
+   RNA-seq — classified into disease categories, usually contributing a neural architecture.
+   ICD/PheCodes appear only as the label or phenotype anchor; the real subject is the
+   imaging/signal/omics method.
+   Key signals: non-textual modality as primary input; vision/signal-processing architecture;
+   ICD mentioned only as ground-truth source.
 
-7. Classification Systems, Coding Practice & Data Infrastructure
-   Papers about the apparatus around codes: ICD-11 architecture and authoring, version
-   transitions (9→10→11), coder behavior and data-quality auditing, assembled data resources
-   (registries, surveillance networks, multi-practice databases). Beneficiaries are
-   administrators, standards bodies, and informatics infrastructure.
-   Key signals: "ICD-11 implementation," version-transition impact, coding workflow/policy,
-   registry/database construction, data-quality audit.
+7. Data Quality, Code Validation & Auditing
+   Papers interrogate how trustworthy the coded data itself is: validating algorithms against gold
+   standards, measuring undercoding, ICD-9->10 disagreement, concept/temporal drift, model
+   fairness across demographics, dataset representativeness, and methods to make routine data
+   research-ready (privacy-preserving linkage, completeness/selection-bias adjustment).
+   Key signals: codes/models are the OBJECT OF STUDY; agreement/disagreement, drift, bias,
+   completeness metrics; no new disease finding produced.
 
-8. Psychiatric & Conceptual Analyses of Classification
-   Conceptual, historical, or psychometric work on how diagnostic constructs are defined,
-   bounded, and measured — dimensional vs categorical debates, depathologizing milestones,
-   network structure of scales, philosophy of classification. Often non-computational.
-   Key signals: DSM/ICD construct debates, dimensional/categorical, scale
-   reliability/psychometrics, argumentative or historical rather than empirical-computational.
+8. Classification-System Design, Standards, Policy & Coding Workflow
+   Papers work at the level of the classification infrastructure and its human use: ICD-11
+   architecture and national rollout, reimbursement incentives, code-set engineering methodology,
+   coder-vs-clinician debates, ICD-10 transition management, and AI's impact on HIM staffing.
+   The deliverable is a framework, recommendation, or organisational analysis, not a classifier.
+   Key signals: governance/policy/workflow framing; ICD-11 or HIM operations; recommendations
+   rather than metrics.
 
-9. Biomedical Signal & Image Processing (peripheral)
-   Disease classification/segmentation directly from images or waveforms (CXR, CT, OCT,
-   ECG/phonocardiogram, EMG, dermoscopy). Linked to the corpus mostly by thin ICD framing;
-   a community largely separate from the rest.
-   Key signals: raw signal/image input, segmentation/classification metrics (Dice, AUC on
-   imaging), no coded-text component.
+9. Mental Health Classification & Diagnosis
+   Papers interrogate whether a psychiatric or behavioural diagnostic category is valid or
+   coherent — historical/philological recovery of a symptom, philosophical critique,
+   dimensional/network models, DSM/ICD/HiTOP operationalization, subtyping (ASD, delirium),
+   comorbidity structure, psychometric scale validation. ICD is the diagnostic FRAME UNDER
+   EXAMINATION, not an object of computation.
+   Key signals: a construct is questioned/defined; psychiatric/behavioural focus; conceptual,
+   network, or psychometric evidence; no coding-performance metrics.
 
-10. Reviews & Evidence Synthesis
-    Narrative, systematic, or meta-analytic syntheses producing no new model or dataset —
-    surveys of NLP/AI methods, validity studies, text-classification trend reviews.
-    Key signals: "systematic review," PRISMA, "we surveyed," no built artifact.
+10. Clinical Information Extraction (non-coding)
+    NLP applied to narrative text to surface a specific piece of information other than an ICD
+    code — smoking status, gendered-language bias, drug-disease links, documentation gaps,
+    chronic-pain mentions — or mining of non-patient literature (guidelines, policy) for
+    structured knowledge. The output augments or audits structured data rather than predicting
+    codes.
+    Key signals: free-text input; target is an entity/relation/attribute, NOT a code; output
+    feeds or audits a database.
+
+11. Reviews, Surveys & Methodological Overviews
+    Secondary literature synthesising methods, applications, and challenges across automated
+    coding, clinical NLP, or phenotyping. The deliverable is a map of a subfield, not a new
+    system or finding.
+    Key signals: systematic/scoping/narrative review structure; no primary dataset;
+    cross-cutting coverage.
 """
 
 SYSTEM_PROMPT = f"""\
@@ -125,9 +143,15 @@ TAXONOMY:
 ASSIGNMENT RULES:
 - Assign the category where the paper's PRIMARY DELIVERABLE lives.
 - If a paper spans two categories, assign the primary one and note the secondary in your reason.
-- The key axis is the ROLE ICD plays: target (1,2), suspect/object (3,5,7,8), feature/input (4,6).
-- Category 9 is for papers where the main input is a raw signal or image, not coded text.
-- Category 10 is only for pure reviews — no new model, system, or dataset built.
+- The key axis is the ROLE ICD plays:
+    target         -> cats 1, 4 (epidemiology uses codes as measurement)
+    imperfect base -> cat 2
+    input feature  -> cat 3
+    mapping object -> cat 5
+    object of study-> cats 7, 8, 9
+    label only     -> cat 6
+    non-code target-> cat 10
+- Cat 11 is ONLY for pure reviews — no new model, system, or dataset built.
 """
 
 CLASSIFY_TOOL = {
@@ -139,8 +163,8 @@ CLASSIFY_TOOL = {
             "category_number": {
                 "type": "integer",
                 "minimum": 1,
-                "maximum": 10,
-                "description": "The primary taxonomy category (1–10).",
+                "maximum": 11,
+                "description": "The primary taxonomy category (1-11).",
             },
             "confidence": {
                 "type": "string",
@@ -161,7 +185,7 @@ CLASSIFY_TOOL = {
             "secondary_category": {
                 "type": "integer",
                 "minimum": 1,
-                "maximum": 10,
+                "maximum": 11,
                 "description": "Secondary category number, if the paper meaningfully spans two (optional).",
             },
         },
@@ -214,7 +238,6 @@ def build_requests(df, done):
         contrib  = clean(row.get("meta_main_contribution"))
         abstract = clean(row.get("Abstract"))
 
-        # Build concise paper description
         parts = [f"TITLE: {title}"]
         if obj_:
             parts.append(f"OBJECTIVE: {obj_}")
@@ -334,16 +357,17 @@ def main():
 
 
 CATEGORY_NAMES = {
-    1:  "Automatic ICD/Procedure Coding from Clinical Text",
-    2:  "Cause-of-Death, Mortality & Injury Coding",
-    3:  "Phenotyping, Case-Finding & Code Validation",
-    4:  "Clinical Risk Prediction, Outcome Modeling & Decision Support",
-    5:  "Terminology Mapping, Ontologies & Knowledge Representation",
-    6:  "Epidemiology, Health-Services & Outcomes Studies Using Coded Data",
-    7:  "Classification Systems, Coding Practice & Data Infrastructure",
-    8:  "Psychiatric & Conceptual Analyses of Classification",
-    9:  "Biomedical Signal & Image Processing (peripheral)",
-    10: "Reviews & Evidence Synthesis",
+    1:  "Automated ICD Coding Engines (text -> codes)",
+    2:  "Computable Phenotyping & Case-Finding",
+    3:  "Clinical Risk & Outcome Prediction",
+    4:  "Epidemiology, Disease Burden & Surveillance",
+    5:  "Terminology, Ontology Engineering & Cross-System Mapping",
+    6:  "Image, Signal & Omics Disease Classification",
+    7:  "Data Quality, Code Validation & Auditing",
+    8:  "Classification-System Design, Standards, Policy & Coding Workflow",
+    9:  "Mental Health Classification & Diagnosis",
+    10: "Clinical Information Extraction (non-coding)",
+    11: "Reviews, Surveys & Methodological Overviews",
 }
 
 
@@ -392,7 +416,7 @@ def _write_outputs(df, done):
         c = conf_counts.get(conf, 0)
         lines.append(f"  {conf:<8}: {c:>5}  ({c/n_cls*100:.1f}%)" if n_cls else f"  {conf}: 0")
     lines += ["", "PAPERS PER CATEGORY", "-" * 40]
-    for cat_num in range(1, 11):
+    for cat_num in range(1, 12):
         cnt  = cat_counts.get(cat_num, 0)
         name = CATEGORY_NAMES[cat_num]
         pct  = cnt / total * 100 if total else 0
