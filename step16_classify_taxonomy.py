@@ -83,7 +83,7 @@ TAXONOMY_TEXT = """\
    Key signals: two or more coding systems named; crosswalk/mapping/ontology/harmonization/
    interoperability; output is a rule set or aligned vocabulary.
 
-6. Image, Signal & Omics Disease Classification
+6. Biomedical Signal & Image Classification
    Input is non-text biomedical data — radiographs, CT/OCT/MRI/SPECT, ECG/EEG/EMG/fNIRS,
    RNA-seq — classified into disease categories, usually contributing a neural architecture.
    ICD/PheCodes appear only as the label or phenotype anchor; the real subject is the
@@ -362,7 +362,7 @@ CATEGORY_NAMES = {
     3:  "Clinical Risk & Outcome Prediction",
     4:  "Epidemiology, Disease Burden & Surveillance",
     5:  "Terminology, Ontology Engineering & Cross-System Mapping",
-    6:  "Image, Signal & Omics Disease Classification",
+    6:  "Biomedical Signal & Image Classification",
     7:  "Data Quality, Code Validation & Auditing",
     8:  "Classification-System Design, Standards, Policy & Coding Workflow",
     9:  "Mental Health Classification & Diagnosis",
