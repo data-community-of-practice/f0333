@@ -652,7 +652,7 @@ Applies regex patterns to remove papers where "ICD" clearly means something othe
 **Input:** `output/screened_high_confidence.csv`
 **Output:** `output/final_corpus_clean.csv`
 
-This produces the working corpus (typically ~2,600–2,700 papers) that feeds the LLM steps.
+This produces the working corpus (~2,600 papers) that feeds the LLM steps.
 
 ---
 
@@ -766,7 +766,7 @@ This is the **final output** of the pipeline.
 
 ### Step 11: Remove Regex-Detectable False ICD
 - Regex patterns remove obvious acronym mismatches
-- **Result:** `final_corpus_clean.csv` (~2,600–2,700 papers)
+- **Result:** `final_corpus_clean.csv` (~2,602 papers)
 
 ### Step 12: LLM Metadata Extraction
 - Claude extracts structured metadata via Batches API
@@ -799,10 +799,10 @@ This is the **final output** of the pipeline.
 | 8 | ~26,500 | −73.6% | ICD relevance keyword filter |
 | 9 | ~7,400 | −72.1% | Automation/AI/ML keyword filter |
 | 10 | ~7,200 | — | Split high-confidence vs generic-only |
-| 11 | ~2,650 | −63.2% | Regex false-ICD removal |
-| 12–13 | ~2,650 | — | LLM metadata extraction & merge |
+| 11 | ~2,602 | −64.8% | Regex false-ICD removal |
+| 12–13 | ~2,602 | — | LLM metadata extraction & merge |
 | 15 | — | — | Inductive taxonomy discovery |
-| 16 | ~2,650 | — | Taxonomy classification — **FINAL DATASET** |
+| 16 | ~2,602 | — | Taxonomy classification — **FINAL DATASET** |
 
 **Source breakdown (at collection):**
 - ACM Digital Library: 6,112 records (3.7%)
