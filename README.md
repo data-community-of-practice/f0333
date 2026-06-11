@@ -1,6 +1,6 @@
 # Literature Review Data Fetcher for Automated ICD Coding
 
-A comprehensive toolkit for collecting and organising academic literature on automated International Classification of Diseases (ICD) coding from multiple sources including PubMed, ACM Digital Library and Scopus. This is content material for an upcoming publication. This is a placeholder for future work.
+A comprehensive toolkit for collecting, screening, and classifying academic literature on automated International Classification of Diseases (ICD) coding. The pipeline runs from raw API results through to a fully labelled, taxonomy-classified corpus suitable for systematic meta-analysis.
 
 ## Fetch Papers from different sources - PART A
 
@@ -33,10 +33,15 @@ This project provides automated scripts to fetch research articles from major ac
 ├── Step4_export_to_csv.py              # Export merged data to CSV
 ├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
 ├── step6_filter_by_year_type.py        # Filter by year and publication type
-├── step7_filter1_exclusion_check.py    # Filter 1: Exclusion criteria check
-├── step7_filter2_icd_relevance.py      # Filter 2: ICD relevance check
-├── step7_filter3_automation_relevance.py # Filter 3: Automation/AI relevance check
-├── step7_filter4_study_type.py         # Filter 4: Study type classification
+├── step7_enrich_papers.py              # Fetch missing abstracts/keywords (OpenAlex → Semantic Scholar → Crossref)
+├── step8_filter_icd_relevance.py       # Keyword filter: paper must mention ICD coding
+├── step9_filter_automated_coding.py    # Keyword filter: paper must mention automation/AI/ML
+├── step10_split_generic_only.py        # Split high-confidence vs generic-only automation matches
+├── step11_filter_false_icd.py          # Regex removal of non-ICD-coding papers
+├── step12_extract_metadata_batch.py    # LLM metadata extraction via Batches API
+├── step13_merge_metadata.py            # Join JSONL metadata onto corpus CSV
+├── step15_discover_taxonomy.py         # Inductive taxonomy discovery (4 passes + reconciliation)
+├── step16_classify_taxonomy.py         # Classify every paper into the consensus taxonomy
 ├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
 ├── template_config.ini                 # Configuration template
 ├── config.ini                          # Your actual config (not in git)
@@ -52,6 +57,7 @@ This project provides automated scripts to fetch research articles from major ac
 │   └── output_data_complete.tar.gz     # Complete output archive (legacy)
 └── output/                             # Extracted data and results
 ```
+
 ## Installation
 
 ### Prerequisites
@@ -69,7 +75,7 @@ cd <repository-name>
 
 2. Install required packages:
 ```bash
-pip install requests
+pip install requests anthropic pandas
 ```
 
 3. Create your configuration file:
@@ -78,6 +84,12 @@ cp template_config.ini config.ini
 ```
 
 4. Edit `config.ini` with your credentials and search parameters
+
+5. Set your Anthropic API key (required for steps 12, 15, and 16):
+```bash
+export ANTHROPIC_API_KEY=your_key_here   # Linux/Mac
+$env:ANTHROPIC_API_KEY="your_key_here"  # PowerShell
+```
 
 ## Configuration
 
@@ -185,7 +197,7 @@ python Helper_sciencedirect_fetcher_v2.py
 ```
 
 ### 4. ACM Digital Library Fetching
-ACM Digital Library does not have an API. The key terms were searched and the results were downloaded in EndNote format. The filter was set beetn 2005 to 2026. There is a limit of 1000 for the number of records that can be downloaded in one attempt. So for search results>1000, the exporting was done in parts. The first 1000 in one download and the rest in the next. 
+ACM Digital Library does not have an API. The key terms were searched and the results were downloaded in EndNote format. The filter was set between 2005 to 2026. There is a limit of 1000 for the number of records that can be downloaded in one attempt. So for search results>1000, the exporting was done in parts. The first 1000 in one download and the rest in the next.
 
 ## Output Format
 
@@ -552,408 +564,252 @@ DEDUPLICATION STATISTICS:
 
 ### Next Steps
 
-After global deduplication, proceed to PRISMA screening (Step 6) to categorize papers by relevance.
+After global deduplication, proceed to PRISMA-style screening (Steps 6–16) to narrow the corpus to a verified, classified dataset.
 
-## PRISMA Screening - Systematic Keyword-Based Filtering - PART C
+## PRISMA Screening & LLM Classification - PART C
 
-After global deduplication produces 105,920 unique papers, the next step is to screen them using PRISMA-style systematic filtering. Papers must pass through three sequential filters to be included in the final literature review.
+After global deduplication produces 105,920 unique papers, a multi-stage pipeline screens, enriches, and classifies them. The pipeline has two phases: keyword-based pre-screening (Steps 6–11) followed by LLM-powered enrichment and classification (Steps 12–16).
 
-### Pre-filtering: Year and Publication Type
+### Pre-filtering: Year and Publication Type (Step 6)
+
+```bash
+python step6_filter_by_year_type.py
+```
+
 First, papers are filtered by:
-- **Year range**: 2005-2026 (configurable)
+- **Year range**: 2005–2026 (configurable)
 - **Publication type**: Conference papers (CONF) and Journal articles (JOUR) only
 
-This reduces the dataset from 105,920 to 100,566 papers.
+**Input:** `output/merged_deduplicated_papers.csv` (105,920 papers)
+**Output:** `output/filtered_papers.csv` (~100,566 papers)
 
-### Step 7: Systematic PRISMA Filtering
+---
 
-The remaining papers go through three mandatory filters in sequence:
-
-#### Filter 1: Exclusion Criteria Check (Non-Medical ICD Terms)
-**step7_filter1_exclusion_check.py** - Papers MUST NOT contain non-medical ICD terms
-
-**Criteria:**
-- Paper must not contain any exclusion keywords for non-medical meanings of ICD
-- Exclusion keywords: implantable cardioverter defibrillator (cardiac device), quantum computing, satellite interface control documents, gaming (internal cooldown), intelligence community directive
-
-**Usage:**
-```bash
-python step7_filter1_exclusion_check.py
-```
-
-**Input:** `prisma_screening_results_all_filtered.csv` (100,566 papers after year and type filtering)
-
-**Output:**
-- `filter1_all_results.csv` - All papers with filtering decisions
-- `filter1_passed.csv` - Papers that PASSED (no non-medical ICD terms) → proceed to Filter 2 (100,121 papers)
-- `filter1_excluded.csv` - Papers that were EXCLUDED (contain non-medical ICD terms) → archived (445 papers)
-
-**Result:** 100,121 papers (99.6%) passed Filter 1
-
-**Example:**
-```
-Title: "Cardiac Arrhythmia Management with Implantable Cardioverter Defibrillators"
-Decision: EXCLUDE
-Matched Exclusions: Cardiac Device
-Reason: Paper contains exclusion keywords: Cardiac Device. Not about automated ICD coding (likely about cardiac device).
-```
-
-#### Filter 2: ICD Relevance Check (Medical ICD Coding)
-**step7_filter2_icd_relevance.py** - Papers MUST mention ICD coding/classification
-
-**Criteria:**
-- Paper must contain at least one ICD-related term in Title OR Abstract OR Keywords
-- ICD keywords include: ICD, ICD-9, ICD-10, International Classification of Diseases, medical coding, clinical coding, diagnosis coding, diagnostic coding, code assignment, disease classification, health record coding, clinical classification
-
-**Usage:**
-```bash
-python step7_filter2_icd_relevance.py
-```
-
-**Input:** `filter1_passed.csv` (100,121 papers that passed Filter 1)
-
-**Output:**
-- `filter2_all_results.csv` - All papers with filtering decisions
-- `filter2_passed.csv` - Papers that PASSED (mention ICD terms) → proceed to Filter 3 (26,523 papers)
-- `filter2_excluded.csv` - Papers that were EXCLUDED (no ICD terms) → archived (73,598 papers)
-
-**Result:** 26,523 papers (26.5%) passed Filter 2
-
-**Decision Documentation:**
-Each paper receives:
-- `Filter2_Decision`: PASS or EXCLUDE
-- `Filter2_Matched_Terms`: Which ICD keywords matched (e.g., "ICD; Medical Coding")
-- `Filter2_Match_Location`: Where terms were found (Title, Abstract, or Keywords)
-- `Filter2_Reason`: Human-readable explanation
-
-**Example:**
-```
-Title: "Automated ICD-10 Coding Using Machine Learning"
-Decision: PASS
-Matched Terms: ICD; Medical Coding
-Location: Title
-Reason: Paper mentions ICD-related terms in TITLE: ICD; Medical Coding. Relevant to ICD coding/classification.
-```
-
-#### Filter 3: Automation/AI Relevance Check
-**step7_filter3_automation_relevance.py** - Papers MUST mention automation/AI/ML methods
-
-**Criteria:**
-- Paper must contain at least one automation/AI keyword in Title OR Abstract OR Keywords
-- Automation keywords include 72 terms across categories:
-  - General Automation: automated, automatic, computer-assisted, algorithm, computational
-  - AI/ML General: AI, ML, machine learning, deep learning, model, prediction, training, inference
-  - NLP: natural language processing, text classification, text mining, data mining
-  - Neural Networks: CNN, RNN, LSTM, BiLSTM, GRU, transformer, BERT, GPT
-  - Learning Paradigms: supervised learning, reinforcement learning, transfer learning, few-shot, zero-shot
-  - Classification: multi-label, multi-class, hierarchical, label embedding
-  - Traditional ML: SVM, random forest, XGBoost, naive bayes, logistic regression
-  - Embeddings: word2vec, GloVe, FastText, feature extraction
-
-**Usage:**
-```bash
-python step7_filter3_automation_relevance.py
-```
-
-**Input:** `filter2_passed.csv` (26,523 papers that passed Filters 1 and 2)
-
-**Output:**
-- `filter3_all_results.csv` - All papers with filtering decisions
-- `filter3_passed.csv` - Papers that PASSED (mention automation/AI) → proceed to Filter 4 (7,357 papers)
-- `filter3_excluded.csv` - Papers that were EXCLUDED (ICD coding but not automated) → archived (19,166 papers)
-
-**Result:** 7,357 papers (27.7% of Filter 2) passed Filter 3
-
-**Example:**
-```
-Title: "Manual ICD Coding Guidelines for Hospitals"
-Decision: EXCLUDE
-Reason: Paper does not mention automation, AI, machine learning, or computational methods. Likely about manual ICD coding.
-```
-
-#### Filter 4: Study Type Classification
-**step7_filter4_study_type.py** - Distinguish primary research from reviews and non-research items
-
-**Criteria:**
-- **PRIMARY:** Original research papers (methods, experiments, implementations, datasets)
-- **SECONDARY:** Reviews, surveys, meta-analyses (valuable for background, flagged separately)
-- **EXCLUDE:** Non-research items (editorials, commentaries, letters to editor)
-
-**Classification Logic:**
-1. Check TITLE for non-research keywords (editorial, letter to editor, commentary) → EXCLUDE
-2. Check TITLE for review keywords (systematic review, literature review, meta-analysis) → SECONDARY
-3. Check ABSTRACT for strong review indicators (≥2 matches or systematic review/meta-analysis) → SECONDARY
-4. Otherwise → PRIMARY (default for research papers)
-
-**Keywords:**
-
-*Secondary Studies (Reviews/Surveys):*
-- Systematic Review, Literature Review, Scoping Review, Meta-Analysis
-- Survey (of/on), Comprehensive Review, Overview (of/on)
-- Recent Advances in (AI/ML/automation)
-
-*Non-Research Items:*
-- Editorial, Commentary, Opinion Piece, Viewpoint
-- Letter to Editor, Author Response/Reply
-- News Item, Erratum, Retraction, Meeting Report
-
-**Usage:**
-```bash
-python step7_filter4_study_type.py
-```
-
-**Input:** `filter3_passed.csv` (7,357 papers that passed Filters 1-3)
-
-**Output:**
-- `filter4_all_results.csv` - All papers with classifications
-- `filter4_primary_research.csv` - **MAIN DATASET** for systematic review (7,201 papers)
-- `filter4_secondary_studies.csv` - Reviews/surveys for background section (151 papers)
-- `filter4_excluded.csv` - Non-research items (5 papers)
-
-**Result:** 7,201 primary research papers (97.9% of Filter 3) - FINAL DATASET
-
-**Example Classifications:**
-
-*PRIMARY:*
-```
-Title: "Automatic ICD-10 Coding Using Deep Learning"
-Category: Original Research
-Reason: Original contribution (no review/survey/editorial indicators detected).
-```
-
-*SECONDARY:*
-```
-Title: "A systematic review of automated ICD coding models"
-Category: Review/Survey
-Matched: Systematic Review; Review Article
-Reason: Secondary study. Valuable for background but not primary research.
-```
-
-*EXCLUDED:*
-```
-Title: "Letter to the Editor: ICD-11 Classification Updates"
-Category: Non-Research
-Matched: Letter to Editor
-Reason: Non-research item. Letters and commentaries are not original research.
-```
-
-**Final included papers are:**
-1. ✓ Not about non-medical ICD terms (Filter 1)
-2. ✓ About ICD coding/classification (Filter 2)
-3. ✓ About automation/AI/ML methods (Filter 3)
-4. ✓ Original research (not reviews or editorials) (Filter 4)
-
-#### Complete Filtering Workflow
-
-```
-Starting Point: prisma_screening_results_all_filtered.csv (100,566 papers)
-                        ↓
-         Filter 1: Exclusion Criteria Check
-           (Remove non-medical ICD terms)
-                        ↓
-            filter1_passed.csv (100,121 papers)
-                        ↓
-              Filter 2: ICD Relevance Check
-           (Papers must mention ICD coding)
-                        ↓
-            filter2_passed.csv (26,523 papers)
-                        ↓
-        Filter 3: Automation/AI Relevance Check
-          (Papers must mention automation/AI)
-                        ↓
-            filter3_passed.csv (7,357 papers)
-                        ↓
-          Filter 4: Study Type Classification
-        (Primary research vs reviews/editorials)
-                        ↓
-         filter4_primary_research.csv (7,201 papers)
-                  FINAL DATASET
-
-         + filter4_secondary_studies.csv (151 reviews)
-           (Use for background/related work)
-```
-
-#### Running All Filters Sequentially
+### Step 7: Enrich Missing Abstracts & Keywords
 
 ```bash
-# Filter 1: Exclusion Criteria (Remove non-medical ICD)
-python step7_filter1_exclusion_check.py
-
-# Filter 2: ICD Relevance (Must mention ICD coding)
-python step7_filter2_icd_relevance.py
-
-# Filter 3: Automation/AI Relevance (Must mention automation/AI)
-python step7_filter3_automation_relevance.py
-
-# Filter 4: Study Type Classification (Primary vs reviews/editorials)
-python step7_filter4_study_type.py
+python step7_enrich_papers.py
 ```
 
-#### Advantages of Systematic Filtering
+Many records exported from databases have no abstract or keywords. This step queries three public APIs in order — **OpenAlex → Semantic Scholar → Crossref** — to fill the gaps. It tries DOI lookup first, then falls back to fuzzy title search.
 
-**Transparency:**
-- Clear, binary decisions (PASS/EXCLUDE) instead of scores
-- Exact keywords that triggered each decision are documented
-- Easy to audit and reproduce
+**Input:** `output/filtered_papers.csv`
+**Output:** `output/enriched_papers.csv`
 
-**Customization:**
-- Easy to add/remove keywords in each filter
-- Simple regex patterns that researchers can understand and modify
-- No complex scoring thresholds to calibrate
+Enrichment is essential before keyword filtering — papers with no abstract would otherwise be excluded by the ICD relevance filter even if they are relevant.
 
-**PRISMA Compliance:**
-- Each filter is a distinct exclusion criterion
-- Number of papers excluded at each stage is clearly reported
-- Full documentation of reasons for exclusion
+---
 
-**Documentation:**
-- Every paper has a detailed reason for inclusion/exclusion
-- Matched keywords are listed for transparency
-- Location of matches (Title/Abstract/Keywords) is recorded
+### Step 8: ICD Relevance Filter
 
-
-## Project Structure
-
+```bash
+python step8_filter_icd_relevance.py
 ```
-.
-├── Step1_fetchallscopusresults.py      # Fetch ScienceDirect/Scopus results by year
-├── Step1_pubmed_fetcher.py             # Fetch PubMed results
-├── Helper_sciencedirect_fetcher_v2.py  # Helper class for ScienceDirect API
-├── Step3_merge_and_deduplicate.py      # Global merge and deduplication
-├── Step4_export_to_csv.py              # Export merged data to CSV
-├── Step5_analyze_duplicates.py         # Detailed duplicate analysis
-├── step6_filter_by_year_type.py        # Filter by year and publication type
-├── step7_filter1_exclusion_check.py    # Filter 1: Exclusion criteria check
-├── step7_filter2_icd_relevance.py      # Filter 2: ICD relevance check
-├── step7_filter3_automation_relevance.py # Filter 3: Automation/AI relevance check
-├── step7_filter4_study_type.py         # Filter 4: Study type classification
-├── run_deduplication_pipeline.py       # Run Steps 3-5 in sequence
-├── template_config.ini                 # Configuration template
-├── conversion_scripts/                 # Format conversion tools
-│   ├── convert_pubmed_to_ris.py        # PubMed JSON to RIS converter
-│   ├── convert_scopus_to_ris.py        # Scopus JSON to RIS converter
-│   ├── convert_enw_to_ris.py           # ACM EndNote to RIS converter
-│   └── Step2_convert_all_to_ris.py     # Master converter for all formats
-├── raw_data/                           # Compressed source data archives
-│   ├── acm_output.tar.gz               # ACM source data (6,112 records)
-│   ├── pubmed_output.tar.gz            # PubMed source data (36,333 records)
-│   ├── scopus_output.tar.gz            # Scopus source data (124,823 records)
-│   └── output_data_complete.tar.gz     # Complete output archive (legacy)
-└── output/                             # Extracted data and results
+
+Keeps only papers that mention ICD terminology in their title, abstract, or keywords. Terms include: ICD, ICD-9, ICD-10, ICD-11, ICD-O, International Classification of Diseases, medical coding, clinical coding, diagnosis coding, disease classification, health record coding, etc.
+
+**Input:** `output/enriched_papers.csv`
+**Output:** `output/icd_relevant.csv`
+**Typical yield:** ~26,500 papers (26% of filtered set)
+
+---
+
+### Step 9: Automated Coding Relevance Filter
+
+```bash
+python step9_filter_automated_coding.py
 ```
+
+Keeps only papers that also mention automation, AI, or ML methods. Covers 72+ keywords across categories: general automation, AI/ML, NLP, neural networks, learning paradigms, classification approaches, traditional ML, and embeddings.
+
+**Input:** `output/icd_relevant.csv`
+**Output:** `output/automated_coding.csv`
+**Typical yield:** ~7,400 papers (28% of ICD-relevant set)
+
+---
+
+### Step 10: Split Generic vs High-Confidence
+
+```bash
+python step10_split_generic_only.py
+```
+
+Splits the automation-matched set into two groups:
+
+- **High-confidence** (`output/screened_high_confidence.csv`): matched a strong automation term (deep learning, transformer, BERT, NLP, etc.)
+- **Generic-only** (`output/screened_generic_only.csv`): matched only weak terms (algorithm, logistic regression, statistical model, etc.) — flagged for optional manual review
+
+---
+
+### Step 11: Remove Regex-Detectable False ICD Papers
+
+```bash
+python step11_filter_false_icd.py
+```
+
+Applies regex patterns to remove papers where "ICD" clearly means something other than International Classification of Diseases — for example, papers dominated by implantable cardioverter-defibrillator, immunogenic cell death, or Indian classical dance terminology.
+
+**Input:** `output/screened_high_confidence.csv`
+**Output:** `output/final_corpus_clean.csv`
+
+This produces the working corpus (typically ~2,600–2,700 papers) that feeds the LLM steps.
+
+---
+
+### Step 12: LLM Metadata Extraction (Batches API)
+
+```bash
+python step12_extract_metadata_batch.py
+# Resume a running batch:
+python step12_extract_metadata_batch.py --resume
+# Rebuild CSV without re-calling API:
+python step12_extract_metadata_batch.py --merge-only
+```
+
+Uses Claude (via the Anthropic Messages Batches API) to extract structured metadata from each paper's title and abstract. Fields extracted include: study objective, method summary, main contribution, key terms, dataset used, task type, and model architecture. Results are written to a JSONL audit trail and can be resumed if interrupted.
+
+**Input:** `output/final_corpus_clean.csv`
+**Output:** `output/metadata_results.jsonl`
+
+Requires `ANTHROPIC_API_KEY`.
+
+---
+
+### Step 13: Merge Metadata onto Corpus
+
+```bash
+python step13_merge_metadata.py
+```
+
+Joins the JSONL metadata from Step 12 back onto the corpus CSV, adding `meta_*` columns (one per extracted field) alongside the original paper columns.
+
+**Input:** `output/final_corpus_clean.csv` + `output/metadata_results.jsonl`
+**Output:** `output/final_corpus_enriched.csv`
+
+---
+
+### Step 15: Inductive Taxonomy Discovery
+
+```bash
+python step15_discover_taxonomy.py
+# Resume if some passes already completed:
+python step15_discover_taxonomy.py --resume
+```
+
+Discovers a taxonomy inductively from the corpus itself using Claude Opus with adaptive thinking. Runs **4 independent passes**, each reading a random 100-paper sample and proposing categories from scratch — without any pre-existing framework or taxonomy imposed. A fifth call then reconciles all four drafts into a single consensus taxonomy.
+
+**Input:** `output/final_corpus_enriched.csv` (or `output/final_corpus_clean.csv`)
+**Outputs (in `output/taxonomy_discovery/`):**
+- `taxonomy_batch_1.txt` through `taxonomy_batch_4.txt` — four independent draft taxonomies
+- `taxonomy_consensus.txt` — reconciled final taxonomy
+- `taxonomy_discovery_log.txt` — full prompts and responses for audit
+
+The consensus taxonomy produced from this corpus has 10 categories. The true organizing axis is the **role ICD plays** in each paper: target (automatic coding, mortality coding), object of suspicion (phenotyping, terminology, classification systems, psychiatric analysis), or input/feature (risk prediction, epidemiology). See `output/taxonomy_discovery/taxonomy_consensus.txt` for the full category definitions.
+
+---
+
+### Step 16: Classify All Papers into the Taxonomy (Batches API)
+
+```bash
+python step16_classify_taxonomy.py
+# Resume a running batch:
+python step16_classify_taxonomy.py --resume
+# Rebuild CSVs without re-calling API:
+python step16_classify_taxonomy.py --merge-only
+```
+
+Classifies every paper in the corpus into one of the 10 taxonomy categories using Claude Sonnet via the Batches API. Each request passes the paper's title, objective, method, and contribution (from the Step 12 metadata) with the full taxonomy embedded in a cached system prompt.
+
+**Input:** `output/final_corpus_enriched.csv`
+**Outputs:**
+- `output/taxonomy_classified.csv` — original data plus `taxonomy_category`, `taxonomy_category_name`, `taxonomy_confidence`, `taxonomy_reason`, and `taxonomy_secondary` columns
+- `output/taxonomy_classification_report.txt` — category distribution and confidence breakdown
+
+This is the **final output** of the pipeline.
+
+---
 
 ## Complete Pipeline Summary
 
-The complete literature review pipeline consists of 7 main steps:
+### Steps 1–2: Collect & Convert
+- Fetch from PubMed, Scopus, and ACM; convert all formats to RIS
+- **Result:** ~167,268 records
 
-### Step 1: Fetch Data from Sources
-- Use `Step1_pubmed_fetcher.py` for PubMed
-- Use `Step1_fetchallscopusresults.py` for Scopus
-- Manually download from ACM Digital Library (no API)
-- Result: Raw data in JSON, CSV, and ENW formats
-
-### Step 2: Convert to RIS Format
-- Use `conversion_scripts/Step2_convert_all_to_ris.py`
-- Converts all formats to standardized RIS
-- Result: 167,268 records in RIS format across 19 files
-
-### Step 3: Global Merge and Deduplicate
-- Use `Step3_merge_and_deduplicate.py`
-- Merges all sources and keyphrases
-- Deduplicates based on DOI (normalized)
-- Result: 105,920 unique papers (36.68% deduplication rate)
-- Output: `merged_deduplicated_papers.ris`
+### Step 3: Global Merge & Deduplicate
+- Merge all sources and keyphrases, deduplicate by DOI
+- **Result:** ~105,920 unique papers
 
 ### Step 4: Export to CSV
-- Use `Step4_export_to_csv.py`
-- Converts RIS to spreadsheet format
-- Result: 105,920 papers in CSV format
-- Output: `merged_deduplicated_papers.csv`
+- Convert to spreadsheet format
 
-### Step 5: Analyze Duplicates (Optional)
-- Use `Step5_analyze_duplicates.py`
-- Detailed analysis of overlap across sources
-- Shows which papers appear in multiple databases
-- Output: `duplicate_analysis_report.txt`
+### Step 5: Analyze Duplicates (optional)
+- Source-overlap report
 
-### Step 6: Year and Publication Type Filtering
-- Use `step6_filter_by_year_type.py`
-- Filters by year (2005-2026) and publication type (CONF/JOUR)
-- Result: ~100,902 papers filtered
-- Output: `prisma_screening_results_all_filtered.csv`
+### Step 6: Year & Publication Type Filter
+- Keep 2005–2026 conference papers and journal articles
+- **Result:** ~100,566 papers
 
-### Step 7: Systematic PRISMA Filtering
-Applies three sequential keyword-based filters:
+### Step 7: Enrich Missing Abstracts & Keywords
+- OpenAlex → Semantic Scholar → Crossref API lookup
+- **Result:** abstracts/keywords filled for most records
 
-**Filter 1: Exclusion Criteria Check**
-- Use `step7_filter1_exclusion_check.py`
-- Papers MUST NOT contain non-medical ICD terms
-- Output: `filter1_passed.csv` (100,121 papers) → proceeds to Filter 2
+### Step 8: ICD Relevance Filter
+- Keyword screen: must mention ICD terminology
+- **Result:** ~26,500 papers
 
-**Filter 2: ICD Relevance Check**
-- Use `step7_filter2_icd_relevance.py`
-- Papers MUST mention ICD coding/classification
-- Output: `filter2_passed.csv` (26,523 papers) → proceeds to Filter 3
+### Step 9: Automated Coding Filter
+- Keyword screen: must mention automation/AI/ML
+- **Result:** ~7,400 papers
 
-**Filter 3: Automation/AI Relevance Check**
-- Use `step7_filter3_automation_relevance.py`
-- Papers MUST mention automation/AI/ML methods
-- Output: `filter3_passed.csv` (7,357 papers) → proceeds to Filter 4
+### Step 10: Split Generic vs High-Confidence
+- Separate strong automation matches from weak ones
 
-**Filter 4: Study Type Classification**
-- Use `step7_filter4_study_type.py`
-- Classify as PRIMARY research, SECONDARY studies, or EXCLUDE non-research
-- Output: `filter4_primary_research.csv` (7,201 papers) → FINAL DATASET for review
-- Bonus: `filter4_secondary_studies.csv` (151 reviews) → use for background/related work
+### Step 11: Remove Regex-Detectable False ICD
+- Regex patterns remove obvious acronym mismatches
+- **Result:** `final_corpus_clean.csv` (~2,600–2,700 papers)
 
-### Running the Complete Deduplication Pipeline
+### Step 12: LLM Metadata Extraction
+- Claude extracts structured metadata via Batches API
+- **Result:** `metadata_results.jsonl`
 
-```bash
-# Extract the data archives
-cd raw_data
-tar -xzf acm_output.tar.gz
-tar -xzf pubmed_output.tar.gz
-tar -xzf scopus_output.tar.gz
-cd ..
+### Step 13: Merge Metadata
+- Join `meta_*` fields onto corpus CSV
+- **Result:** `final_corpus_enriched.csv`
 
-# Run the complete pipeline
-python run_deduplication_pipeline.py
-```
+### Step 15: Inductive Taxonomy Discovery
+- 4 independent passes + reconciliation → 10-category consensus taxonomy
+- **Result:** `taxonomy_discovery/taxonomy_consensus.txt`
+
+### Step 16: Classify Papers into Taxonomy
+- Every paper assigned to one of 10 categories via Batches API
+- **Result:** `taxonomy_classified.csv` — **FINAL DATASET**
+
+---
 
 ## Pipeline Statistics
 
 | Step | Records | Change | Description |
 |------|---------|--------|-------------|
-| 1-2 | 167,268 | - | Fetch & convert to RIS |
-| 3 | 105,920 | -36.7% | Global merge & deduplicate |
-| 4 | 105,920 | - | Export to CSV format |
-| 5 | - | - | Analyze duplicates (optional) |
-| 6 | 100,566 | -5.1% | Year (2005-2026) & publication type (CONF/JOUR) filter |
-| 7.1 | 100,121 | -0.4% | Filter 1: Exclusion criteria (remove non-medical ICD) |
-| 7.2 | 26,523 | -73.5% | Filter 2: ICD relevance (must mention ICD coding) |
-| 7.3 | 7,357 | -72.3% | Filter 3: Automation/AI relevance (must mention automation/AI) |
-| 7.4 | 7,201 | -2.1% | Filter 4: Study type (primary research only) |
+| 1–2 | 167,268 | — | Fetch & convert to RIS |
+| 3 | 105,920 | −36.7% | Global merge & deduplicate by DOI |
+| 4 | 105,920 | — | Export to CSV |
+| 5 | — | — | Duplicate analysis (optional) |
+| 6 | ~100,566 | −5.1% | Year (2005–2026) & type (CONF/JOUR) filter |
+| 7 | ~100,566 | — | Abstract/keyword enrichment (no papers removed) |
+| 8 | ~26,500 | −73.6% | ICD relevance keyword filter |
+| 9 | ~7,400 | −72.1% | Automation/AI/ML keyword filter |
+| 10 | ~7,200 | — | Split high-confidence vs generic-only |
+| 11 | ~2,650 | −63.2% | Regex false-ICD removal |
+| 12–13 | ~2,650 | — | LLM metadata extraction & merge |
+| 15 | — | — | Inductive taxonomy discovery |
+| 16 | ~2,650 | — | Taxonomy classification — **FINAL DATASET** |
 
-**Systematic filtering (Step 7):**
-- Four sequential keyword-based filters
-- Filter 1: Papers must NOT contain non-medical ICD terms (cardiac devices, quantum computing, etc.)
-- Filter 2: Papers must mention ICD coding/classification
-- Filter 3: Papers must mention automation/AI/ML methods (72 comprehensive keywords)
-- Filter 4: Papers must be primary research (not reviews/editorials)
-- **Final dataset: 7,201 primary research papers** relevant to automated ICD coding (7.2% of starting dataset)
-- **Bonus: 151 review papers** flagged separately for background/related work
-
-**Source breakdown:**
+**Source breakdown (at collection):**
 - ACM Digital Library: 6,112 records (3.7%)
 - PubMed: 36,333 records (21.7%)
 - Scopus: 124,823 records (74.6%)
 
-**Keyphrase breakdown:**
-- icd_classification: 62,937 records (37.6%)
-- icd_coding: 51,137 records (30.6%)
-- clinical_coding_ICD: 31,815 records (19.0%)
-- automatic_international_classification_of_diseases: 13,948 records (8.3%)
-- Other keyphrases: 7,431 records (4.5%)
+---
 
 ## License
 
@@ -981,4 +837,6 @@ For issues or questions:
 This project uses:
 - NCBI E-utilities API for PubMed access
 - Elsevier ScienceDirect/Scopus Search API
-- Python requests library for HTTP operations
+- OpenAlex, Semantic Scholar, and Crossref APIs for metadata enrichment
+- Anthropic Claude API (claude-opus-4-8, claude-sonnet-4-6) for metadata extraction and taxonomy discovery
+- Python requests, anthropic, and pandas libraries
