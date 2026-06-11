@@ -111,12 +111,145 @@ FALSE_ICD_PATTERNS = [
     ),
 
     # Histogram Intersection (HIK) ────────────────────────────────────────────
-    # Not ICD at all — matched via broad "classification" keywords.
     (
         "Histogram Intersection Kernel (not ICD)",
         re.compile(
             r'histogram\s+intersection\s+kernel'
             r'|\bhik\s+svm\b',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Immunogenic Cell Death (oncology/immunotherapy) ─────────────────────────
+    # Very common false positive (~8 papers). DAMPs/calreticulin are specific
+    # to this biological process and never appear in ICD-coding papers.
+    (
+        "Immunogenic Cell Death (oncology/immunotherapy)",
+        re.compile(
+            r'immunogenic\s+cell\s+death'
+            r'|\bcalreticulin\b'
+            r'|damage[- ]associated\s+molecular\s+pattern'
+            r'|\bDAMPs?\b.{0,120}(cancer|tumor|tumour|immun|antitumor|oncol)',
+            re.IGNORECASE | re.DOTALL,
+        ),
+    ),
+
+    # Impulse Control Disorder (psychiatric / Parkinson's) ────────────────────
+    (
+        "Impulse Control Disorder (psychiatric)",
+        re.compile(
+            r'impulse\s+control\s+disorder'
+            r'|impulse\s+control.{0,80}parkinson'
+            r'|parkinson.{0,80}impulse\s+control',
+            re.IGNORECASE | re.DOTALL,
+        ),
+    ),
+
+    # Iterative Coordinate Descent (optimisation algorithm) ───────────────────
+    (
+        "Iterative Coordinate Descent (optimisation algorithm)",
+        re.compile(
+            r'iterative\s+coordinate\s+descent',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Image Copy Detection (computer vision) ──────────────────────────────────
+    (
+        "Image Copy Detection (computer vision)",
+        re.compile(
+            r'image\s+copy\s+detection'
+            r'|copy\s+detection.{0,60}image',
+            re.IGNORECASE | re.DOTALL,
+        ),
+    ),
+
+    # Interface Control Document (systems / avionics engineering) ─────────────
+    (
+        "Interface Control Document (systems engineering)",
+        re.compile(
+            r'interface\s+control\s+document'
+            r'|avionics.{0,80}icd'
+            r'|icd.{0,80}avionics',
+            re.IGNORECASE | re.DOTALL,
+        ),
+    ),
+
+    # ICF — International Classification of Functioning ───────────────────────
+    # A different WHO classification system; not ICD.
+    (
+        "ICF — International Classification of Functioning",
+        re.compile(
+            r'international\s+classification\s+of\s+functioning'
+            r'|\bicf\b.{0,80}(disability|functioning|health|rehabilitation)',
+            re.IGNORECASE | re.DOTALL,
+        ),
+    ),
+
+    # Inductive Community Detection (graph neural networks) ───────────────────
+    (
+        "Inductive Community Detection (graph ML)",
+        re.compile(
+            r'inductive\s+community\s+detection',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Infant Cry Detection (audio / acoustic classification) ──────────────────
+    (
+        "Infant Cry Detection (audio classification)",
+        re.compile(
+            r'infant\s+cry\s+detection'
+            r'|infant\s+cry\s+classif'
+            r'|newborn\s+cry\s+classif',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Isotope Coded Derivatization (metabolomics / mass spectrometry) ─────────
+    (
+        "Isotope Coded Derivatization (metabolomics)",
+        re.compile(
+            r'isotope\s+coded\s+derivatiz'
+            r'|isoms\b.{0,60}(lc[-\s]?ms|mass\s+spec)',
+            re.IGNORECASE | re.DOTALL,
+        ),
+    ),
+
+    # Irritant Contact Dermatitis ─────────────────────────────────────────────
+    (
+        "Irritant Contact Dermatitis",
+        re.compile(
+            r'irritant\s+contact\s+dermatitis',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Idiopathic Cervical Dystonia ────────────────────────────────────────────
+    (
+        "Idiopathic Cervical Dystonia",
+        re.compile(
+            r'cervical\s+dystonia'
+            r'|idiopathic\s+cervical\s+d',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Identity-aware Contrastive Distillation (computer vision) ───────────────
+    (
+        "Identity-aware Contrastive Distillation (CV/ML)",
+        re.compile(
+            r'identity[- ]aware\s+contrastive\s+distillation',
+            re.IGNORECASE,
+        ),
+    ),
+
+    # Inter-Capital Distance / Intercaudate Distance (anatomy) ────────────────
+    (
+        "Anatomical distance measurement (not ICD)",
+        re.compile(
+            r'inter[- ]capital\s+distance'
+            r'|intercaudate\s+distance',
             re.IGNORECASE,
         ),
     ),
